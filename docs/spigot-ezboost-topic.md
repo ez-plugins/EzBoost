@@ -73,3 +73,5 @@
 [*]Each boost can declare its own permission, e.g. [icode]ezboost.boost.speed[/icode].
 [*]Give ranks unique boosts while keeping the GUI layout consistent for everyone.
 [/LIST]
+
+[CENTER][URL='https://www.spigotmc.org/resources/authors/shadow48402.25936/'][IMG]https://i.ibb.co/PzfjNjh0/ezplugins-try-other-plugins.png[/IMG][/URL][/CENTER]
