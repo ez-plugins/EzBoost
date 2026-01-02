@@ -1,0 +1,157 @@
+# =========================================
+# EzBoost Boosts Configuration
+# -----------------------------------------
+# Define all available boosts here.
+#
+# Each boost section supports:
+#   display-name:   Name shown in GUI (MiniMessage supported)
+#   icon:           Item for GUI (e.g. SUGAR, RABBIT_FOOT)
+#   effects:        List of potion effects (type & amplifier)
+#   commands:       Console commands to run on enable/disable/toggle
+#   duration:       Duration in seconds
+#   cooldown:       Cooldown in seconds
+#   cost:           Vault cost to activate (0.0 = free)
+#   permission:     Permission required for this boost
+#   enabled:        true/false to show/hide in GUI
+#
+# Example effect:
+#   - type: SPEED
+#     amplifier: 1
+#
+# Placeholders for commands: {player}, {displayname}, {boost}
+#
+# For more info, see: https://github.com/ez-plugins/ezboost
+# =========================================
+boosts:
+  speed:
+    display-name: "<aqua>Speed Boost</aqua>"
+    icon: SUGAR
+    effects:
+      - type: SPEED
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.speed"
+    enabled: true
+  jump:
+    display-name: "<light_purple>Jump Boost</light_purple>"
+    icon: RABBIT_FOOT
+    effects:
+      - type: JUMP
+        amplifier: 2
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.jump"
+    enabled: true
+  haste:
+    display-name: "<yellow>Haste Boost</yellow>"
+    icon: GOLDEN_PICKAXE
+    effects:
+      - type: FAST_DIGGING
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.haste"
+    enabled: true
+  strength:
+    display-name: "<red>Strength Boost</red>"
+    icon: BLAZE_POWDER
+    effects:
+      - type: INCREASE_DAMAGE
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.strength"
+    enabled: true
+  regen:
+    display-name: "<green>Regen Boost</green>"
+    icon: GHAST_TEAR
+    effects:
+      - type: REGENERATION
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.regen"
+    enabled: true
+  nightvision:
+    display-name: "<blue>Night Vision Boost</blue>"
+    icon: LANTERN
+    effects:
+      - type: NIGHT_VISION
+        amplifier: 0
+      - type: SPEED
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.nightvision"
+    enabled: true
+  fireresist:
+    display-name: "<gold>Fire Resist Boost</gold>"
+    icon: MAGMA_CREAM
+    effects:
+      - type: FIRE_RESISTANCE
+        amplifier: 1
+      - type: DAMAGE_RESISTANCE
+        amplifier: 1
+      - type: REGENERATION
+        amplifier: 1
+      - type: ABSORPTION
+        amplifier: 1
+      - type: HEALTH_BOOST
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.fireresist"
+    enabled: true
+  resistance:
+    display-name: "<gray>Resistance Boost</gray>"
+    icon: SHIELD
+    effects:
+      - type: DAMAGE_RESISTANCE
+        amplifier: 0
+      - type: REGENERATION
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.resistance"
+    enabled: true

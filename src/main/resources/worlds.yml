@@ -1,0 +1,15 @@
+# =========================================
+# EzBoost Worlds Configuration
+# -----------------------------------------
+# Controls which worlds allow or deny boost usage.
+#
+# Options:
+#   allow-list: List of world names where boosts are allowed (empty = all worlds allowed)
+#   deny-list:  List of world names where boosts are denied (empty = no worlds denied)
+#
+# If both lists are empty, boosts are allowed in all worlds.
+# If a world appears in both lists, deny-list takes priority.
+# =========================================
+worlds:
+  allow-list: []
+  deny-list: []

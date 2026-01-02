@@ -1,0 +1,18 @@
+# =========================================
+# EzBoost Limits Configuration
+# -----------------------------------------
+# Controls the allowed range for boost durations and amplifiers.
+#
+# Options:
+#   duration-min:  Minimum allowed duration (seconds)
+#   duration-max:  Maximum allowed duration (seconds)
+#   amplifier-min: Minimum allowed amplifier (effect strength)
+#   amplifier-max: Maximum allowed amplifier (effect strength)
+#
+# These limits apply to all boosts defined in boosts.yml.
+# =========================================
+limits:
+  duration-min: 5
+  duration-max: 3600
+  amplifier-min: 0
+  amplifier-max: 5

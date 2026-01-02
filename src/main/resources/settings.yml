@@ -1,0 +1,7 @@
+settings:
+  replace-active-boost: false
+  refund-on-fail: true
+  keep-boost-on-death: true
+  reapply-on-join: true
+  send-expired-message: true
+  cooldown-per-boost-type: true

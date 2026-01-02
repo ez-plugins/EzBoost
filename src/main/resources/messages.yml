@@ -1,0 +1,41 @@
+# =========================================
+# EzBoost Messages Configuration
+# -----------------------------------------
+# Customize all plugin messages and prefixes here.
+# Supports MiniMessage formatting (see https://docs.advntr.dev/minimessage/ for syntax).
+#
+# Placeholders:
+#   <boost>   - Name of the boost
+#   <time>    - Time remaining (seconds)
+#   <cost>    - Cost of the boost
+#   <amount>  - Amount of tokens
+#   <player>  - Player name
+#
+# Section:
+#   actionbar:
+#     enabled: true/false to show boost info in action bar
+#     format:  Message format for the action bar
+#
+# Edit these messages to localize or personalize plugin output.
+# =========================================
+prefix: "<gray>[<aqua>EzBoost</aqua>]</gray> "
+no-permission: "<red>You don't have permission.</red>"
+boost-not-found: "<red>Boost not found.</red>"
+boost-disabled: "<red>This boost is currently disabled.</red>"
+boost-active: "<yellow>You already have that boost active.</yellow>"
+boost-replaced: "<yellow>Your active boost was replaced.</yellow>"
+boost-activated: "<green>Boost activated: <white><boost></white>.</green>"
+boost-expired: "<gray>Your boost <white><boost></white> has expired.</gray>"
+boost-cooldown: "<red>That boost is on cooldown for <white><time></white> seconds.</red>"
+insufficient-funds: "<red>You need <white><cost></white> to activate this boost.</red>"
+economy-unavailable: "<red>Economy is unavailable. Please contact an admin.</red>"
+cost-charged: "<gray>Charged <white><cost></white> for <white><boost></white>.</gray>"
+reload: "<green>EzBoost reloaded.</green>"
+only-players: "<red>Only players can use this command.</red>"
+invalid-target: "<red>Player not found.</red>"
+token-given: "<green>Gave <white><amount>x</white> <white><boost></white> boost token(s) to <white><player></white>.</green>"
+token-used: "<green>Activated <white><boost></white> from a boost token.</green>"
+world-blocked: "<red>You can't use boosts in this world.</red>"
+actionbar:
+  enabled: false
+  format: "<gray>Boost:</gray> <white><boost></white> <gray>(<time>s)</gray>"

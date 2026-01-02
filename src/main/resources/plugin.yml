@@ -1,0 +1,31 @@
+name: EzBoost
+version: ${project.version}
+main: com.skyblockexp.ezboost.EzBoostPlugin
+api-version: '1.13'
+softdepend: [Vault, EzEconomy]
+author: SkyblockExperience
+commands:
+  boost:
+    description: Open the boosts GUI or activate a boost.
+    usage: /boost [boostKey]
+    permission: ezboost.use
+  ezboost:
+    description: EzBoost administration commands.
+    usage: /ezboost reload|give <player> <boostKey> [amount]
+    permission: ezboost.admin
+permissions:
+  ezboost.use:
+    description: Use boosts.
+    default: true
+  ezboost.admin:
+    description: Manage EzBoost.
+    default: op
+  ezboost.reload:
+    description: Reload EzBoost configuration.
+    default: op
+  ezboost.give:
+    description: Give boost tokens.
+    default: op
+  ezboost.cooldown.bypass:
+    description: Bypass boost cooldowns.
+    default: op
