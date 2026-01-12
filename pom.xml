@@ -88,6 +88,13 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+    </repositories>
+
     <build>
         <finalName>EzBoost-${project.version}</finalName>
         <resources>

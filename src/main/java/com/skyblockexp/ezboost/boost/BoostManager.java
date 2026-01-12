@@ -1,5 +1,3 @@
-// WorldGuard imports (optional, only if present)
-// (Do not import at top-level; use reflection or catch NoClassDefFoundError)
 package com.skyblockexp.ezboost.boost;
 
 import com.skyblockexp.ezboost.config.EzBoostConfig;

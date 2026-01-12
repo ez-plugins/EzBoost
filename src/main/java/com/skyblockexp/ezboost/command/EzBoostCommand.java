@@ -81,7 +81,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             String boostKey = args[2].toLowerCase(Locale.ROOT);
-            BoostDefinition definition = boostManager.getBoost(boostKey).orElse(null);
+            BoostDefinition definition = boostManager.getBoost(boostKey, target).orElse(null);
             if (definition == null) {
                 sender.sendMessage(messages.message("boost-not-found"));
                 return true;
@@ -129,8 +129,8 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
             }
             return names;
         }
-        if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
-            return new ArrayList<>(boostManager.getBoosts().keySet());
+        if (args.length == 3 && args[0].equalsIgnoreCase("give") && sender instanceof Player) {
+            return new ArrayList<>(boostManager.getBoosts((Player)sender).keySet());
         }
         return List.of();
     }

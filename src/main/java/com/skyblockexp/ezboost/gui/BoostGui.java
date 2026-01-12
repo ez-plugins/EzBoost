@@ -80,7 +80,7 @@ public final class BoostGui {
     private void fillInventory(Inventory inventory, Player player) {
         inventory.clear();
         fillFiller(inventory);
-        Map<String, BoostDefinition> boosts = boostManager.getBoosts();
+        Map<String, BoostDefinition> boosts = boostManager.getBoosts(player);
         for (Map.Entry<String, BoostDefinition> entry : boosts.entrySet()) {
             String key = entry.getKey().toLowerCase(Locale.ROOT);
             Integer slot = settings.slots().get(key);

@@ -47,10 +47,10 @@ public final class BoostCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1) {
+        if (args.length == 1 && sender instanceof Player) {
             String prefix = args[0].toLowerCase(Locale.ROOT);
             List<String> completions = new ArrayList<>();
-            for (String key : boostManager.getBoosts().keySet()) {
+            for (String key : boostManager.getBoosts((Player)sender).keySet()) {
                 if (key.startsWith(prefix)) {
                     completions.add(key);
                 }
