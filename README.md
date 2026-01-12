@@ -72,7 +72,6 @@ EzBoost uses a multi-file configuration system for clarity and maintainability. 
 - `boosts.yml` — All boost definitions (effects, duration, cooldown, cost, permissions).
 - `messages.yml` — MiniMessage-formatted strings for feedback and actionbar text.
 - `data.yml` — Persisted player boost states and cooldowns (auto-managed).
-- `overrides.yml` — (Optional) Region/world-based overrides for boosts. Use to change boost properties or disable boosts in specific worlds or WorldGuard regions.
 
 ### Region & World Overrides
 
