@@ -66,7 +66,7 @@
 - **GUI layout**: Customize title, size, filler, lore templates, and per-boost slot positions in `gui.yml`.
 - **Limits**: Clamp amplifier and duration ranges for balance in `limits.yml`.
 - **World rules**: Use `worlds.allow-list` / `worlds.deny-list` to control where boosts apply in `worlds.yml`.
-- **Region & World Overrides**: Use `overrides.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
+- **Region & World Overrides**: Use `boosts.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
 - **Behavior toggles**: Replace active boosts, reapply on join, keep on death, or refund failed activations in `settings.yml`.
 - **Economy**: Enable Vault costs with `economy.enabled` and `economy.vault` in `economy.yml`.
 
@@ -76,7 +76,7 @@
 
 - EzBoost automatically detects WorldGuard if present and applies region-based overrides for boosts.
 - No hard dependency: If WorldGuard is not installed, region overrides are ignored.
-- Use region IDs from WorldGuard in your `overrides.yml` to customize boost behavior per region.
+- Use region IDs from WorldGuard in your `boosts.yml` to customize boost behavior per region.
 - See [docs/overrides.md](https://github.com/ez-plugins/EzBoost/blob/main/docs/overrides.md) for syntax and examples.
 
 ---
