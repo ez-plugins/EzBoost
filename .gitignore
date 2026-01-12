@@ -1,58 +1,53 @@
 
-- 
-+ # Java
-+ *.class
-+ *.jar
-+ *.war
-+ *.ear
+## Java
+*.class
+*.jar
+*.war
+*.ear
+
+## Maven
+target/
+
+## IDEs
+# Eclipse
+.project
+.classpath
+.settings/
+# IntelliJ
+*.iml
+.idea/
 + 
-+ # Maven
-+ /target/
-+ !/src/main/resources/
-+ !/src/test/resources/
-+ 
-+ # Eclipse
-+ .project
-+ .classpath
-+ .settings/
-+ 
-+ # IntelliJ
-+ *.iml
-+ .idea/
-+ out/
-+ 
-+ # VS Code
-+ .vscode/
-+ 
-+ # OS generated files
-+ .DS_Store
-+ Thumbs.db
-+ 
-+ # Logs
-+ *.log
-+ 
-+ # Build
-+ build/
-+ 
-+ # Others
-+ *.swp
-+ *.swo
-+ 
-+ # Environment
-+ .env
-+ 
-+ # Backup files
-+ *~
-+ *.bak
-+ 
-+ # Node (if any JS tooling)
-+ node_modules/
-+ 
-+ # Python (if any scripts)
-+ __pycache__/
-+ *.pyc
-+ 
-+ # Misc
-+ *.tmp
-+ *.temp
-+ 
+# VS Code
+.vscode/
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+
+## Build
+build/
+
+## Vim/Editor swap files
+*.swp
+*.swo
+
+## Environment
+.env
+
+## Backup files
+*~
+*.bak
+
+## Node (if any JS tooling)
+node_modules/
+
+## Python (if any scripts)
+__pycache__/
+*.pyc
+
+## Misc
+*.tmp
+*.temp

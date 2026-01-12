@@ -23,6 +23,57 @@
 # For more info, see: https://github.com/ez-plugins/ezboost
 # =========================================
 boosts:
+  # Per-world and per-worldgroup overrides
+  # Define worldgroups in a separate section if needed, e.g.:
+  # worldgroups:
+  #   overworlds:
+  #     - world
+  #     - world_nether
+  #   minigames:
+  #     - minigame1
+  #     - minigame2
+  #
+  # To override boosts for a world or group, use:
+  # overrides:
+  #   worlds:
+  #     world_nether:
+  #       speed:
+  #         enabled: false
+  #       jump:
+  #         amplifier: 3
+  #   worldgroups:
+  #     minigames:
+  #       haste:
+  #         duration: 60
+  #
+  # These override values will be merged with the base boost definition.
+  #
+  # Example:
+  # overrides:
+  #   worlds:
+  #     world_nether:
+  #       speed:
+  #         enabled: false
+  #   worldgroups:
+  #     minigames:
+  #       haste:
+  #         duration: 60
+  #
+  # Place this section at the top level, alongside 'boosts:'
+
+  # To override boosts for a WorldGuard region, use:
+  # overrides:
+  #   regions:
+  #     spawn:
+  #       speed:
+  #         enabled: false
+  #     pvp_arena:
+  #       strength:
+  #         amplifier: 3
+  #
+  # These region overrides take priority over world/worldgroup/global.
+
+
   speed:
     display-name: "<aqua>Speed Boost</aqua>"
     icon: SUGAR

@@ -1,3 +1,5 @@
+// WorldGuard imports (optional, only if present)
+// (Do not import at top-level; use reflection or catch NoClassDefFoundError)
 package com.skyblockexp.ezboost.boost;
 
 import com.skyblockexp.ezboost.config.EzBoostConfig;
@@ -69,15 +71,33 @@ public final class BoostManager {
         }
     }
 
-    public Optional<BoostDefinition> getBoost(String key) {
-        if (key == null) {
+
+    /**
+     * Returns the effective BoostDefinition for a player in their current world, considering overrides.
+     */
+    public Optional<BoostDefinition> getBoost(String key, Player player) {
+        if (key == null || player == null) {
             return Optional.empty();
         }
-        return Optional.ofNullable(config.boosts().get(key.toLowerCase(Locale.ROOT)));
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition def = config.getEffectiveBoost(key, player.getWorld().getName(), region);
+        return Optional.ofNullable(def);
     }
 
-    public Map<String, BoostDefinition> getBoosts() {
-        return config.boosts();
+
+    /**
+     * Returns the effective boost map for a player in their current world, considering overrides.
+     */
+    public Map<String, BoostDefinition> getBoosts(Player player) {
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        Map<String, BoostDefinition> result = new HashMap<>();
+        for (String key : config.boosts().keySet()) {
+            BoostDefinition def = config.getEffectiveBoost(key, player.getWorld().getName(), region);
+            if (def != null) {
+                result.put(key, def);
+            }
+        }
+        return result;
     }
 
     public boolean isActive(Player player, String boostKey) {
@@ -94,8 +114,9 @@ public final class BoostManager {
         return Math.max(0L, remaining / 1000L);
     }
 
+
     public boolean activate(Player player, String boostKey, ActivationSource source) {
-        Optional<BoostDefinition> definition = getBoost(boostKey);
+        Optional<BoostDefinition> definition = getBoost(boostKey, player);
         if (definition.isEmpty()) {
             player.sendMessage(messages.message("boost-not-found"));
             return false;
@@ -104,7 +125,14 @@ public final class BoostManager {
     }
 
     public boolean activate(Player player, BoostDefinition boost, ActivationSource source) {
-        if (!boost.enabled()) {
+        // Always use the effective boost for the player's world/region
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition effective = config.getEffectiveBoost(boost.key(), player.getWorld().getName(), region);
+        if (effective == null) {
+            player.sendMessage(messages.message("boost-not-found"));
+            return false;
+        }
+        if (!effective.enabled()) {
             player.sendMessage(messages.message("boost-disabled"));
             return false;
         }
@@ -112,7 +140,7 @@ public final class BoostManager {
             player.sendMessage(messages.message("world-blocked"));
             return false;
         }
-        if (boost.permission() != null && !boost.permission().isBlank() && !player.hasPermission(boost.permission())) {
+        if (effective.permission() != null && !effective.permission().isBlank() && !player.hasPermission(effective.permission())) {
             player.sendMessage(messages.message("no-permission"));
             return false;
         }
@@ -120,7 +148,7 @@ public final class BoostManager {
         long now = System.currentTimeMillis();
         // Only block if the SAME boost type is active
         if (state.activeBoostKey() != null && state.endTimestamp() > now) {
-            if (state.activeBoostKey().equalsIgnoreCase(boost.key())) {
+            if (state.activeBoostKey().equalsIgnoreCase(effective.key())) {
                 player.sendMessage(messages.message("boost-active"));
                 return false;
             }
@@ -133,14 +161,14 @@ public final class BoostManager {
             player.sendMessage(messages.message("boost-replaced"));
         }
         if (!player.hasPermission("ezboost.cooldown.bypass")) {
-            long cooldownEnd = state.cooldownEnd(cooldownKey(boost.key()));
+            long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
             if (cooldownEnd > now) {
                 long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
                 player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
                 return false;
             }
         }
-        double cost = boost.cost();
+        double cost = effective.cost();
         EzBoostConfig.EconomySettings economySettings = config.economySettings();
         if (cost > 0.0 && economySettings != null && economySettings.enabled() && !economyService.isAvailable()) {
             player.sendMessage(messages.message("economy-unavailable"));
@@ -157,29 +185,29 @@ public final class BoostManager {
             charged = true;
         }
         try {
-            applyBoost(player, boost);
+            applyBoost(player, effective);
         } catch (Exception ex) {
-            logger.warning("EzBoost failed to apply boost " + boost.key() + ": " + ex.getMessage());
+            logger.warning("EzBoost failed to apply boost " + effective.key() + ": " + ex.getMessage());
             if (charged && config.settings().refundOnFail()) {
                 economyService.deposit(player, cost);
             }
             return false;
         }
-        long endTimestamp = now + (boost.durationSeconds() * 1000L);
-        state.setActiveBoost(boost.key(), endTimestamp);
-        if (boost.cooldownSeconds() > 0) {
-            state.setCooldownEnd(cooldownKey(boost.key()), now + (boost.cooldownSeconds() * 1000L));
+        long endTimestamp = now + (effective.durationSeconds() * 1000L);
+        state.setActiveBoost(effective.key(), endTimestamp);
+        if (effective.cooldownSeconds() > 0) {
+            state.setCooldownEnd(cooldownKey(effective.key()), now + (effective.cooldownSeconds() * 1000L));
         }
-        scheduleExpiry(player, boost, endTimestamp);
-        scheduleActionbar(player, boost);
-        runEnableCommands(player, boost);
-        player.sendMessage(messages.message("boost-activated", Placeholder.parsed("boost", boost.displayName())));
+        scheduleExpiry(player, effective, endTimestamp);
+        scheduleActionbar(player, effective);
+        runEnableCommands(player, effective);
+        player.sendMessage(messages.message("boost-activated", Placeholder.parsed("boost", effective.displayName())));
         if (charged) {
-            player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", boost.key()),
+            player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", effective.key()),
                     Placeholder.parsed("cost", formatCost(cost))));
         }
         if (source == ActivationSource.TOKEN) {
-            player.sendMessage(messages.message("token-used", Placeholder.parsed("boost", boost.key())));
+            player.sendMessage(messages.message("token-used", Placeholder.parsed("boost", effective.key())));
         }
         saveStates();
         return true;
@@ -190,7 +218,8 @@ public final class BoostManager {
         if (state.activeBoostKey() == null) {
             return;
         }
-        BoostDefinition definition = config.boosts().get(state.activeBoostKey());
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition definition = config.getEffectiveBoost(state.activeBoostKey(), player.getWorld().getName(), region);
         long now = System.currentTimeMillis();
         if (definition == null || state.endTimestamp() <= now) {
             state.clearActiveBoost();
@@ -228,7 +257,8 @@ public final class BoostManager {
         if (state == null || state.activeBoostKey() == null) {
             return;
         }
-        BoostDefinition definition = config.boosts().get(state.activeBoostKey());
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition definition = config.getEffectiveBoost(state.activeBoostKey(), player.getWorld().getName(), region);
         if (definition == null || !definition.enabled()) {
             clearActiveBoost(player, state, true);
             saveStates();
@@ -251,7 +281,8 @@ public final class BoostManager {
         if (activeKey == null) {
             return;
         }
-        BoostDefinition boost = config.boosts().get(activeKey);
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition boost = config.getEffectiveBoost(activeKey, player.getWorld().getName(), region);
         if (boost != null) {
             for (BoostEffect effect : boost.effects()) {
                 player.removePotionEffect(effect.type());

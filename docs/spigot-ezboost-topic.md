@@ -75,3 +75,12 @@
 [/LIST]
 
 [CENTER][URL='https://www.spigotmc.org/resources/authors/shadow48402.25936/'][IMG]https://i.ibb.co/PzfjNjh0/ezplugins-try-other-plugins.png[/IMG][/URL][/CENTER]
+
+
+[SIZE=4][B]More Information & Documentation[/B][/SIZE]
+[LIST]
+[*][URL='https://github.com/ez-plugins/EzBoost']EzBoost GitHub Repository[/URL] – Source code, issues, and latest updates.
+[*][URL='https://github.com/ez-plugins/EzBoost/blob/main/docs/config.md']Configuration Guide[/URL] – Full details on all config options.
+[*][URL='https://github.com/ez-plugins/EzBoost/blob/main/docs/boosts.md']Boosts Reference[/URL] – YAML format and boost customization.
+[*][URL='https://github.com/ez-plugins/EzBoost/blob/main/docs/gui.md']GUI Customization[/URL] – How to configure the boost GUI.
+[/LIST]

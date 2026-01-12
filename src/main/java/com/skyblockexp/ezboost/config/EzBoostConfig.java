@@ -29,6 +29,10 @@ public final class EzBoostConfig {
     private EconomySettings economySettings;
     private GuiSettings guiSettings;
     private Map<String, BoostDefinition> boosts = new LinkedHashMap<>();
+    // Holds worldgroup definitions (group name -> list of world names)
+    private Map<String, List<String>> worldGroups = new HashMap<>();
+    // Holds boost overrides ("regions"/"worlds"/"worldgroups" -> name -> boostKey -> override section)
+    private Map<String, Object> boostOverrides = new HashMap<>();
 
     public EzBoostConfig(JavaPlugin plugin) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
@@ -71,6 +75,137 @@ public final class EzBoostConfig {
         );
         guiSettings = loadGuiSettings(config.getConfigurationSection("gui"));
         boosts = loadBoosts(config.getConfigurationSection("boosts"));
+
+        // Load worldgroups (if present)
+        worldGroups.clear();
+        ConfigurationSection worldGroupsSection = config.getConfigurationSection("worldgroups");
+        if (worldGroupsSection != null) {
+            for (String group : worldGroupsSection.getKeys(false)) {
+                worldGroups.put(group.toLowerCase(Locale.ROOT), worldGroupsSection.getStringList(group));
+            }
+        }
+
+        // Load boost overrides (if present)
+        boostOverrides.clear();
+        ConfigurationSection overridesSection = config.getConfigurationSection("overrides");
+        if (overridesSection != null) {
+            for (String type : List.of("regions", "worlds", "worldgroups")) {
+                ConfigurationSection typeSection = overridesSection.getConfigurationSection(type);
+                if (typeSection == null) continue;
+                Map<String, Object> typeMap = new HashMap<>();
+                for (String name : typeSection.getKeys(false)) {
+                    typeMap.put(name.toLowerCase(Locale.ROOT), typeSection.getConfigurationSection(name));
+                }
+                boostOverrides.put(type, typeMap);
+            }
+        }
+    }
+    /**
+     * Returns the effective BoostDefinition for a player in a given world/region, considering region, world, and worldgroup overrides.
+     * If an override is present for the region, it is used. Otherwise, world/group/global is checked.
+     *
+     * @param boostKey The boost key
+     * @param worldName The world name
+     * @param regionName The WorldGuard region name (null if not in a region)
+     * @return The effective BoostDefinition, or null if not found
+     */
+    public BoostDefinition getEffectiveBoost(String boostKey, String worldName, String regionName) {
+        String key = boostKey.toLowerCase(Locale.ROOT);
+        BoostDefinition base = boosts.get(key);
+        if (base == null) return null;
+
+        // 1. Check region override (highest priority)
+        if (regionName != null) {
+            Map<String, Object> regionsMap = (Map<String, Object>) boostOverrides.get("regions");
+            if (regionsMap != null) {
+                ConfigurationSection regionSection = (ConfigurationSection) regionsMap.get(regionName.toLowerCase(Locale.ROOT));
+                if (regionSection != null) {
+                    ConfigurationSection boostOverride = regionSection.getConfigurationSection(key);
+                    if (boostOverride != null) {
+                        return mergeBoostOverride(base, boostOverride);
+                    }
+                }
+            }
+        }
+
+        // 2. Check world override
+        Map<String, Object> worldsMap = (Map<String, Object>) boostOverrides.get("worlds");
+        if (worldsMap != null) {
+            ConfigurationSection worldSection = (ConfigurationSection) worldsMap.get(worldName.toLowerCase(Locale.ROOT));
+            if (worldSection != null) {
+                ConfigurationSection boostOverride = worldSection.getConfigurationSection(key);
+                if (boostOverride != null) {
+                    return mergeBoostOverride(base, boostOverride);
+                }
+            }
+        }
+
+        // 3. Check worldgroup override
+        Map<String, Object> groupsMap = (Map<String, Object>) boostOverrides.get("worldgroups");
+        if (groupsMap != null) {
+            for (Map.Entry<String, List<String>> entry : worldGroups.entrySet()) {
+                if (entry.getValue().stream().anyMatch(w -> w.equalsIgnoreCase(worldName))) {
+                    ConfigurationSection groupSection = (ConfigurationSection) groupsMap.get(entry.getKey());
+                    if (groupSection != null) {
+                        ConfigurationSection boostOverride = groupSection.getConfigurationSection(key);
+                        if (boostOverride != null) {
+                            return mergeBoostOverride(base, boostOverride);
+                        }
+                    }
+                }
+            }
+        }
+        // 4. No override, return base
+        return base;
+    }
+
+    // Backwards compatibility: world-only version (no region)
+    public BoostDefinition getEffectiveBoost(String boostKey, String worldName) {
+        return getEffectiveBoost(boostKey, worldName, null);
+    }
+
+    /**
+     * Merges a boost override section into a base BoostDefinition, replacing only fields present in the override.
+     */
+    private BoostDefinition mergeBoostOverride(BoostDefinition base, ConfigurationSection override) {
+        String displayName = override.contains("display-name") ? override.getString("display-name") : base.displayName();
+        Material icon = override.contains("icon") ? resolveMaterial(override.getString("icon"), base.icon()) : base.icon();
+        List<BoostEffect> effects = base.effects();
+        if (override.contains("effects")) {
+            List<Map<?, ?>> effectsConfig = override.getMapList("effects");
+            List<BoostEffect> newEffects = new ArrayList<>();
+            for (Map<?, ?> entry : effectsConfig) {
+                if (entry == null) continue;
+                String typeName = Objects.toString(entry.get("type"), "");
+                PotionEffectType type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
+                if (type == null) continue;
+                int amplifier = readInt(entry.get("amplifier"), 0);
+                amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
+                newEffects.add(new BoostEffect(type, amplifier));
+            }
+            if (!newEffects.isEmpty()) effects = newEffects;
+        }
+        BoostCommands commands = base.commands();
+        if (override.contains("commands")) {
+            commands = readBoostCommands(override.getConfigurationSection("commands"));
+        }
+        int duration = override.contains("duration") ? clamp(override.getInt("duration"), limits.durationMin(), limits.durationMax()) : base.durationSeconds();
+        int cooldown = override.contains("cooldown") ? override.getInt("cooldown") : base.cooldownSeconds();
+        double cost = override.contains("cost") ? override.getDouble("cost") : base.cost();
+        String permission = override.contains("permission") ? override.getString("permission") : base.permission();
+        boolean enabled = override.contains("enabled") ? override.getBoolean("enabled") : base.enabled();
+        return new BoostDefinition(
+                base.key(),
+                displayName,
+                icon,
+                effects,
+                commands,
+                duration,
+                cooldown,
+                cost,
+                permission,
+                enabled
+        );
     }
 
     public Settings settings() {
@@ -195,6 +330,17 @@ public final class EzBoostConfig {
             toggle = boostSection.getStringList("commands");
         }
         return new BoostCommands(enable, disable, toggle);
+    }
+    /**
+     * Returns the world group name for a given world, or null if not found.
+     */
+    public String getWorldGroup(String worldName) {
+        for (Map.Entry<String, List<String>> entry : worldGroups.entrySet()) {
+            if (entry.getValue().stream().anyMatch(w -> w.equalsIgnoreCase(worldName))) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     private Material resolveMaterial(String name, Material fallback) {

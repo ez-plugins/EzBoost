@@ -63,10 +63,9 @@ EzBoost uses a multi-file configuration system for clarity and maintainability. 
 - `messages.yml` — MiniMessage-formatted strings for feedback and actionbar text.
 - `data.yml` — Persisted player boost states and cooldowns (auto-managed).
 
-
-
 For a complete overview of all configuration options, see the [Configuration Reference](docs/config.md).
 For details on default boosts, see the [Boosts Reference](docs/boosts.md). For GUI customization, see the [GUI Reference](docs/gui.md).
+For details on per-world, per-group, and region-based boost overrides, see the [Overrides Documentation](docs/overrides.md).
 
 #### Example: Adding a New Boost
 

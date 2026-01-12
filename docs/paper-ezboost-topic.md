@@ -77,3 +77,12 @@
 - **Crates & events**: Distribute boost tokens as rewards.
 - **Economy sinks**: Add costs to balance late-game progression.
 - **World gating**: Enable boosts only in specific worlds or arenas.
+- 
+---
+
+## 📚 More Information & Documentation
+
+- [EzBoost GitHub Repository](https://github.com/ez-plugins/EzBoost) — Source code, issues, and latest updates.
+- [Configuration Guide](https://github.com/ez-plugins/EzBoost/blob/main/docs/config.md) — Full details on all config options.
+- [Boosts Reference](https://github.com/ez-plugins/EzBoost/blob/main/docs/boosts.md) — YAML format and boost customization.
+- [GUI Customization](https://github.com/ez-plugins/EzBoost/blob/main/docs/gui.md) — How to configure the boost GUI.
