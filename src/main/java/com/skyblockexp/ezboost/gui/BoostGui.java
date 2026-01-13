@@ -1,6 +1,7 @@
 package com.skyblockexp.ezboost.gui;
 
 import com.skyblockexp.ezboost.boost.BoostDefinition;
+import com.skyblockexp.ezboost.boost.BoostEffect;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.EzBoostConfig.GuiSettings;
 import com.skyblockexp.ezboost.config.EzBoostConfig.FillerItem;
@@ -131,7 +132,7 @@ public final class BoostGui {
             } else {
                 // Try to show custom effect name
                 for (var custom : boostManager.getCustomEffects().values()) {
-                    lore.add(Component.text("Custom Effect: " + custom.getName() + " (" + effect.amplifier() + ")"));
+                    lore.add(Component.text("Effect: " + custom.getName() + " (" + effect.amplifier() + ")"));
                 }
             }
         }
