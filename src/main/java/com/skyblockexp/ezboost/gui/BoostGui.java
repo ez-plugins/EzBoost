@@ -124,6 +124,17 @@ public final class BoostGui {
         }
         ItemMetaCompat.setDisplayName(meta, miniMessage.deserialize(boost.displayName()));
         List<Component> lore = new ArrayList<>();
+        // Add effect info to lore
+        for (BoostEffect effect : boost.effects()) {
+            if (effect.type() != null) {
+                lore.add(Component.text("Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")"));
+            } else {
+                // Try to show custom effect name
+                for (var custom : boostManager.getCustomEffects().values()) {
+                    lore.add(Component.text("Custom Effect: " + custom.getName() + " (" + effect.amplifier() + ")"));
+                }
+            }
+        }
         String status = statusFor(player, boost);
         for (String line : settings.loreLines()) {
             lore.add(miniMessage.deserialize(line,

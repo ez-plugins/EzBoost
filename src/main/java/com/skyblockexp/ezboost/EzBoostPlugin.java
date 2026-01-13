@@ -1,6 +1,7 @@
 package com.skyblockexp.ezboost;
 
 import com.skyblockexp.ezboost.boost.BoostManager;
+import com.skyblockexp.ezboost.boost.CustomBoostEffect;
 import com.skyblockexp.ezboost.command.BoostCommand;
 import com.skyblockexp.ezboost.command.EzBoostCommand;
 import com.skyblockexp.ezboost.config.EzBoostConfig;
@@ -16,6 +17,8 @@ import com.skyblockexp.ezboost.storage.BoostStorage;
 import com.skyblockexp.ezboost.update.SpigotUpdateChecker;
 import java.io.File;
 import java.util.Objects;
+import java.util.Map;
+import java.util.Collections;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
@@ -44,6 +47,7 @@ public final class EzBoostPlugin extends JavaPlugin {
         storage = new BoostStorage(this);
         boostManager = new BoostManager(this, config, messages, economyService, storage);
         boostManager.loadStates();
+        com.skyblockexp.ezboost.api.EzBoostAPI.init(boostManager);
 
         boostGui = new BoostGui(this, boostManager, config.guiSettings());
         tokenFactory = new BoostTokenFactory(this);
@@ -123,4 +127,6 @@ public final class EzBoostPlugin extends JavaPlugin {
             getLogger().warning("Failed to start bStats metrics: " + ex.getMessage());
         }
     }
+
+    // Static API: use EzBoostAPI static methods for integration
 }

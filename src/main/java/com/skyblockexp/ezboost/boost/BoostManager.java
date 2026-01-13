@@ -3,6 +3,8 @@ package com.skyblockexp.ezboost.boost;
 import com.skyblockexp.ezboost.config.EzBoostConfig;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.economy.EconomyService;
+import com.skyblockexp.ezboost.event.BoostEndEvent;
+import com.skyblockexp.ezboost.event.BoostStartEvent;
 import com.skyblockexp.ezboost.storage.BoostStorage;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -23,6 +25,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.concurrent.ConcurrentMap;
+import java.util.Collections;
+import com.skyblockexp.ezboost.boost.CustomBoostEffect;
+
 public final class BoostManager {
     private static final String GLOBAL_COOLDOWN_KEY = "global";
     private final JavaPlugin plugin;
@@ -34,6 +40,38 @@ public final class BoostManager {
     private final Map<UUID, BoostState> states = new ConcurrentHashMap<>();
     private final Map<UUID, BukkitTask> expiryTasks = new HashMap<>();
     private final Map<UUID, BukkitTask> actionbarTasks = new HashMap<>();
+
+    // Custom effect registry
+    private final ConcurrentMap<String, CustomBoostEffect> customEffects = new ConcurrentHashMap<>();
+    /**
+     * Register a custom boost effect from another plugin.
+     * @param effect CustomBoostEffect implementation
+     * @return true if registered, false if name already exists
+     */
+    public boolean registerCustomEffect(CustomBoostEffect effect) {
+        Objects.requireNonNull(effect, "effect");
+        String name = effect.getName().toLowerCase(Locale.ROOT);
+        if (customEffects.containsKey(name)) {
+            return false;
+        }
+        customEffects.put(name, effect);
+        logger.info("Registered custom boost effect: " + name);
+        return true;
+    }
+
+    /**
+     * Get a registered custom effect by name.
+     */
+    public CustomBoostEffect getCustomEffect(String name) {
+        return customEffects.get(name.toLowerCase(Locale.ROOT));
+    }
+
+    /**
+     * List all registered custom effects.
+     */
+    public Map<String, CustomBoostEffect> getCustomEffects() {
+        return Collections.unmodifiableMap(customEffects);
+    }
 
     public BoostManager(JavaPlugin plugin,
             EzBoostConfig config,
@@ -191,6 +229,12 @@ public final class BoostManager {
             }
             return false;
         }
+        // Fire BoostStartEvent with full context
+        BoostStartEvent startEvent = new BoostStartEvent(player, effective.key(), effective);
+        Bukkit.getPluginManager().callEvent(startEvent);
+        if (startEvent.isCancelled()) {
+            return false;
+        }
         long endTimestamp = now + (effective.durationSeconds() * 1000L);
         state.setActiveBoost(effective.key(), endTimestamp);
         if (effective.cooldownSeconds() > 0) {
@@ -227,6 +271,11 @@ public final class BoostManager {
         if (!config.settings().reapplyOnJoin()) {
             return;
         }
+        BoostStartEvent startEvent = new BoostStartEvent(player, definition.key(), definition);
+        Bukkit.getPluginManager().callEvent(startEvent);
+        if (startEvent.isCancelled()) {
+            return;
+        }
         applyBoost(player, definition, (int) Math.max(1, (state.endTimestamp() - now) / 1000L));
         runEnableCommands(player, definition);
         scheduleExpiry(player, definition, state.endTimestamp());
@@ -246,8 +295,14 @@ public final class BoostManager {
         if (state == null || state.activeBoostKey() == null) {
             return;
         }
-        clearActiveBoost(player, state, true);
-        saveStates();
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition definition = config.getEffectiveBoost(state.activeBoostKey(), player.getWorld().getName(), region);
+        BoostEndEvent endEvent = new BoostEndEvent(player, state.activeBoostKey(), definition);
+        Bukkit.getPluginManager().callEvent(endEvent);
+        if (!endEvent.isCancelled()) {
+            clearActiveBoost(player, state, true);
+            saveStates();
+        }
     }
 
     private void refreshPlayer(Player player) {
@@ -258,8 +313,12 @@ public final class BoostManager {
         String region = WorldGuardHelper.getHighestPriorityRegion(player);
         BoostDefinition definition = config.getEffectiveBoost(state.activeBoostKey(), player.getWorld().getName(), region);
         if (definition == null || !definition.enabled()) {
-            clearActiveBoost(player, state, true);
-            saveStates();
+            BoostEndEvent endEvent = new BoostEndEvent(player, state.activeBoostKey(), definition);
+            Bukkit.getPluginManager().callEvent(endEvent);
+            if (!endEvent.isCancelled()) {
+                clearActiveBoost(player, state, true);
+                saveStates();
+            }
         }
     }
 
@@ -269,8 +328,18 @@ public final class BoostManager {
 
     private void applyBoost(Player player, BoostDefinition boost, int durationSeconds) {
         for (BoostEffect effect : boost.effects()) {
-            PotionEffect potionEffect = new PotionEffect(effect.type(), durationSeconds * 20, effect.amplifier(), false, true, true);
-            player.addPotionEffect(potionEffect, true);
+            if (effect.type() != null) {
+                PotionEffect potionEffect = new PotionEffect(effect.type(), durationSeconds * 20, effect.amplifier(), false, true, true);
+                player.addPotionEffect(potionEffect, true);
+            } else {
+                // Custom effect: look up by name
+                for (CustomBoostEffect custom : customEffects.values()) {
+                    if (custom != null) {
+                        // Use amplifier as parameter, type is null for custom
+                        custom.apply(player, effect.amplifier());
+                    }
+                }
+            }
         }
     }
 
@@ -282,12 +351,24 @@ public final class BoostManager {
         String region = WorldGuardHelper.getHighestPriorityRegion(player);
         BoostDefinition boost = config.getEffectiveBoost(activeKey, player.getWorld().getName(), region);
         if (boost != null) {
-            for (BoostEffect effect : boost.effects()) {
-                player.removePotionEffect(effect.type());
-            }
-            runDisableCommands(player, boost);
-            if (!silent && config.settings().sendExpiredMessage()) {
-                player.sendMessage(messages.message("boost-expired", Placeholder.parsed("boost", activeKey)));
+            BoostEndEvent endEvent = new BoostEndEvent(player, activeKey, boost);
+            Bukkit.getPluginManager().callEvent(endEvent);
+            if (!endEvent.isCancelled()) {
+                for (BoostEffect effect : boost.effects()) {
+                    if (effect.type() != null) {
+                        player.removePotionEffect(effect.type());
+                    } else {
+                        for (CustomBoostEffect custom : customEffects.values()) {
+                            if (custom != null) {
+                                custom.remove(player);
+                            }
+                        }
+                    }
+                }
+                runDisableCommands(player, boost);
+                if (!silent && config.settings().sendExpiredMessage()) {
+                    player.sendMessage(messages.message("boost-expired", Placeholder.parsed("boost", activeKey)));
+                }
             }
         }
         state.clearActiveBoost();

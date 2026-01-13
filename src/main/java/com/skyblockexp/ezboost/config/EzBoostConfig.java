@@ -3,6 +3,8 @@ package com.skyblockexp.ezboost.config;
 import com.skyblockexp.ezboost.boost.BoostCommands;
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostEffect;
+import com.skyblockexp.ezboost.boost.CustomBoostEffect;
+import com.skyblockexp.ezboost.boost.BoostManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -271,6 +273,8 @@ public final class EzBoostConfig {
             return Collections.emptyMap();
         }
         Map<String, BoostDefinition> loaded = new LinkedHashMap<>();
+        // Get BoostManager instance for custom effect lookup
+        BoostManager boostManager = com.skyblockexp.ezboost.api.EzBoostAPI.getBoostManager();
         for (String key : boostsSection.getKeys(false)) {
             ConfigurationSection boostSection = boostsSection.getConfigurationSection(key);
             if (boostSection == null) {
@@ -287,13 +291,23 @@ public final class EzBoostConfig {
                 }
                 String typeName = Objects.toString(entry.get("type"), "");
                 PotionEffectType type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
-                if (type == null) {
-                    logger.warning("EzBoost: Invalid effect type '" + typeName + "' for boost " + normalizedKey + ".");
-                    continue;
+                if (type != null) {
+                    int amplifier = readInt(entry.get("amplifier"), 0);
+                    amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
+                    effects.add(new BoostEffect(type, amplifier));
+                } else if (boostManager != null) {
+                    CustomBoostEffect custom = boostManager.getCustomEffect(typeName);
+                    if (custom != null) {
+                        // Store a BoostEffect with null PotionEffectType and use amplifier as parameter
+                        int amplifier = readInt(entry.get("amplifier"), 0);
+                        effects.add(new BoostEffect(null, amplifier));
+                        // Optionally, you could wrap or store custom effect info elsewhere for richer support
+                    } else {
+                        logger.warning("EzBoost: Unknown effect type '" + typeName + "' for boost " + normalizedKey + ".");
+                    }
+                } else {
+                    logger.warning("EzBoost: Unknown effect type '" + typeName + "' for boost " + normalizedKey + ".");
                 }
-                int amplifier = readInt(entry.get("amplifier"), 0);
-                amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
-                effects.add(new BoostEffect(type, amplifier));
             }
             if (effects.isEmpty()) {
                 logger.warning("EzBoost: Boost " + normalizedKey + " has no valid effects and will be skipped.");
