@@ -24,6 +24,24 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 
 ---
 
+
+## Documentation
+
+- [Commands Reference](docs/commands.md)
+- [Permissions Reference](docs/permissions.md)
+- [Overrides Guide](docs/overrides.md)
+- [GUI Guide](docs/gui.md)
+- [Configuration Guide](docs/config.md)
+- [Boosts Guide](docs/boosts.md)
+- [API Overview](docs/api.md)
+  - [EzBoostAPI Reference](docs/api/EzBoostAPI.md)
+  - [CustomBoostEffect Reference](docs/api/CustomBoostEffect.md)
+  - [Events Overview](docs/events.md)
+    - [BoostStartEvent Reference](docs/events/BoostStartEvent.md)
+    - [BoostEndEvent Reference](docs/events/BoostEndEvent.md)
+
+---
+
 ## Installation
 
 1. Build the plugin JAR from this repository or download a release from the [releases page](https://github.com/ez-plugins/ezboost/releases).
