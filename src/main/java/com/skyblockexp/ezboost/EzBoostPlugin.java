@@ -1,14 +1,16 @@
 package com.skyblockexp.ezboost;
 
+import com.skyblockexp.ezboost.api.EzBoostAPI;
 import com.skyblockexp.ezboost.boost.BoostManager;
-import com.skyblockexp.ezboost.boost.CustomBoostEffect;
 import com.skyblockexp.ezboost.command.BoostCommand;
 import com.skyblockexp.ezboost.command.EzBoostCommand;
 import com.skyblockexp.ezboost.config.EzBoostConfig;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.economy.EconomyService;
+import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import com.skyblockexp.ezboost.gui.BoostGui;
 import com.skyblockexp.ezboost.gui.BoostTokenFactory;
+import com.skyblockexp.ezboost.listener.AdminGuiChatListener;
 import com.skyblockexp.ezboost.listener.BoostGuiListener;
 import com.skyblockexp.ezboost.listener.BoostPlayerListener;
 import com.skyblockexp.ezboost.listener.BoostTokenListener;
@@ -17,8 +19,6 @@ import com.skyblockexp.ezboost.storage.BoostStorage;
 import com.skyblockexp.ezboost.update.SpigotUpdateChecker;
 import java.io.File;
 import java.util.Objects;
-import java.util.Map;
-import java.util.Collections;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
@@ -33,6 +33,7 @@ public final class EzBoostPlugin extends JavaPlugin {
     private BoostStorage storage;
     private BoostManager boostManager;
     private BoostGui boostGui;
+    private AdminBoostCreationGui adminGui;
     private BoostTokenFactory tokenFactory;
 
     @Override
@@ -47,9 +48,10 @@ public final class EzBoostPlugin extends JavaPlugin {
         storage = new BoostStorage(this);
         boostManager = new BoostManager(this, config, messages, economyService, storage);
         boostManager.loadStates();
-        com.skyblockexp.ezboost.api.EzBoostAPI.init(boostManager);
+        EzBoostAPI.init(boostManager);
 
         boostGui = new BoostGui(this, boostManager, config.guiSettings());
+        adminGui = new AdminBoostCreationGui(this, boostManager, config, messages, boostGui);
         tokenFactory = new BoostTokenFactory(this);
 
         registerCommands();
@@ -84,7 +86,7 @@ public final class EzBoostPlugin extends JavaPlugin {
             boost.setExecutor(boostCommand);
             boost.setTabCompleter(boostCommand);
         }
-        EzBoostCommand ezBoostCommand = new EzBoostCommand(boostManager, messages, tokenFactory, this::reloadPlugin);
+        EzBoostCommand ezBoostCommand = new EzBoostCommand(boostManager, messages, tokenFactory, adminGui, this::reloadPlugin);
         PluginCommand ezboost = getCommand("ezboost");
         if (ezboost != null) {
             ezboost.setExecutor(ezBoostCommand);
@@ -93,7 +95,8 @@ public final class EzBoostPlugin extends JavaPlugin {
     }
 
     private void registerListeners() {
-        Objects.requireNonNull(getServer().getPluginManager()).registerEvents(new BoostGuiListener(boostGui, boostManager), this);
+        Objects.requireNonNull(getServer().getPluginManager()).registerEvents(new BoostGuiListener(boostGui, adminGui, boostManager), this);
+        Objects.requireNonNull(getServer().getPluginManager()).registerEvents(new AdminGuiChatListener(adminGui, this), this);
         getServer().getPluginManager().registerEvents(new BoostTokenListener(boostManager, tokenFactory), this);
         getServer().getPluginManager().registerEvents(new BoostPlayerListener(boostManager), this);
         getServer().getPluginManager().registerEvents(new EconomyServiceListener(config, economyService, getLogger()), this);

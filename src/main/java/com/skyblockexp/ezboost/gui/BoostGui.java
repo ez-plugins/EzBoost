@@ -177,6 +177,15 @@ public final class BoostGui {
         }
         return String.format(Locale.US, "%.2f", cost);
     }
+    
+    public void refreshAllOpenGuis() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Inventory openInv = player.getOpenInventory().getTopInventory();
+            if (openInv.getHolder() instanceof BoostGuiHolder) {
+                refresh(player, openInv);
+            }
+        }
+    }
 
     private Inventory createInventory(BoostGuiHolder holder, Component title) {
         try {

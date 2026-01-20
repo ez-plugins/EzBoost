@@ -3,6 +3,7 @@ package com.skyblockexp.ezboost.command;
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.Messages;
+import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import com.skyblockexp.ezboost.gui.BoostTokenFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
     private final BoostManager boostManager;
     private final Messages messages;
     private final BoostTokenFactory tokenFactory;
+    private final AdminBoostCreationGui adminGui;
     private final Runnable reloadAction;
 
     /**
@@ -32,12 +34,14 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
      * @param boostManager The boost manager instance
      * @param messages The messages configuration
      * @param tokenFactory The boost token item factory
+     * @param adminGui The admin boost creation GUI
      * @param reloadAction Runnable to reload plugin configuration
      */
-    public EzBoostCommand(BoostManager boostManager, Messages messages, BoostTokenFactory tokenFactory, Runnable reloadAction) {
+    public EzBoostCommand(BoostManager boostManager, Messages messages, BoostTokenFactory tokenFactory, AdminBoostCreationGui adminGui, Runnable reloadAction) {
         this.boostManager = Objects.requireNonNull(boostManager, "boostManager");
         this.messages = Objects.requireNonNull(messages, "messages");
         this.tokenFactory = Objects.requireNonNull(tokenFactory, "tokenFactory");
+        this.adminGui = Objects.requireNonNull(adminGui, "adminGui");
         this.reloadAction = Objects.requireNonNull(reloadAction, "reloadAction");
     }
 
@@ -53,7 +57,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]");
+            sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create [continue]");
             return true;
         }
         String sub = args[0].toLowerCase(Locale.ROOT);
@@ -105,7 +109,29 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
                     Placeholder.parsed("amount", String.valueOf(amount))));
             return true;
         }
-        sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]");
+        if (sub.equals("create")) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage("This command can only be used by players.");
+                return true;
+            }
+            if (!sender.hasPermission("ezboost.admin")) {
+                sender.sendMessage(messages.message("no-permission"));
+                return true;
+            }
+            if (args.length > 1 && "continue".equalsIgnoreCase(args[1])) {
+                // Continue last session
+                if (adminGui.hasSavedState(player)) {
+                    adminGui.open(player); // This will load the saved state
+                } else {
+                    sender.sendMessage("§cNo previous boost creation session found to continue.");
+                }
+            } else {
+                // Start new session
+                adminGui.open(player);
+            }
+            return true;
+        }
+        sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create");
         return true;
     }
 
@@ -120,7 +146,10 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("reload", "give");
+            return List.of("reload", "give", "create");
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
+            return List.of("continue");
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
             List<String> names = new ArrayList<>();

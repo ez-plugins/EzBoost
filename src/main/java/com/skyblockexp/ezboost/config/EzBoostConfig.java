@@ -5,6 +5,8 @@ import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostEffect;
 import com.skyblockexp.ezboost.boost.CustomBoostEffect;
 import com.skyblockexp.ezboost.boost.BoostManager;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import com.skyblockexp.ezboost.config.MultiFileConfigLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
@@ -102,6 +105,59 @@ public final class EzBoostConfig {
             }
         }
     }
+
+    /**
+     * Adds a new boost to the configuration and saves it to boosts.yml.
+     * @param boost The BoostDefinition to add
+     * @return true if added successfully, false if key already exists
+     */
+    public boolean addBoost(BoostDefinition boost) {
+        String key = boost.key().toLowerCase(Locale.ROOT);
+        if (boosts.containsKey(key)) {
+            return false;
+        }
+        boosts.put(key, boost);
+        saveBoostToFile(boost);
+        return true;
+    }
+
+    private void saveBoostToFile(BoostDefinition boost) {
+        File boostsFile = new File(plugin.getDataFolder(), "boosts.yml");
+        FileConfiguration boostsConfig = YamlConfiguration.loadConfiguration(boostsFile);
+
+        String key = boost.key();
+        ConfigurationSection boostSection = boostsConfig.createSection("boosts." + key);
+        boostSection.set("display-name", boost.displayName());
+        boostSection.set("icon", boost.icon().name());
+        List<Map<String, Object>> effectsList = new ArrayList<>();
+        for (BoostEffect effect : boost.effects()) {
+            Map<String, Object> effectMap = new HashMap<>();
+            if (effect.type() != null) {
+                effectMap.put("type", effect.type().getName());
+            } else {
+                // For custom effects, we need to store the name somehow, but since BoostEffect doesn't have it, assume it's handled elsewhere
+                // For now, skip or handle later
+            }
+            effectMap.put("amplifier", effect.amplifier());
+            effectsList.add(effectMap);
+        }
+        boostSection.set("effects", effectsList);
+        boostSection.set("commands.enable", boost.commands().enable());
+        boostSection.set("commands.disable", boost.commands().disable());
+        boostSection.set("commands.toggle", boost.commands().toggle());
+        boostSection.set("duration", boost.durationSeconds());
+        boostSection.set("cooldown", boost.cooldownSeconds());
+        boostSection.set("cost", boost.cost());
+        boostSection.set("permission", boost.permission());
+        boostSection.set("enabled", boost.enabled());
+
+        try {
+            boostsConfig.save(boostsFile);
+        } catch (IOException e) {
+            logger.severe("Failed to save boost to boosts.yml: " + e.getMessage());
+        }
+    }
+
     /**
      * Returns the effective BoostDefinition for a player in a given world/region, considering region, world, and worldgroup overrides.
      * If an override is present for the region, it is used. Otherwise, world/group/global is checked.
@@ -228,6 +284,90 @@ public final class EzBoostConfig {
 
     public GuiSettings guiSettings() {
         return guiSettings;
+    }
+
+    /**
+     * Finds an available slot in the GUI for auto-assignment.
+     * @return an available slot index, or -1 if none found
+     */
+    public int findAvailableSlot() {
+        if (guiSettings == null) return -1;
+
+        Map<String, Integer> assignedSlots = guiSettings.slots();
+        boolean[] occupied = new boolean[guiSettings.size()];
+        int maxUsedSlot = 9; // Default to 9 so we skip the first row if empty
+
+        // 1. Mark occupied slots and find the highest one used
+        for (Integer slot : assignedSlots.values()) {
+            if (slot != null && slot >= 0 && slot < guiSettings.size()) {
+                occupied[slot] = true;
+                if (slot > maxUsedSlot) {
+                    maxUsedSlot = slot;
+                }
+            }
+        }
+
+        // 2. Start looking immediately AFTER the last used slot
+        for (int i = maxUsedSlot + 1; i < guiSettings.size(); i++) {
+            if (!occupied[i]) {
+                return i; // Returns 23 in your case
+            }
+        }
+
+        // 3. Fallback: If the end is full, search from the start (skipping row 1)
+        for (int i = 10; i <= maxUsedSlot; i++) {
+            if (!occupied[i]) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Saves a GUI slot for a boost key to the gui.yml configuration file.
+     */
+    public void saveGuiSlot(String boostKey, int slot) {
+        try {
+            File guiFile = new File(plugin.getDataFolder(), "gui.yml");
+            FileConfiguration guiConfig = YamlConfiguration.loadConfiguration(guiFile);
+
+            // Ensure gui section exists
+            if (!guiConfig.contains("gui")) {
+                guiConfig.createSection("gui");
+            }
+
+            // Ensure slots section exists
+            ConfigurationSection guiSection = guiConfig.getConfigurationSection("gui");
+            if (guiSection == null) {
+                guiSection = guiConfig.createSection("gui");
+            }
+
+            if (!guiSection.contains("slots")) {
+                guiSection.createSection("slots");
+            }
+
+            ConfigurationSection slotsSection = guiSection.getConfigurationSection("slots");
+            if (slotsSection == null) {
+                slotsSection = guiSection.createSection("slots");
+            }
+
+            // Set the slot
+            slotsSection.set(boostKey, slot);
+
+            // Save the file
+            guiConfig.save(guiFile);
+
+            // Reload GUI settings
+            ConfigurationSection guiConfigSection = guiConfig.getConfigurationSection("gui");
+            if (guiConfigSection != null) {
+                guiSettings = loadGuiSettings(guiConfigSection);
+            }
+
+            logger.info("Saved GUI slot " + slot + " for boost '" + boostKey + "'");
+        } catch (Exception e) {
+            logger.severe("Failed to save GUI slot for boost '" + boostKey + "': " + e.getMessage());
+        }
     }
 
     public Map<String, BoostDefinition> boosts() {
