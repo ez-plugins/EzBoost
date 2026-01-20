@@ -7,6 +7,8 @@
 [LIST]
 [*][B]Clean, modern GUI[/B] – Let players browse available boosts, see cooldowns, costs, and status at a glance.
 [IMG]https://i.ibb.co/1GgSfvWs/image.png[/IMG]
+[*][B]Admin GUI[/B] – Create and manage boosts through an intuitive admin interface.
+[IMG]https://i.ibb.co/cXTcS3LT/image.png[/IMG]
 [*][B]Fully configurable boosts[/B] – Define any potion effects, amplifiers, durations, and permissions per boost.
 [*][B]Cooldown control[/B] – Per-boost cooldowns with bypass permissions and optional per-type cooldown tracking.
 [IMG]https://i.ibb.co/nsKmgK0H/image.png[/IMG]
@@ -20,6 +22,7 @@
 [SIZE=4][B]Feature Highlights[/B][/SIZE]
 [LIST]
 [*][B]GUI-first experience[/B] – Inventory menu with configurable filler, slot layout, and MiniMessage formatting.
+[*][B]Admin GUI[/B] – Create and manage boosts through an intuitive admin interface.
 [*][B]Fully configurable boosts[/B] – Define custom potion effects, amplifiers, durations, and permissions per boost.
 [*][B]Multi-file configuration[/B] – Clean separation of settings, GUI, boosts, and more for easy management.
 [*][B]Region & World Overrides[/B] – Use [icode]overrides.yml[/icode] to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
@@ -37,6 +40,7 @@
 [SIZE=4][B]Quick Start[/B][/SIZE]
 [LIST]
 [*]Drop [icode]EzBoost.jar[/icode] into [icode]plugins/[/icode], then start your Paper server (1.20+).
+[*]Use [icode]/ezboost create[/icode] to open the admin GUI and create boosts.
 [*]Edit [icode]plugins/EzBoost/boosts.yml[/icode], [icode]gui.yml[/icode], and related config files to configure boosts, cooldowns, costs, and GUI slots.
 [*]Use [icode]/boost[/icode] to open the GUI, or [icode]/boost <boostKey>[/icode] for direct activation.
 [*]Use [icode]/ezboost give <player> <boostKey> [amount][/icode] to give boost tokens. Players redeem tokens by right-clicking them.
@@ -48,9 +52,12 @@
 [tr][th]Command[/th][th]Description[/th][th]Permission[/th][/tr]
 [tr][td]/boost[/td][td]Open the boosts GUI or show usage.[/td][td]ezboost.use[/td][/tr]
 [tr][td]/boost <boostKey>[/td][td]Activate a specific boost directly.[/td][td]ezboost.use + boost permission[/td][/tr]
+[tr][td]/ezboost create[/td][td]Open the admin GUI to create boosts.[/td][td]ezboost.admin[/td][/tr]
 [tr][td]/ezboost reload[/td][td]Reload configuration and messages.[/td][td]ezboost.reload[/td][/tr]
 [tr][td]/ezboost give <player> <boostKey> [amount][/td][td]Give boost token items. Players redeem by right-clicking.[/td][td]ezboost.give[/td][/tr]
 [/table]
+
+For detailed command and permission documentation, see [docs/commands.md](https://github.com/ez-plugins/ezboost/blob/main/docs/commands.md) and [docs/permissions.md](https://github.com/ez-plugins/ezboost/blob/main/docs/permissions.md).
 
 [SIZE=4][B]Setup Guide[/B][/SIZE]
 [spoiler="Installation & Configuration"]

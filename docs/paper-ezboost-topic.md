@@ -3,6 +3,9 @@
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
+![EzBoost Admin GUI](https://i.ibb.co/cXTcS3LT/image.png)
+
+**EzBoost** is a modern, production-ready boosts plugin for Spigot / Paper / Bukkit 1.7–1.21.*. It delivers configurable potion effects with GUI activation, cooldown management, optional Vault costs, world-based restrictions, boost tokens, and advanced region-based overrides with WorldGuard support. It is a renewed take on [RedBull](https://dev.bukkit.org/projects/redbull).
 **EzBoost** is a modern, production-ready boosts plugin for Spigot / Paper / Bukkit 1.7–1.21.*. It delivers configurable potion effects with GUI activation, cooldown management, optional Vault costs, world-based restrictions, boost tokens, and advanced region-based overrides with WorldGuard support. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
 
 ---
@@ -27,6 +30,7 @@ For issues, feature requests, and the latest releases, always check GitHub first
 ## ✨ Key Features
 
 - **GUI-first activation**: Players can browse boosts with clear status, cooldown, and cost info.
+- **Admin GUI**: Create and manage boosts through an intuitive admin interface.
 - **Fully configurable boosts**: Define custom potion effects, amplifiers, durations, and permissions per boost.
 - **Multi-file configuration**: Clean separation of settings, GUI, boosts, and more for easy management.
 - **Interactive GUI**: Customizable inventory interface for boost activation.
@@ -50,8 +54,11 @@ For issues, feature requests, and the latest releases, always check GitHub first
 | --- | --- | --- |
 | `/boost` | Open the boosts GUI or show usage. | `ezboost.use` |
 | `/boost <boostKey>` | Activate a boost directly. | `ezboost.use` + boost permission |
+| `/ezboost create` | Open the admin GUI to create boosts. | `ezboost.admin` |
 | `/ezboost reload` | Reload configuration and messages. | `ezboost.reload` |
 | `/ezboost give <player> <boostKey> [amount]` | Give boost token items. Players redeem by right-clicking. | `ezboost.give` |
+
+For detailed command and permission documentation, see [docs/commands.md](https://github.com/ez-plugins/ezboost/blob/main/docs/commands.md) and [docs/permissions.md](https://github.com/ez-plugins/ezboost/blob/main/docs/permissions.md).
 
 ---
 
@@ -70,10 +77,11 @@ For issues, feature requests, and the latest releases, always check GitHub first
 
 1. Place `EzBoost.jar` in your server’s `plugins/` folder.
 2. Start the server to generate `config.yml`, `messages.yml`, and `data.yml`.
-3. Configure boosts, cooldowns, costs, and GUI slots in `plugins/EzBoost/boosts.yml`, `gui.yml`, and related config files.
-4. Use `/boost` to open the GUI or `/boost <boostKey>` for instant activation.
-5. Use `/ezboost give <player> <boostKey> [amount]` to give boost tokens. Players redeem tokens by right-clicking them.
-6. Grant per-boost permissions (like `ezboost.boost.speed`) to control access.
+3. Use `/ezboost create` to open the admin GUI and create boosts.
+4. Configure boosts, cooldowns, costs, and GUI slots in `plugins/EzBoost/boosts.yml`, `gui.yml`, and related config files.
+5. Use `/boost` to open the GUI or `/boost <boostKey>` for instant activation.
+6. Use `/ezboost give <player> <boostKey> [amount]` to give boost tokens. Players redeem tokens by right-clicking them.
+7. Grant per-boost permissions (like `ezboost.boost.speed`) to control access.
 
 ---
 
@@ -109,6 +117,13 @@ For issues, feature requests, and the latest releases, always check GitHub first
 ---
 
 
+- [EzBoost GitHub Repository](https://github.com/ez-plugins/EzBoost) — Source code, issues, and latest updates.
+- [Configuration Guide](https://github.com/ez-plugins/EzBoost/blob/main/docs/config.md) — Full details on all config options.
+- [Boosts Reference](https://github.com/ez-plugins/EzBoost/blob/main/docs/boosts.md) — YAML format and boost customization.
+- [GUI Customization](https://github.com/ez-plugins/EzBoost/blob/main/docs/gui.md) — How to configure the boost GUI.
+- [Overrides Documentation](https://github.com/ez-plugins/EzBoost/blob/main/docs/overrides.md) — Region/world override syntax and examples.
+
+[![Try the other Minecraft plugins in the EzPlugins series](https://i.ibb.co/PzfjNjh0/ezplugins-try-other-plugins.png)](https://modrinth.com/collection/Q98Ov6dA)
 ---
 For the latest documentation, advanced configuration, and troubleshooting, visit:
 [https://github.com/ez-plugins/EzBoost](https://github.com/ez-plugins/EzBoost)

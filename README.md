@@ -5,12 +5,17 @@
 
 # EzBoost
 
+![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
+
+![EzBoost Admin GUI](https://i.ibb.co/cXTcS3LT/image.png)
+
 EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (Minecraft 1.7–1.21.*). It empowers server owners to offer configurable, time-limited potion boosts to players. Designed for flexibility, maintainability, and performance, EzBoost features a clean multi-file configuration system, a customizable GUI, per-boost cooldowns, world restrictions, optional Vault economy integration, boost token items, and advanced region-based overrides with WorldGuard support.
 
 ---
 
 ## Features
 
+- **Admin GUI**: Create and manage boosts through an intuitive admin interface.
 - **Highly configurable**: Define custom boosts with effects, durations, cooldowns, permissions, and costs.
 - **Multi-file configuration**: Clean separation of settings, GUI, boosts, and more for easy management.
 - **Interactive GUI**: Customizable inventory interface for boost activation.
@@ -47,19 +52,25 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 1. Build the plugin JAR from this repository or download a release from the [releases page](https://github.com/ez-plugins/ezboost/releases).
 2. Place `EzBoost-<version>.jar` in your server's `plugins/` directory.
 3. Start your Spigot, Paper, or Bukkit server (Minecraft 1.7–1.21.*). EzBoost will generate all required configuration files in the plugin data folder.
+4. Use `/ezboost create` to open the admin GUI and create boosts.
 
 ---
 
 ## Usage
 
-### Commands
+For detailed command documentation, see [docs/commands.md](docs/commands.md).
+
+### Quick Commands Reference
 
 - `/boost` — Open the boosts GUI (if enabled) or display usage.
 - `/boost <boostKey>` — Activate a boost directly.
+- `/ezboost create` — Open the admin GUI to create boosts.
 - `/ezboost reload` — Reload all configuration and messages.
 - `/ezboost give <player> <boostKey> [amount]` — Give boost token items to a player. Tokens can be redeemed by right-clicking them.
 
-### Permissions
+For detailed permissions documentation, see [docs/permissions.md](docs/permissions.md).
+
+### Quick Permissions Reference
 
 - `ezboost.use` — Use boosts (`/boost`).
 - `ezboost.admin` — Access admin commands.
