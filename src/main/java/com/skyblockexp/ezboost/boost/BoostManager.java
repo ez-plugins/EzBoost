@@ -60,6 +60,15 @@ public final class BoostManager {
     }
 
     /**
+     * Adds a new boost dynamically and persists it to config.
+     * @param boost The BoostDefinition to add
+     * @return true if added successfully, false if key already exists
+     */
+    public boolean addBoost(BoostDefinition boost) {
+        return config.addBoost(boost);
+    }
+
+    /**
      * Get a registered custom effect by name.
      */
     public CustomBoostEffect getCustomEffect(String name) {
