@@ -345,8 +345,6 @@ public final class BoostManager {
                 CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
                 if (custom != null) {
                     custom.apply(player, effect.amplifier());
-                } else {
-                    logger.warning("EzBoost: Custom effect '" + effect.customName() + "' not found when applying boost to " + player.getName());
                 }
             }
         }
@@ -370,8 +368,6 @@ public final class BoostManager {
                         CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
                         if (custom != null) {
                             custom.remove(player);
-                        } else {
-                            logger.warning("EzBoost: Custom effect '" + effect.customName() + "' not found when removing boost from " + player.getName());
                         }
                     }
                 }
