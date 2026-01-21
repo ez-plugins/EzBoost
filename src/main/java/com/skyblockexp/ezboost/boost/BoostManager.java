@@ -88,7 +88,7 @@ public final class BoostManager {
             EconomyService economyService,
             BoostStorage storage) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
-        this.config = Objects.requireNonNull(config, "config");
+        this.config = config; // Allow null initially
         this.messages = Objects.requireNonNull(messages, "messages");
         this.economyService = Objects.requireNonNull(economyService, "economyService");
         this.storage = Objects.requireNonNull(storage, "storage");
@@ -345,6 +345,8 @@ public final class BoostManager {
                 CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
                 if (custom != null) {
                     custom.apply(player, effect.amplifier());
+                } else {
+                    logger.warning("EzBoost: Custom effect '" + effect.customName() + "' not found when applying boost to " + player.getName());
                 }
             }
         }
@@ -368,6 +370,8 @@ public final class BoostManager {
                         CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
                         if (custom != null) {
                             custom.remove(player);
+                        } else {
+                            logger.warning("EzBoost: Custom effect '" + effect.customName() + "' not found when removing boost from " + player.getName());
                         }
                     }
                 }

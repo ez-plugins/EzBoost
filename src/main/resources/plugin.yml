@@ -2,7 +2,7 @@ name: EzBoost
 version: ${project.version}
 main: com.skyblockexp.ezboost.EzBoostPlugin
 api-version: '1.13'
-softdepend: [Vault, EzEconomy, WorldGuard]
+softdepend: [Vault, EzEconomy, WorldGuard, EzShops]
 author: SkyblockExperience
 commands:
   boost:
