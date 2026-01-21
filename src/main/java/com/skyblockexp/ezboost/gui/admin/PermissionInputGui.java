@@ -14,7 +14,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
-import java.util.function.Runnable;
 
 public class PermissionInputGui {
     private final JavaPlugin plugin;

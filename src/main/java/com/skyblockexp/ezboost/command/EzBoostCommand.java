@@ -146,19 +146,29 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("reload", "give", "create");
+            List<String> completions = new ArrayList<>();
+            if (sender.hasPermission("ezboost.reload")) {
+                completions.add("reload");
+            }
+            if (sender.hasPermission("ezboost.give")) {
+                completions.add("give");
+            }
+            if (sender.hasPermission("ezboost.admin")) {
+                completions.add("create");
+            }
+            return completions;
         }
-        if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("create") && sender.hasPermission("ezboost.admin")) {
             return List.of("continue");
         }
-        if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("give") && sender.hasPermission("ezboost.give")) {
             List<String> names = new ArrayList<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 names.add(player.getName());
             }
             return names;
         }
-        if (args.length == 3 && args[0].equalsIgnoreCase("give") && sender instanceof Player) {
+        if (args.length == 3 && args[0].equalsIgnoreCase("give") && sender.hasPermission("ezboost.give") && sender instanceof Player) {
             return new ArrayList<>(boostManager.getBoosts((Player)sender).keySet());
         }
         return List.of();

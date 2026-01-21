@@ -224,7 +224,7 @@ public class AdminGuiInputHandler {
             if (effectName != null) {
                 PotionEffectType effectType = PotionEffectType.getByName(effectName);
                 if (effectType != null) {
-                    BoostEffect effect = new BoostEffect(effectType, amplifier);
+                    BoostEffect effect = new BoostEffect(effectType, amplifier, null);
                     state.addEffect(effect);
                     player.sendMessage(legacySerializer.serialize(Component.text("§aEffect added successfully!")));
                 } else {
