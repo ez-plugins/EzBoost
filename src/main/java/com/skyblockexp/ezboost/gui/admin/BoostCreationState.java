@@ -181,7 +181,7 @@ public class BoostCreationState {
                     org.bukkit.potion.PotionEffectType type = org.bukkit.potion.PotionEffectType.getByName(parts[0]);
                     if (type != null) {
                         int amplifier = Integer.parseInt(parts[1]);
-                        effects.add(new BoostEffect(type, amplifier));
+                        effects.add(new BoostEffect(type, amplifier, null));
                     }
                 } catch (Exception e) {
                     // Skip invalid effects

@@ -264,7 +264,7 @@ public class EffectSelectionGui {
             if (effectName != null) {
                 PotionEffectType effectType = PotionEffectType.getByName(effectName);
                 if (effectType != null) {
-                    BoostEffect effect = new BoostEffect(effectType, amplifier);
+                    BoostEffect effect = new BoostEffect(effectType, amplifier, null);
                     onEffectSelected.accept(effect);
                     player.sendMessage(legacySerializer.serialize(Component.text("Effect added successfully!")));
                 } else {

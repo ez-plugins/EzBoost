@@ -239,7 +239,7 @@ public final class EzBoostConfig {
                 if (type == null) continue;
                 int amplifier = readInt(entry.get("amplifier"), 0);
                 amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
-                newEffects.add(new BoostEffect(type, amplifier));
+                newEffects.add(new BoostEffect(type, amplifier, null));
             }
             if (!newEffects.isEmpty()) effects = newEffects;
         }
@@ -434,13 +434,13 @@ public final class EzBoostConfig {
                 if (type != null) {
                     int amplifier = readInt(entry.get("amplifier"), 0);
                     amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
-                    effects.add(new BoostEffect(type, amplifier));
+                    effects.add(new BoostEffect(type, amplifier, null));
                 } else if (boostManager != null) {
                     CustomBoostEffect custom = boostManager.getCustomEffect(typeName);
                     if (custom != null) {
                         // Store a BoostEffect with null PotionEffectType and use amplifier as parameter
                         int amplifier = readInt(entry.get("amplifier"), 0);
-                        effects.add(new BoostEffect(null, amplifier));
+                        effects.add(new BoostEffect(null, amplifier, typeName));
                         // Optionally, you could wrap or store custom effect info elsewhere for richer support
                     } else {
                         logger.warning("EzBoost: Unknown effect type '" + typeName + "' for boost " + normalizedKey + ".");

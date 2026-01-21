@@ -342,11 +342,9 @@ public final class BoostManager {
                 player.addPotionEffect(potionEffect, true);
             } else {
                 // Custom effect: look up by name
-                for (CustomBoostEffect custom : customEffects.values()) {
-                    if (custom != null) {
-                        // Use amplifier as parameter, type is null for custom
-                        custom.apply(player, effect.amplifier());
-                    }
+                CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
+                if (custom != null) {
+                    custom.apply(player, effect.amplifier());
                 }
             }
         }
@@ -367,10 +365,9 @@ public final class BoostManager {
                     if (effect.type() != null) {
                         player.removePotionEffect(effect.type());
                     } else {
-                        for (CustomBoostEffect custom : customEffects.values()) {
-                            if (custom != null) {
-                                custom.remove(player);
-                            }
+                        CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
+                        if (custom != null) {
+                            custom.remove(player);
                         }
                     }
                 }
