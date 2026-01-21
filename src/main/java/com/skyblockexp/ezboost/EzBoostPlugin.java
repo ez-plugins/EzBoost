@@ -41,14 +41,23 @@ public final class EzBoostPlugin extends JavaPlugin {
         ensureResource("messages.yml");
         ensureDataFile();
 
-        config = new EzBoostConfig(this);
+        // Initialize basic services first
         messages = new Messages(this);
         economyService = new EconomyService();
-        economyService.setup(config.economySettings());
         storage = new BoostStorage(this);
-        boostManager = new BoostManager(this, config, messages, economyService, storage);
-        boostManager.loadStates();
+
+        // Create boost manager first (without config initially)
+        boostManager = new BoostManager(this, null, messages, economyService, storage);
+        // Initialize API so custom effects can be registered
         EzBoostAPI.init(boostManager);
+
+        // Now load config after API is initialized
+        config = new EzBoostConfig(this);
+        // Update boost manager with config
+        boostManager.reload(config, messages, economyService);
+        economyService.setup(config.economySettings());
+
+        boostManager.loadStates();
 
         boostGui = new BoostGui(this, boostManager, config.guiSettings());
         adminGui = new AdminBoostCreationGui(this, boostManager, config, messages, boostGui);

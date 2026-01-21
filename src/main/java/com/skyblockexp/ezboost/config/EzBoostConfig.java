@@ -443,10 +443,16 @@ public final class EzBoostConfig {
                         effects.add(new BoostEffect(null, amplifier, typeName));
                         // Optionally, you could wrap or store custom effect info elsewhere for richer support
                     } else {
-                        logger.warning("EzBoost: Unknown effect type '" + typeName + "' for boost " + normalizedKey + ".");
+                        // Custom effect not registered yet - store it anyway for later validation
+                        int amplifier = readInt(entry.get("amplifier"), 0);
+                        effects.add(new BoostEffect(null, amplifier, typeName));
+                        logger.info("EzBoost: Custom effect type '" + typeName + "' for boost " + normalizedKey + " will be validated when boost is applied.");
                     }
                 } else {
-                    logger.warning("EzBoost: Unknown effect type '" + typeName + "' for boost " + normalizedKey + ".");
+                    // No BoostManager available - store custom effect anyway
+                    int amplifier = readInt(entry.get("amplifier"), 0);
+                    effects.add(new BoostEffect(null, amplifier, typeName));
+                    logger.info("EzBoost: Custom effect type '" + typeName + "' for boost " + normalizedKey + " will be validated when boost is applied.");
                 }
             }
             if (effects.isEmpty()) {
