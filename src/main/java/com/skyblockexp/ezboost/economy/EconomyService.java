@@ -34,6 +34,21 @@ public final class EconomyService {
         return economy.withdrawPlayer(player, amount);
     }
 
+    public boolean has(Player player, double amount) {
+        if (!isAvailable()) return false;
+        try {
+            return economy.has(player, amount);
+        } catch (UnsupportedOperationException ex) {
+            // Some providers may not implement has; fallback to checking balance >= amount
+            try {
+                double balance = economy.getBalance(player);
+                return balance >= amount;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
     public void deposit(Player player, double amount) {
         if (isAvailable()) {
             economy.depositPlayer(player, amount);

@@ -435,10 +435,40 @@ public final class BoostManager {
     }
 
     private String formatCost(double cost) {
+        String base;
+
         if (cost == Math.floor(cost)) {
-            return String.valueOf((int) cost);
+            base = String.valueOf((int) cost);
+        } else {
+            base = String.format(Locale.US, "%.2f", cost);
         }
-        return String.format(Locale.US, "%.2f", cost);
+        
+        return this.formatEconomyCurrency(base);
+    }
+
+    private String formatEconomyCurrency(String base) {
+        EzBoostConfig.EconomySettings es = config != null ? config.economySettings() : null;
+        if (es != null && es.providerCurrency() != null && !es.providerCurrency().isBlank()) {
+            return es.providerCurrency() + base;
+        }
+        return base;
+    }
+
+    /**
+     * Check if player can afford the given cost using the configured economy.
+     */
+    public boolean canAfford(Player player, double cost) {
+        if (cost <= 0.0) return true;
+        return economyService != null && economyService.isAvailable() && economyService.has(player, cost);
+    }
+
+    /**
+     * Returns configured provider currency label if set, otherwise null.
+     */
+    public String currencyLabel() {
+        EzBoostConfig.EconomySettings es = config != null ? config.economySettings() : null;
+        if (es == null) return null;
+        return es.providerCurrency();
     }
 
     private String cooldownKey(String boostKey) {

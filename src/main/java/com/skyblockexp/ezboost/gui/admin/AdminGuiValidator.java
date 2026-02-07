@@ -49,6 +49,14 @@ public class AdminGuiValidator {
             return false;
         }
 
+        // Validate cost and normalize to two decimals
+        double rawCost = state.getCost();
+        if (Double.isNaN(rawCost) || rawCost < 0.0) {
+            player.sendMessage(legacySerializer.serialize(Component.text("§cInvalid cost value!")));
+            return false;
+        }
+        double cost = Math.round(rawCost * 100.0) / 100.0;
+
         BoostDefinition boost = new BoostDefinition(
             state.getKey(),
             state.getDisplayName(),
@@ -57,7 +65,7 @@ public class AdminGuiValidator {
             new BoostCommands(java.util.List.of(), java.util.List.of(), java.util.List.of()), // No commands for now
             state.getDuration(),
             state.getCooldown(),
-            state.getCost(),
+            cost,
             state.getPermission(),
             state.isEnabled()
         );

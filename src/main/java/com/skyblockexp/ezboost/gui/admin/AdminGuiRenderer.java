@@ -4,6 +4,7 @@ import com.skyblockexp.ezboost.boost.BoostEffect;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationHolder;
 import com.skyblockexp.ezboost.gui.ItemMetaCompat;
 import net.kyori.adventure.text.Component;
+import com.skyblockexp.ezboost.config.EzBoostConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,9 +21,11 @@ import java.util.List;
  */
 public class AdminGuiRenderer {
     private final NamespacedKey actionKey;
+    private final EzBoostConfig config;
 
-    public AdminGuiRenderer(NamespacedKey actionKey) {
+    public AdminGuiRenderer(NamespacedKey actionKey, EzBoostConfig config) {
         this.actionKey = actionKey;
+        this.config = config;
     }
 
     /**
@@ -133,9 +136,25 @@ public class AdminGuiRenderer {
         inventory.setItem(16, createNumberItem("§eCooldown", state.getCooldown() + "s", Material.CLOCK, "cooldown",
             "§7Time between uses"));
 
-        // Cost
-        inventory.setItem(17, createNumberItem("§eCost", String.format("%.2f", state.getCost()), Material.GOLD_INGOT, "cost",
+        // Cost (show provider currency if configured)
+        inventory.setItem(17, createNumberItem("§eCost", formatCost(state.getCost()), Material.GOLD_INGOT, "cost",
             "§7Economy cost to activate"));
+    }
+
+    /**
+     * Formats a cost value, prefixing the configured provider currency label when available.
+     */
+    public String formatCost(double cost) {
+        String base;
+        if (cost == Math.floor(cost)) {
+            base = String.valueOf((int) cost);
+        } else {
+            base = String.format(java.util.Locale.US, "%.2f", cost);
+        }
+        if (config != null && config.economySettings() != null && config.economySettings().providerCurrency() != null && !config.economySettings().providerCurrency().isBlank()) {
+            return config.economySettings().providerCurrency() + base;
+        }
+        return base;
     }
 
     private void addPermissionsSection(Inventory inventory, BoostCreationState state) {
