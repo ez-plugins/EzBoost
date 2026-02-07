@@ -29,11 +29,36 @@
         <developerConnection>scm:git:ssh://github.com/ez-plugins/ezboost.git</developerConnection>
     </scm>
 
+    <properties>
+        <github.owner>ez-plugins</github.owner>
+        <github.repository>ezboost</github.repository>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <paper.version>1.21.11-R0.1-SNAPSHOT</paper.version>
+        <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
+        <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
+        <mockbukkit.version>4.101.0</mockbukkit.version>
+    </properties>
+
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>${github.owner}</name>
+            <url>https://maven.pkg.github.com/${github.owner}/${github.repository}</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>${github.owner}</name>
+            <url>https://maven.pkg.github.com/${github.owner}/${github.repository}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <version>${paper.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
