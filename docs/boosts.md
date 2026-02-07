@@ -52,4 +52,10 @@ speed:
 - **Permission**: Controls who can use each boost.
 - **Enabled**: Set to `false` to hide a boost from the GUI.
 
+### Per-effect cooldowns and custom effects
+
+- EzBoost supports optional per-effect cooldown tracking. When `settings.cooldown-per-effect` is enabled (see `settings.yml`), each effect in a boost may have its own cooldown tracked independently. This is useful when a boost contains multiple effects and you want separate cooldowns for each.
+- For built-in potion effects the boost uses the boost-level `cooldown` unless a custom effect provides its own cooldown value.
+- For custom effects, implement `CustomBoostEffect.getCooldownSeconds()` to return the desired cooldown (default 0 = no cooldown). See the API docs for details.
+
 For more details, see the [EzBoost documentation](https://github.com/ez-plugins/ezboost).

@@ -29,6 +29,17 @@ settings:
   cooldown-per-boost-type: true # Separate cooldowns for each boost type
 ```
 
+The plugin now supports optional per-effect cooldowns. When enabled, each effect (including custom effects) can define its own cooldown duration. To enable per-effect cooldown tracking, set:
+
+```yaml
+settings:
+  cooldown-per-effect: false  # When true, cooldowns are tracked per-effect instead of per-boost
+```
+
+Behavior:
+- `cooldown-per-boost-type: true` (legacy) keeps the existing per-boost-type cooldown behavior.
+- `cooldown-per-effect: true` enables per-effect cooldown checks. Lookups will fall back to the boost-level/global cooldown if no effect-specific cooldown is present.
+
 ---
 
 ## limits.yml

@@ -125,16 +125,22 @@ public final class BoostGui {
         }
         ItemMetaCompat.setDisplayName(meta, miniMessage.deserialize(boost.displayName()));
         List<Component> lore = new ArrayList<>();
-        // Add effect info to lore
+        // Add effect info to lore (include per-effect cooldown remaining when applicable)
         for (BoostEffect effect : boost.effects()) {
+            String effectLine;
             if (effect.type() != null) {
-                lore.add(Component.text("Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")"));
+                effectLine = "Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")";
             } else {
-                // Try to show custom effect name
-                for (var custom : boostManager.getCustomEffects().values()) {
-                    lore.add(Component.text("Effect: " + custom.getName() + " (" + effect.amplifier() + ")"));
-                }
+                CustomBoostEffect custom = boostManager.getCustomEffect(effect.customName());
+                String name = custom != null ? custom.getName() : effect.customName();
+                effectLine = "Effect: " + name + " (" + effect.amplifier() + ")";
             }
+            // If per-effect cooldowns are enabled, append remaining seconds if present
+            long rem = boostManager.getCooldownRemainingForEffect(player, effect);
+            if (rem > 0) {
+                effectLine += " - Cooldown: " + rem + "s";
+            }
+            lore.add(Component.text(effectLine));
         }
         String status = statusFor(player, boost);
         for (String line : settings.loreLines()) {

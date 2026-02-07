@@ -41,4 +41,13 @@ public class EzBoostAPI {
     public static BoostManager getBoostManager() {
         return boostManager;
     }
+
+    /**
+     * Convenience API: get cooldown remaining (seconds) for a specific effect on a player.
+     * Returns 0 if API not initialized or inputs invalid.
+     */
+    public static long getCooldownRemainingForEffect(org.bukkit.entity.Player player, com.skyblockexp.ezboost.boost.BoostEffect effect) {
+        if (boostManager == null || player == null || effect == null) return 0L;
+        return boostManager.getCooldownRemainingForEffect(player, effect);
+    }
 }

@@ -159,8 +159,38 @@ public final class BoostManager {
         if (state == null) {
             return 0L;
         }
-        long remaining = state.cooldownEnd(cooldownKey(boostKey)) - System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        // If per-effect cooldowns are enabled, compute the maximum remaining across effects for the effective boost
+        if (config.settings().cooldownPerEffect()) {
+            Optional<BoostDefinition> def = getBoost(boostKey, player);
+            if (def.isPresent()) {
+                long maxRem = 0L;
+                for (BoostEffect effect : def.get().effects()) {
+                    long end = state.cooldownEnd(effectCooldownKey(effect));
+                    long rem = Math.max(0L, (end - now) / 1000L);
+                    if (rem > maxRem) maxRem = rem;
+                }
+                // fallback to boost-level key as well
+                long boostRem = Math.max(0L, (state.cooldownEnd(cooldownKey(boostKey)) - now) / 1000L);
+                return Math.max(maxRem, boostRem);
+            }
+        }
+        long remaining = state.cooldownEnd(cooldownKey(boostKey)) - now;
         return Math.max(0L, remaining / 1000L);
+    }
+
+    /**
+     * Returns remaining cooldown in seconds for a specific effect for the given player.
+     * Returns 0 if no cooldown is present.
+     */
+    public long getCooldownRemainingForEffect(Player player, BoostEffect effect) {
+        if (player == null || effect == null) return 0L;
+        BoostState state = states.get(player.getUniqueId());
+        if (state == null) return 0L;
+        long now = System.currentTimeMillis();
+        long end = state.cooldownEnd(effectCooldownKey(effect));
+        long rem = Math.max(0L, (end - now) / 1000L);
+        return rem;
     }
 
 
@@ -210,11 +240,45 @@ public final class BoostManager {
             player.sendMessage(messages.message("boost-replaced"));
         }
         if (!player.hasPermission("ezboost.cooldown.bypass")) {
-            long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
-            if (cooldownEnd > now) {
-                long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
-                player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
-                return false;
+            if (config.settings().cooldownPerEffect()) {
+                for (BoostEffect effect : effective.effects()) {
+                    String key = effectCooldownKey(effect);
+                    long end = state.cooldownEnd(key);
+                    if (end > now) {
+                        long remaining = Math.max(0L, (end - now) / 1000L);
+                        // Determine a human-friendly effect name
+                        String effectName;
+                        if (effect.type() != null) {
+                            effectName = effect.type().getName();
+                        } else {
+                            CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
+                            effectName = custom != null ? custom.getName() : effect.customName();
+                        }
+                        try {
+                            player.sendMessage(messages.message("boost-effect-cooldown",
+                                    Placeholder.parsed("time", String.valueOf(remaining)),
+                                    Placeholder.parsed("effect", effectName)));
+                        } catch (Exception ex) {
+                            // Fallback to generic message if key missing
+                            player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                        }
+                        return false;
+                    }
+                }
+                // also check boost-level fallback
+                long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
+                if (cooldownEnd > now) {
+                    long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
+                    player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                    return false;
+                }
+            } else {
+                long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
+                if (cooldownEnd > now) {
+                    long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
+                    player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                    return false;
+                }
             }
         }
         double cost = effective.cost();
@@ -250,8 +314,27 @@ public final class BoostManager {
         }
         long endTimestamp = now + (effective.durationSeconds() * 1000L);
         state.setActiveBoost(effective.key(), endTimestamp);
-        if (effective.cooldownSeconds() > 0) {
-            state.setCooldownEnd(cooldownKey(effective.key()), now + (effective.cooldownSeconds() * 1000L));
+        if (config.settings().cooldownPerEffect()) {
+            for (BoostEffect effect : effective.effects()) {
+                int seconds = 0;
+                if (effect.type() == null) {
+                    CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
+                    if (custom != null) {
+                        seconds = custom.getCooldownSeconds();
+                    } else {
+                        seconds = effective.cooldownSeconds();
+                    }
+                } else {
+                    seconds = effective.cooldownSeconds();
+                }
+                if (seconds > 0) {
+                    state.setCooldownEnd(effectCooldownKey(effect), now + (seconds * 1000L));
+                }
+            }
+        } else {
+            if (effective.cooldownSeconds() > 0) {
+                state.setCooldownEnd(cooldownKey(effective.key()), now + (effective.cooldownSeconds() * 1000L));
+            }
         }
         scheduleExpiry(player, effective, endTimestamp);
         scheduleActionbar(player, effective);
@@ -470,6 +553,17 @@ public final class BoostManager {
             return boostKey.toLowerCase(Locale.ROOT);
         }
         return GLOBAL_COOLDOWN_KEY;
+    }
+
+    private String effectCooldownKey(BoostEffect effect) {
+        if (effect == null) return GLOBAL_COOLDOWN_KEY;
+        if (effect.type() != null) {
+            String name = effect.type().getName();
+            return ("effect:potion:" + name).toLowerCase(Locale.ROOT);
+        } else {
+            String cname = effect.customName() != null ? effect.customName() : "";
+            return ("effect:custom:" + cname).toLowerCase(Locale.ROOT);
+        }
     }
 
     private void sendActionBar(Player player, String message) {

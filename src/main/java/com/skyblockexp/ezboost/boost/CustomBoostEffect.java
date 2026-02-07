@@ -20,4 +20,12 @@ public interface CustomBoostEffect {
      * @return unique effect name
      */
     String getName();
+    
+    /**
+     * @return cooldown duration in seconds (default 0 = no cooldown)
+     */
+    default int getCooldownSeconds() {
+        return 0;
+    }
+    
 }
