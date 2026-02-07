@@ -141,7 +141,7 @@ public final class BoostGui {
             lore.add(miniMessage.deserialize(line,
                 Placeholder.parsed("duration", String.valueOf(boost.durationSeconds())),
                 Placeholder.parsed("cooldown", String.valueOf(boost.cooldownSeconds())),
-                Placeholder.parsed("cost", formatCost(player, boost.cost())),
+                Placeholder.parsed("cost", boostManager.currencyFormatter().format(boost.cost())),
                 Placeholder.parsed("status", status)));
         }
         ItemMetaCompat.setLore(meta, lore);
@@ -173,22 +173,7 @@ public final class BoostGui {
         return settings.status("available", "Available");
     }
 
-    private String formatCost(Player player, double cost) {
-        if (cost <= 0.0) {
-            return "Free";
-        }
-        String base;
-        if (cost == Math.floor(cost)) {
-            base = String.valueOf((int) cost);
-        } else {
-            base = String.format(Locale.US, "%.2f", cost);
-        }
-        String label = boostManager.currencyLabel();
-        if (label != null && !label.isBlank()) {
-            return label + base;
-        }
-        return base;
-    }
+    
     
     public void refreshAllOpenGuis() {
         for (Player player : Bukkit.getOnlinePlayers()) {
