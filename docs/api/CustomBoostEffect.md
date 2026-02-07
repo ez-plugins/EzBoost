@@ -10,66 +10,74 @@
 ```java
 public interface CustomBoostEffect {
     /**
-     * Called when the boost is activated for a player.
-     * @param player The player receiving the boost.
-     * @param boost The boost definition.
+     * Apply the effect to the player.
+     * @param player the player to apply the effect to
+     * @param amplifier effect strength as configured in the boost
      */
-    void onEnable(Player player, BoostDefinition boost);
+    void apply(org.bukkit.entity.Player player, int amplifier);
 
     /**
-     * Called when the boost is deactivated for a player.
-     * @param player The player losing the boost.
-     * @param boost The boost definition.
+     * Remove the effect from the player.
+     * @param player the player to remove the effect from
      */
-    void onDisable(Player player, BoostDefinition boost);
+    void remove(org.bukkit.entity.Player player);
 
     /**
-     * @return The unique effect type key (e.g., "mycustom").
+     * @return unique effect name used in configuration
      */
-    String getType();
+    String getName();
+
+    /**
+     * @return cooldown duration in seconds (default 0 = no cooldown)
+     */
+    default int getCooldownSeconds() {
+        return 0;
+    }
 }
 ```
 
 ## Methods
 
-### `void onEnable(Player player, BoostDefinition boost)`
-Called when the boost is activated for a player.
-- **player**: The player receiving the boost.
-- **boost**: The boost definition being applied.
+### `void apply(Player player, int amplifier)`
+Called when the boost's custom effect should be applied to a player.
+- **player**: The player receiving the effect.
+- **amplifier**: The configured amplifier for this effect in the boost.
 
 **Usage Example:**
 ```java
 @Override
-public void onEnable(Player player, BoostDefinition boost) {
+public void apply(Player player, int amplifier) {
     player.sendMessage("Your custom boost is now active!");
 }
 ```
 
 ---
 
-### `void onDisable(Player player, BoostDefinition boost)`
-Called when the boost is deactivated for a player.
-- **player**: The player losing the boost.
-- **boost**: The boost definition being removed.
+### `void remove(Player player)`
+Called when the boost's custom effect should be removed from a player.
+- **player**: The player losing the effect.
 
 **Usage Example:**
 ```java
 @Override
-public void onDisable(Player player, BoostDefinition boost) {
+public void remove(Player player) {
     player.sendMessage("Your custom boost has ended.");
 }
 ```
 
 ---
 
-### `String getType()`
-Returns the unique effect type key. This is used in boost configuration to identify the effect.
-- **Returns**: The effect type key (e.g., "mycustom").
+### `String getName()`
+Returns the unique effect name used in boost configuration to identify the custom effect.
+- **Returns**: The effect name (e.g., "mycustom").
+
+### `int getCooldownSeconds()`
+Returns the cooldown duration (in seconds) associated with this custom effect. When `settings.cooldown-per-effect` is enabled, this value is used to set per-effect cooldown timestamps after activation. Returning `0` means no cooldown.
 
 **Usage Example:**
 ```java
 @Override
-public String getType() {
+public String getName() {
     return "mycustom";
 }
 ```
@@ -86,19 +94,19 @@ import org.bukkit.entity.Player;
 
 public class MyCustomEffect implements CustomBoostEffect {
     @Override
-    public void onEnable(Player player, BoostDefinition boost) {
+    public void apply(Player player, int amplifier) {
         player.sendMessage("You received a special custom effect!");
         // Add your custom logic here
     }
 
     @Override
-    public void onDisable(Player player, BoostDefinition boost) {
+    public void remove(Player player) {
         player.sendMessage("Your special custom effect has ended.");
         // Cleanup logic here
     }
 
     @Override
-    public String getType() {
+    public String getName() {
         return "mycustom";
     }
 }
@@ -106,7 +114,7 @@ public class MyCustomEffect implements CustomBoostEffect {
 // Register the effect in your plugin's onEnable method:
 @Override
 public void onEnable() {
-    EzBoostAPI.registerCustomEffect(new MyCustomEffect());
+    EzBoostAPI.registerCustomBoostEffect(new MyCustomEffect());
 }
 ```
 

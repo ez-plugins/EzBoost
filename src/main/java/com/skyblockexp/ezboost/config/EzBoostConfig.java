@@ -62,7 +62,8 @@ public final class EzBoostConfig {
                 config.getBoolean("settings.keep-boost-on-death", true),
                 config.getBoolean("settings.reapply-on-join", true),
                 config.getBoolean("settings.send-expired-message", true),
-                config.getBoolean("settings.cooldown-per-boost-type", true)
+            config.getBoolean("settings.cooldown-per-boost-type", true),
+            config.getBoolean("settings.cooldown-per-effect", false)
         );
         limits = new Limits(
                 config.getInt("limits.duration-min", 5),
@@ -539,7 +540,8 @@ public final class EzBoostConfig {
                            boolean keepBoostOnDeath,
                            boolean reapplyOnJoin,
                            boolean sendExpiredMessage,
-                           boolean cooldownPerBoostType) {
+                           boolean cooldownPerBoostType,
+                           boolean cooldownPerEffect) {
     }
 
     public record Limits(int durationMin, int durationMax, int amplifierMin, int amplifierMax) {

@@ -15,68 +15,45 @@ public final class EzBoostAPI {
 
 ## Methods
 
-### `static void registerCustomEffect(CustomBoostEffect effect)`
-Registers a custom boost effect implementation. This allows other plugins to add new effect types that will be executed when a boost is activated or deactivated.
-- **effect**: The custom effect implementation to register. Must implement `CustomBoostEffect`.
+### `static boolean registerCustomBoostEffect(CustomBoostEffect effect)`
+Register a custom boost effect implementation so other plugins can provide new effect types.
+- **effect**: The `CustomBoostEffect` implementation to register.
+- **Returns**: `true` if registration succeeded; `false` if the API isn't initialized or the effect name is already registered.
 
 **Usage Example:**
 ```java
-EzBoostAPI.registerCustomEffect(new MyCustomEffect());
+boolean ok = EzBoostAPI.registerCustomBoostEffect(new MyCustomEffect());
 ```
 
 ---
 
-### `static boolean isBoostActive(Player player)`
-Checks if a player currently has an active boost.
-- **player**: The player to check.
-- **Returns**: `true` if the player has an active boost, `false` otherwise.
+### `static Map<String, CustomBoostEffect> getCustomBoostEffects()`
+Returns an unmodifiable map of all registered custom boost effects keyed by their normalized names.
 
 **Usage Example:**
 ```java
-if (EzBoostAPI.isBoostActive(player)) {
-    // Player has a boost
-}
+Map<String, CustomBoostEffect> effects = EzBoostAPI.getCustomBoostEffects();
 ```
 
 ---
 
-### `static BoostDefinition getActiveBoost(Player player)`
-Gets the active `BoostDefinition` for a player, or `null` if none.
-- **player**: The player to query.
-- **Returns**: The active `BoostDefinition`, or `null` if no boost is active.
+### `static BoostManager getBoostManager()`
+Returns the internal `BoostManager` instance. This exposes advanced integration points but should be used carefully.
 
 **Usage Example:**
 ```java
-BoostDefinition boost = EzBoostAPI.getActiveBoost(player);
-if (boost != null) {
-    // Do something with the boost
-}
+BoostManager manager = EzBoostAPI.getBoostManager();
 ```
 
 ---
 
-### `static void clearBoost(Player player)`
-Removes any active boost from a player.
-- **player**: The player whose boost should be cleared.
+### `static long getCooldownRemainingForEffect(Player player, com.skyblockexp.ezboost.boost.BoostEffect effect)`
+Convenience helper that returns remaining cooldown (in seconds) for a specific `BoostEffect` on a player. Returns `0` if no cooldown is present or the API is not initialized.
 
 **Usage Example:**
 ```java
-EzBoostAPI.clearBoost(player);
+long remaining = EzBoostAPI.getCooldownRemainingForEffect(player, myBoostEffect);
 ```
-
----
-
-### `static void setBoost(Player player, BoostDefinition definition, int durationSeconds)`
-Forces a boost to start for a player with a specific definition and duration.
-- **player**: The player to receive the boost.
-- **definition**: The `BoostDefinition` to apply.
-- **durationSeconds**: The duration of the boost in seconds.
-
-**Usage Example:**
-```java
-EzBoostAPI.setBoost(player, myBoostDefinition, 120);
-```
-
 ## Notes
 - All methods are static for ease of use.
 - Designed for open-source extensibility and professional integrations.
