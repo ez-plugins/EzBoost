@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.concurrent.ConcurrentMap;
 import java.util.Collections;
 import com.skyblockexp.ezboost.boost.CustomBoostEffect;
+import com.skyblockexp.ezboost.economy.CurrencyFormatter;
 
 public final class BoostManager {
     private static final String GLOBAL_COOLDOWN_KEY = "global";
@@ -40,6 +41,7 @@ public final class BoostManager {
     private final Map<UUID, BoostState> states = new ConcurrentHashMap<>();
     private final Map<UUID, BukkitTask> expiryTasks = new HashMap<>();
     private final Map<UUID, BukkitTask> actionbarTasks = new HashMap<>();
+    private CurrencyFormatter currencyFormatter;
 
     // Custom effect registry
     private final ConcurrentMap<String, CustomBoostEffect> customEffects = new ConcurrentHashMap<>();
@@ -93,6 +95,7 @@ public final class BoostManager {
         this.economyService = Objects.requireNonNull(economyService, "economyService");
         this.storage = Objects.requireNonNull(storage, "storage");
         this.logger = plugin.getLogger();
+        this.currencyFormatter = new CurrencyFormatter(config);
     }
 
     public void loadStates() {
@@ -111,6 +114,7 @@ public final class BoostManager {
         this.config = config;
         this.messages = messages;
         this.economyService = economyService;
+        this.currencyFormatter = new CurrencyFormatter(config);
         for (Player player : Bukkit.getOnlinePlayers()) {
             refreshPlayer(player);
         }
@@ -224,7 +228,7 @@ public final class BoostManager {
         if (cost > 0.0 && economyService.isAvailable()) {
             EconomyResponse response = economyService.withdraw(player, cost);
             if (!response.transactionSuccess()) {
-                player.sendMessage(messages.message("insufficient-funds", Placeholder.parsed("cost", formatCost(cost))));
+                player.sendMessage(messages.message("insufficient-funds", Placeholder.parsed("cost", currencyFormatter.format(cost))));
                 return false;
             }
             charged = true;
@@ -255,7 +259,7 @@ public final class BoostManager {
         player.sendMessage(messages.message("boost-activated", Placeholder.parsed("boost", effective.displayName())));
         if (charged) {
             player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", effective.key()),
-                    Placeholder.parsed("cost", formatCost(cost))));
+                Placeholder.parsed("cost", currencyFormatter.format(cost))));
         }
         if (source == ActivationSource.TOKEN) {
             player.sendMessage(messages.message("token-used", Placeholder.parsed("boost", effective.key())));
@@ -434,11 +438,28 @@ public final class BoostManager {
         }
     }
 
-    private String formatCost(double cost) {
-        if (cost == Math.floor(cost)) {
-            return String.valueOf((int) cost);
-        }
-        return String.format(Locale.US, "%.2f", cost);
+    /**
+     * Returns the configured CurrencyFormatter.
+     */
+    public com.skyblockexp.ezboost.economy.CurrencyFormatter currencyFormatter() {
+        return this.currencyFormatter;
+    }
+
+    /**
+     * Check if player can afford the given cost using the configured economy.
+     */
+    public boolean canAfford(Player player, double cost) {
+        if (cost <= 0.0) return true;
+        return economyService != null && economyService.isAvailable() && economyService.has(player, cost);
+    }
+
+    /**
+     * Returns configured provider currency label if set, otherwise null.
+     */
+    public String currencyLabel() {
+        EzBoostConfig.EconomySettings es = config != null ? config.economySettings() : null;
+        if (es == null) return null;
+        return es.providerCurrency();
     }
 
     private String cooldownKey(String boostKey) {

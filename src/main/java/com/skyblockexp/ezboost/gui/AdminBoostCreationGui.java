@@ -53,7 +53,7 @@ public class AdminBoostCreationGui {
         this.adminStatesFile = new File(plugin.getDataFolder(), "admin-states.yml");
 
         // Initialize components
-        this.renderer = new AdminGuiRenderer(actionKey);
+        this.renderer = new AdminGuiRenderer(actionKey, config);
         this.validator = new AdminGuiValidator(boostManager, messages, legacySerializer, config, boostGui);
         this.inputHandler = new AdminGuiInputHandler(plugin, legacySerializer, renderer,
                                                    (player, callback) -> {

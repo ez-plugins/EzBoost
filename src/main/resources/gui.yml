@@ -34,6 +34,7 @@ gui:
     locked: "<red>Locked</red>"
     cooldown: "<gold>Cooldown</gold>"
     active: "<aqua>Active</aqua>"
+    insufficient: "<red>Insufficient Funds</red>"
   slots:
     speed: 11
     jump: 12

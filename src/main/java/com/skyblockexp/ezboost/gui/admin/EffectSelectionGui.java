@@ -30,39 +30,24 @@ public class EffectSelectionGui {
     private final NamespacedKey pageKey;
     private final Consumer<BoostEffect> onEffectSelected;
 
-    // Common potion effects that make sense for boosts
-    private static final PotionEffectType[] COMMON_EFFECTS = {
-        PotionEffectType.SPEED,
-        PotionEffectType.SLOW,
-        PotionEffectType.FAST_DIGGING,
-        PotionEffectType.SLOW_DIGGING,
-        PotionEffectType.INCREASE_DAMAGE,
-        PotionEffectType.HEAL,
-        PotionEffectType.HARM,
-        PotionEffectType.JUMP,
-        PotionEffectType.CONFUSION,
-        PotionEffectType.REGENERATION,
-        PotionEffectType.DAMAGE_RESISTANCE,
-        PotionEffectType.FIRE_RESISTANCE,
-        PotionEffectType.WATER_BREATHING,
-        PotionEffectType.INVISIBILITY,
-        PotionEffectType.BLINDNESS,
-        PotionEffectType.NIGHT_VISION,
-        PotionEffectType.HUNGER,
-        PotionEffectType.WEAKNESS,
-        PotionEffectType.POISON,
-        PotionEffectType.WITHER,
-        PotionEffectType.HEALTH_BOOST,
-        PotionEffectType.ABSORPTION,
-        PotionEffectType.SATURATION,
-        PotionEffectType.GLOWING,
-        PotionEffectType.LEVITATION,
-        PotionEffectType.LUCK,
-        PotionEffectType.UNLUCK,
-        PotionEffectType.SLOW_FALLING,
-        PotionEffectType.CONDUIT_POWER,
-        PotionEffectType.DOLPHINS_GRACE
-    };
+    // Common potion effects (lookup by name for version compatibility)
+    private static final List<PotionEffectType> COMMON_EFFECTS = new ArrayList<>();
+    static {
+        String[] names = new String[] {
+            "SPEED","SLOW","FAST_DIGGING","SLOW_DIGGING","INCREASE_DAMAGE","HEAL","HARM",
+            "JUMP","CONFUSION","REGENERATION","DAMAGE_RESISTANCE","FIRE_RESISTANCE","WATER_BREATHING",
+            "INVISIBILITY","BLINDNESS","NIGHT_VISION","HUNGER","WEAKNESS","POISON","WITHER",
+            "HEALTH_BOOST","ABSORPTION","SATURATION","GLOWING","LEVITATION","LUCK","UNLUCK",
+            "SLOW_FALLING","CONDUIT_POWER","DOLPHINS_GRACE"
+        };
+        for (String n : names) {
+            try {
+                PotionEffectType t = PotionEffectType.getByName(n);
+                if (t != null) COMMON_EFFECTS.add(t);
+            } catch (Throwable ignored) {
+            }
+        }
+    }
 
     public EffectSelectionGui(JavaPlugin plugin, Consumer<BoostEffect> onEffectSelected) {
         this.plugin = plugin;
@@ -93,11 +78,11 @@ public class EffectSelectionGui {
         inventory.clear();
 
         int startIndex = page * 45; // 45 effects per page (5 rows * 9 columns)
-        int endIndex = Math.min(startIndex + 45, COMMON_EFFECTS.length);
+        int endIndex = Math.min(startIndex + 45, COMMON_EFFECTS.size());
 
         // Add effect items
         for (int i = startIndex; i < endIndex; i++) {
-            PotionEffectType effect = COMMON_EFFECTS[i];
+            PotionEffectType effect = COMMON_EFFECTS.get(i);
             int slot = i - startIndex;
             inventory.setItem(slot, createEffectItem(effect));
         }
@@ -107,7 +92,7 @@ public class EffectSelectionGui {
             inventory.setItem(45, createNavigationItem("Previous Page", Material.ARROW, page - 1));
         }
 
-        if (endIndex < COMMON_EFFECTS.length) {
+        if (endIndex < COMMON_EFFECTS.size()) {
             inventory.setItem(53, createNavigationItem("Next Page", Material.ARROW, page + 1));
         }
 

@@ -55,7 +55,8 @@ public class AdminGuiPreview {
                 lore.add(Component.text("§7Cooldown: §6" + previewBoost.cooldownSeconds() + "s"));
             }
             if (previewBoost.cost() > 0) {
-                lore.add(Component.text("§7Cost: §6" + String.format("%.2f", previewBoost.cost())));
+                String costText = renderer.formatCost(previewBoost.cost());
+                lore.add(Component.text("§7Cost: §6" + costText));
             }
             if (!previewBoost.effects().isEmpty()) {
                 lore.add(Component.text("§7Effects:"));

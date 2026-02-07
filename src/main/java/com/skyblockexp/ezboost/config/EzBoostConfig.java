@@ -75,8 +75,9 @@ public final class EzBoostConfig {
                 config.getStringList("worlds.deny-list")
         );
         economySettings = new EconomySettings(
-                config.getBoolean("economy.enabled", true),
-                config.getBoolean("economy.vault", true)
+            config.getBoolean("economy.enabled", true),
+            config.getBoolean("economy.vault", true),
+            config.getString("economy.provider-currency", null)
         );
         guiSettings = loadGuiSettings(config.getConfigurationSection("gui"));
         boosts = loadBoosts(config.getConfigurationSection("boosts"));
@@ -561,7 +562,7 @@ public final class EzBoostConfig {
         }
     }
 
-    public record EconomySettings(boolean enabled, boolean vaultEnabled) {
+    public record EconomySettings(boolean enabled, boolean vaultEnabled, String providerCurrency) {
     }
 
     public record FillerItem(Material material, String name, List<String> lore) {

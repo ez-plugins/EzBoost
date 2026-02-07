@@ -139,10 +139,10 @@ public final class BoostGui {
         String status = statusFor(player, boost);
         for (String line : settings.loreLines()) {
             lore.add(miniMessage.deserialize(line,
-                    Placeholder.parsed("duration", String.valueOf(boost.durationSeconds())),
-                    Placeholder.parsed("cooldown", String.valueOf(boost.cooldownSeconds())),
-                    Placeholder.parsed("cost", formatCost(boost.cost())),
-                    Placeholder.parsed("status", status)));
+                Placeholder.parsed("duration", String.valueOf(boost.durationSeconds())),
+                Placeholder.parsed("cooldown", String.valueOf(boost.cooldownSeconds())),
+                Placeholder.parsed("cost", boostManager.currencyFormatter().format(boost.cost())),
+                Placeholder.parsed("status", status)));
         }
         ItemMetaCompat.setLore(meta, lore);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
@@ -165,18 +165,15 @@ public final class BoostGui {
         if (cooldown > 0) {
             return settings.status("cooldown", "Cooldown");
         }
+        // Affordability check (economy-aware)
+        double cost = boost.cost();
+        if (cost > 0.0 && !boostManager.canAfford(player, cost)) {
+            return settings.status("insufficient", "Insufficient");
+        }
         return settings.status("available", "Available");
     }
 
-    private String formatCost(double cost) {
-        if (cost <= 0.0) {
-            return "Free";
-        }
-        if (cost == Math.floor(cost)) {
-            return String.valueOf((int) cost);
-        }
-        return String.format(Locale.US, "%.2f", cost);
-    }
+    
     
     public void refreshAllOpenGuis() {
         for (Player player : Bukkit.getOnlinePlayers()) {

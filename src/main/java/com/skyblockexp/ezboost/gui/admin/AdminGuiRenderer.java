@@ -4,6 +4,8 @@ import com.skyblockexp.ezboost.boost.BoostEffect;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationHolder;
 import com.skyblockexp.ezboost.gui.ItemMetaCompat;
 import net.kyori.adventure.text.Component;
+import com.skyblockexp.ezboost.config.EzBoostConfig;
+import com.skyblockexp.ezboost.economy.CurrencyFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,9 +22,13 @@ import java.util.List;
  */
 public class AdminGuiRenderer {
     private final NamespacedKey actionKey;
+    private final EzBoostConfig config;
+    private final CurrencyFormatter formatter;
 
-    public AdminGuiRenderer(NamespacedKey actionKey) {
+    public AdminGuiRenderer(NamespacedKey actionKey, EzBoostConfig config) {
         this.actionKey = actionKey;
+        this.config = config;
+        this.formatter = new CurrencyFormatter(config);
     }
 
     /**
@@ -133,9 +139,16 @@ public class AdminGuiRenderer {
         inventory.setItem(16, createNumberItem("§eCooldown", state.getCooldown() + "s", Material.CLOCK, "cooldown",
             "§7Time between uses"));
 
-        // Cost
-        inventory.setItem(17, createNumberItem("§eCost", String.format("%.2f", state.getCost()), Material.GOLD_INGOT, "cost",
+        // Cost (show provider currency if configured)
+        inventory.setItem(17, createNumberItem("§eCost", formatter.format(state.getCost()), Material.GOLD_INGOT, "cost",
             "§7Economy cost to activate"));
+    }
+
+    /**
+     * Formats a cost value, prefixing the configured provider currency label when available.
+     */
+    public String formatCost(double cost) {
+        return formatter.format(cost);
     }
 
     private void addPermissionsSection(Inventory inventory, BoostCreationState state) {
