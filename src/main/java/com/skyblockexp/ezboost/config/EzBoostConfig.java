@@ -78,7 +78,12 @@ public final class EzBoostConfig {
         economySettings = new EconomySettings(
             config.getBoolean("economy.enabled", true),
             config.getBoolean("economy.vault", true),
-            config.getString("economy.provider-currency", null)
+            config.getString("economy.provider-currency", null),
+            // Number formatting options (grouping, separators, decimal places)
+            config.getBoolean("economy.format.grouping", true),
+            config.getString("economy.format.grouping-separator", ","),
+            config.getString("economy.format.decimal-separator", "."),
+            config.getInt("economy.format.decimal-places", 2)
         );
         guiSettings = loadGuiSettings(config.getConfigurationSection("gui"));
         boosts = loadBoosts(config.getConfigurationSection("boosts"));
@@ -565,7 +570,13 @@ public final class EzBoostConfig {
         }
     }
 
-    public record EconomySettings(boolean enabled, boolean vaultEnabled, String providerCurrency) {
+    public record EconomySettings(boolean enabled,
+                                   boolean vaultEnabled,
+                                   String providerCurrency,
+                                   boolean groupingEnabled,
+                                   String groupingSeparator,
+                                   String decimalSeparator,
+                                   int decimalPlaces) {
     }
 
     public record FillerItem(Material material, String name, List<String> lore) {

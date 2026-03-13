@@ -1,3 +1,15 @@
 economy:
   enabled: true
   vault: true
+  # Optional currency label to prefix amounts (e.g. "$" or "€"). If empty, no label is shown.
+  provider-currency: ""
+  # Formatting options for displayed numbers
+  format:
+    # Use grouping (thousands separator)
+    grouping: true
+    # Character used for grouping (default: comma). Use '.' for locales that use dot grouping.
+    grouping-separator: ","
+    # Character used for decimal separator (default: dot). Use ',' for locales that use comma decimals.
+    decimal-separator: "."
+    # Number of decimal places to show for non-integer amounts
+    decimal-places: 2
