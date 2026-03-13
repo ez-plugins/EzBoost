@@ -393,6 +393,7 @@ public final class EzBoostConfig {
             filler = new FillerItem(material, name, lore);
         }
         List<String> loreLines = section.getStringList("lore");
+        boolean showEffects = section.getBoolean("show-effects", false);
         Map<String, String> status = new HashMap<>();
         ConfigurationSection statusSection = section.getConfigurationSection("status");
         if (statusSection != null) {
@@ -407,7 +408,7 @@ public final class EzBoostConfig {
                 slots.put(key.toLowerCase(Locale.ROOT), slotsSection.getInt(key));
             }
         }
-        return new GuiSettings(enabled, title, size, closeOnClick, filler, loreLines, status, slots);
+        return new GuiSettings(enabled, title, size, closeOnClick, filler, loreLines, status, slots, showEffects);
     }
 
     private Map<String, BoostDefinition> loadBoosts(ConfigurationSection boostsSection) {
@@ -577,9 +578,10 @@ public final class EzBoostConfig {
                               FillerItem filler,
                               List<String> loreLines,
                               Map<String, String> statusLabels,
-                              Map<String, Integer> slots) {
+                              Map<String, Integer> slots,
+                              boolean showEffects) {
         public static GuiSettings disabled() {
-            return new GuiSettings(false, "EzBoost", 9, true, null, List.of(), Map.of(), Map.of());
+            return new GuiSettings(false, "EzBoost", 9, true, null, List.of(), Map.of(), Map.of(), false);
         }
 
         public String status(String key, String fallback) {

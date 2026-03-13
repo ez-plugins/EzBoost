@@ -126,21 +126,23 @@ public final class BoostGui {
         ItemMetaCompat.setDisplayName(meta, miniMessage.deserialize(boost.displayName()));
         List<Component> lore = new ArrayList<>();
         // Add effect info to lore (include per-effect cooldown remaining when applicable)
-        for (BoostEffect effect : boost.effects()) {
-            String effectLine;
-            if (effect.type() != null) {
-                effectLine = "Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")";
-            } else {
-                CustomBoostEffect custom = boostManager.getCustomEffect(effect.customName());
-                String name = custom != null ? custom.getName() : effect.customName();
-                effectLine = "Effect: " + name + " (" + effect.amplifier() + ")";
+        if (settings.showEffects()) {
+            for (BoostEffect effect : boost.effects()) {
+                String effectLine;
+                if (effect.type() != null) {
+                    effectLine = "Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")";
+                } else {
+                    CustomBoostEffect custom = boostManager.getCustomEffect(effect.customName());
+                    String name = custom != null ? custom.getName() : effect.customName();
+                    effectLine = "Effect: " + name + " (" + effect.amplifier() + ")";
+                }
+                // If per-effect cooldowns are enabled, append remaining seconds if present
+                long rem = boostManager.getCooldownRemainingForEffect(player, effect);
+                if (rem > 0) {
+                    effectLine += " - Cooldown: " + rem + "s";
+                }
+                lore.add(Component.text(effectLine));
             }
-            // If per-effect cooldowns are enabled, append remaining seconds if present
-            long rem = boostManager.getCooldownRemainingForEffect(player, effect);
-            if (rem > 0) {
-                effectLine += " - Cooldown: " + rem + "s";
-            }
-            lore.add(Component.text(effectLine));
         }
         String status = statusFor(player, boost);
         for (String line : settings.loreLines()) {
