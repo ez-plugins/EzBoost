@@ -2,6 +2,7 @@ package com.skyblockexp.ezboost.gui;
 
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostEffect;
+import com.skyblockexp.ezboost.boost.CustomBoostEffect;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.EzBoostConfig.GuiSettings;
 import com.skyblockexp.ezboost.config.EzBoostConfig.FillerItem;
