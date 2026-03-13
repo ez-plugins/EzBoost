@@ -65,6 +65,16 @@ public final class EzBoostPlugin extends JavaPlugin {
 
         registerCommands();
         registerListeners();
+        // Register PlaceholderAPI expansion if present
+        try {
+            if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                new com.skyblockexp.ezboost.placeholder.EzBoostPlaceholder(this, boostManager).register();
+                getLogger().info("Registered PlaceholderAPI expansion: ezboost_");
+            }
+        } catch (NoClassDefFoundError | Exception ex) {
+            // Ignore when PlaceholderAPI is not available at compile/runtime
+        }
+
         initializeMetrics();
         new SpigotUpdateChecker(this, SPIGOT_RESOURCE_ID).checkForUpdates();
 
