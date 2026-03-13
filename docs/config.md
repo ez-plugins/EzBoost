@@ -151,6 +151,18 @@ gui:
 
 **Placeholders:** `<duration>`, `<cooldown>`, `<cost>`, `<status>`
 
+### New: `show-effects`
+
+You can control whether the GUI automatically displays the potion/effect lines for each boost.
+
+```yaml
+gui:
+  show-effects: false  # When false (default), effect information is hidden from the item lore
+```
+
+- Default: `false` (effect lines hidden)
+- Set to `true` to display per-effect lines (including per-effect cooldowns when applicable).
+
 ---
 
 ## boosts.yml
