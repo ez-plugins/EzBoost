@@ -292,7 +292,9 @@ public final class BoostManager {
         if (cost > 0.0 && economyService.isAvailable()) {
             EconomyResponse response = economyService.withdraw(player, cost);
             if (!response.transactionSuccess()) {
-                player.sendMessage(messages.message("insufficient-funds", Placeholder.parsed("cost", currencyFormatter.format(cost))));
+                player.sendMessage(messages.message("insufficient-funds",
+                    Placeholder.parsed("cost", currencyFormatter.format(cost)),
+                    Placeholder.parsed("cost_compact", currencyFormatter.formatCompact(cost))));
                 return false;
             }
             charged = true;
@@ -340,10 +342,11 @@ public final class BoostManager {
         scheduleActionbar(player, effective);
         runEnableCommands(player, effective);
         player.sendMessage(messages.message("boost-activated", Placeholder.parsed("boost", effective.displayName())));
-        if (charged) {
-            player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", effective.key()),
-                Placeholder.parsed("cost", currencyFormatter.format(cost))));
-        }
+    if (charged) {
+        player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", effective.key()),
+            Placeholder.parsed("cost", currencyFormatter.format(cost)),
+            Placeholder.parsed("cost_compact", currencyFormatter.formatCompact(cost))));
+    }
         if (source == ActivationSource.TOKEN) {
             player.sendMessage(messages.message("token-used", Placeholder.parsed("boost", effective.key())));
         }

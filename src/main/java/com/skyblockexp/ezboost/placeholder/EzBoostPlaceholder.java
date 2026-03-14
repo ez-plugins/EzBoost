@@ -72,6 +72,23 @@ public class EzBoostPlaceholder extends PlaceholderExpansion {
             return "";
         }
 
+        // price_compact_<amountOrBoostKey>
+        if (identifier.startsWith("price_compact_")) {
+            String arg = identifier.substring("price_compact_".length());
+            try {
+                double amount = Double.parseDouble(arg);
+                return boostManager.currencyFormatter().formatCompact(amount);
+            } catch (NumberFormatException ignored) {
+            }
+            if (player != null) {
+                Optional<BoostDefinition> def = boostManager.getBoost(arg, player);
+                if (def.isPresent()) {
+                    return boostManager.currencyFormatter().formatCompact(def.get().cost());
+                }
+            }
+            return "";
+        }
+
         // price_raw_<boostkey>
         if (identifier.startsWith("price_raw_")) {
             String key = identifier.substring("price_raw_".length());

@@ -151,6 +151,7 @@ public final class BoostGui {
                 Placeholder.parsed("duration", String.valueOf(boost.durationSeconds())),
                 Placeholder.parsed("cooldown", String.valueOf(boost.cooldownSeconds())),
                 Placeholder.parsed("cost", boostManager.currencyFormatter().format(boost.cost())),
+                Placeholder.parsed("cost_compact", boostManager.currencyFormatter().formatCompact(boost.cost())),
                 Placeholder.parsed("status", status)));
         }
         ItemMetaCompat.setLore(meta, lore);

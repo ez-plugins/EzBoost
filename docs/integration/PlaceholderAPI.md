@@ -20,12 +20,16 @@ The expansion supports parameterized placeholders. Replace `<arg>` with either a
 	- `%ezboost_price_formatted_50000%` → `50,000` (or `50.000` depending on config)
 	- `%ezboost_price_formatted_superboost%` → formatted cost of boost `superboost` for the requesting player
 - `ezboost_price_raw_<boostkey>` — Raw numeric cost for `<boostkey>` (no formatting). Example: `%ezboost_price_raw_superboost%` → `50000`
+ - `ezboost_price_raw_<boostkey>` — Raw numeric cost for `<boostkey>` (no formatting). Example: `%ezboost_price_raw_superboost%` → `50000`
 - `ezboost_boost_display_<boostkey>` — Display name for boost (from `boosts.yml`).
 - `ezboost_boost_cost_<boostkey>` — Formatted cost for `<boostkey>` (convenience wrapper for `price_formatted`).
 - `ezboost_boost_duration_<boostkey>` — Duration in seconds for `<boostkey>`.
 - `ezboost_boost_status_<boostkey>` — Status for the requesting player: one of `available`, `locked`, `active`, `insufficient`, `cooldown`.
 - `ezboost_player_can_afford_<boostkey>` — `true`/`false` whether the requesting player can afford the boost.
 - `ezboost_currency_symbol` — Returns the configured currency label from `economy.yml` (if set), otherwise empty string.
+ - `ezboost_price_compact_<amount|boostkey>` — Compact formatted amount using K/M suffixes (e.g. `50K`, `1.2M`). Examples:
+	 - `%ezboost_price_compact_50000%` → `50K`
+	 - `%ezboost_price_compact_superboost%` → compact cost for `superboost`
 
 ## Formatting behaviour
 
