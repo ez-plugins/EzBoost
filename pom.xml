@@ -151,6 +151,10 @@
             <name>ExtendedClip Public Repository</name>
             <url>https://repo.extendedclip.com/content/repositories/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <build>
