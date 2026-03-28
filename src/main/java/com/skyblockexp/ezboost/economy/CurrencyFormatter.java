@@ -65,4 +65,46 @@ public final class CurrencyFormatter {
         }
         return formatted;
     }
+
+    /**
+     * Compact formatting (e.g. 50K, 1.2M). Respects provider currency label (prefix).
+     */
+    public String formatCompact(double amount) {
+        if (amount <= 0.0) return "Free";
+
+        EzBoostConfig.EconomySettings settings = config != null ? config.economySettings() : null;
+        String label = settings != null ? settings.providerCurrency() : null;
+
+        double value = amount;
+        String[] suffixes = {"", "K", "M", "B", "T"};
+        int mag = 0;
+        while (value >= 1000.0 && mag < suffixes.length - 1) {
+            value /= 1000.0;
+            mag++;
+        }
+
+        String formatted;
+        if (mag == 0) {
+            // small amounts - use normal formatting
+            formatted = format(amount);
+        } else {
+            // decide decimals: show one decimal for values < 100, otherwise no decimals
+            boolean useDecimal = value < 100.0;
+            if (useDecimal) {
+                // one decimal place
+                formatted = String.format(Locale.ROOT, "%.1f%s", value, suffixes[mag]);
+                // trim trailing .0
+                if (formatted.contains(".0")) {
+                    formatted = formatted.replaceAll("\\.0+(?=[A-Z]?$)", "");
+                }
+            } else {
+                formatted = String.format(Locale.ROOT, "%.0f%s", Math.floor(value), suffixes[mag]);
+            }
+        }
+
+        if (label != null && !label.isBlank()) {
+            return label + formatted;
+        }
+        return formatted;
+    }
 }

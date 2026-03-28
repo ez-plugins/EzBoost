@@ -7,7 +7,8 @@
 # Placeholders:
 #   <boost>   - Name of the boost
 #   <time>    - Time remaining (seconds)
-#   <cost>    - Cost of the boost
+#   <cost>    - Cost of the boost (full formatted)
+#   <cost_compact> - Compact cost (e.g. 50K, 1.2M)
 #   <amount>  - Amount of tokens
 #   <player>  - Player name
 #
@@ -28,9 +29,9 @@ boost-activated: "<green>Boost activated: <white><boost></white>.</green>"
 boost-expired: "<gray>Your boost <white><boost></white> has expired.</gray>"
 boost-cooldown: "<red>That boost is on cooldown for <white><time></white> seconds.</red>"
 boost-effect-cooldown: "<red>The effect <white><effect></white> is on cooldown for <white><time></white> seconds.</red>"
-insufficient-funds: "<red>You need <white><cost></white> to activate this boost.</red>"
+insufficient-funds: "<red>You need <white><cost_compact></white> to activate this boost.</red>"
 economy-unavailable: "<red>Economy is unavailable. Please contact an admin.</red>"
-cost-charged: "<gray>Charged <white><cost></white> for <white><boost></white>.</gray>"
+cost-charged: "<gray>Charged <white><cost_compact></white> for <white><boost></white>.</gray>"
 reload: "<green>EzBoost reloaded.</green>"
 only-players: "<red>Only players can use this command.</red>"
 invalid-target: "<red>Player not found.</red>"
