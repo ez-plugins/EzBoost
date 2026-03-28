@@ -131,6 +131,40 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
             }
             return true;
         }
+        if (sub.equals("about")) {
+            if (!sender.hasPermission("ezboost.admin")) {
+                sender.sendMessage(messages.message("no-permission"));
+                return true;
+            }
+            org.bukkit.plugin.Plugin plugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
+            String pluginVersion = plugin != null && plugin.getDescription() != null ? plugin.getDescription().getVersion() : "unknown";
+            String serverVersion = org.bukkit.Bukkit.getBukkitVersion();
+            String serverType = org.bukkit.Bukkit.getVersion();
+            String database = "data.yml (file)";
+            String about = messages.plain("about",
+                    Placeholder.parsed("server-version", serverVersion),
+                    Placeholder.parsed("server-type", serverType),
+                    Placeholder.parsed("database", database),
+                    Placeholder.parsed("plugin-version", pluginVersion),
+                    Placeholder.parsed("boosts", String.valueOf(boostManager.totalBoostCount())),
+                    Placeholder.parsed("replace-active-boost", String.valueOf(boostManager.replaceActiveBoostEnabled())),
+                    Placeholder.parsed("refund-on-fail", String.valueOf(boostManager.refundOnFailEnabled())),
+                    Placeholder.parsed("keep-boost-on-death", String.valueOf(boostManager.keepBoostOnDeathEnabled())),
+                    Placeholder.parsed("reapply-on-join", String.valueOf(boostManager.reapplyOnJoinEnabled())),
+                    Placeholder.parsed("send-expired-message", String.valueOf(boostManager.sendExpiredMessageEnabled())),
+                    Placeholder.parsed("cooldown-per-boost-type", String.valueOf(boostManager.cooldownPerBoostTypeEnabled())),
+                    Placeholder.parsed("economy-enabled", String.valueOf(boostManager.economyEnabledInConfig())),
+                    Placeholder.parsed("vault-hook", String.valueOf(boostManager.vaultHookAvailable())),
+                    Placeholder.parsed("duration-min", String.valueOf(boostManager.limitsDurationMin())),
+                    Placeholder.parsed("duration-max", String.valueOf(boostManager.limitsDurationMax())),
+                    Placeholder.parsed("amplifier-min", String.valueOf(boostManager.limitsAmplifierMin())),
+                    Placeholder.parsed("amplifier-max", String.valueOf(boostManager.limitsAmplifierMax()))
+            );
+            for (String line : about.split("\\n")) {
+                sender.sendMessage(line);
+            }
+            return true;
+        }
         sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create");
         return true;
     }

@@ -98,6 +98,59 @@ public final class BoostManager {
         this.currencyFormatter = new CurrencyFormatter(config);
     }
 
+    // Info accessors used by admin commands
+    public int totalBoostCount() {
+        return config == null ? 0 : config.boosts().size();
+    }
+
+    public boolean replaceActiveBoostEnabled() {
+        return config != null && config.settings().replaceActiveBoost();
+    }
+
+    public boolean refundOnFailEnabled() {
+        return config != null && config.settings().refundOnFail();
+    }
+
+    public boolean keepBoostOnDeathEnabled() {
+        return config != null && config.settings().keepBoostOnDeath();
+    }
+
+    public boolean reapplyOnJoinEnabled() {
+        return config != null && config.settings().reapplyOnJoin();
+    }
+
+    public boolean sendExpiredMessageEnabled() {
+        return config != null && config.settings().sendExpiredMessage();
+    }
+
+    public boolean cooldownPerBoostTypeEnabled() {
+        return config != null && config.settings().cooldownPerBoostType();
+    }
+
+    public boolean economyEnabledInConfig() {
+        return config != null && config.economySettings() != null && config.economySettings().enabled();
+    }
+
+    public boolean vaultHookAvailable() {
+        return economyService != null && economyService.isAvailable();
+    }
+
+    public int limitsDurationMin() {
+        return config == null ? 0 : config.limits().durationMin();
+    }
+
+    public int limitsDurationMax() {
+        return config == null ? 0 : config.limits().durationMax();
+    }
+
+    public int limitsAmplifierMin() {
+        return config == null ? 0 : config.limits().amplifierMin();
+    }
+
+    public int limitsAmplifierMax() {
+        return config == null ? 0 : config.limits().amplifierMax();
+    }
+
     public void loadStates() {
         states.clear();
         states.putAll(storage.load());
