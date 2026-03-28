@@ -40,3 +40,24 @@ world-blocked: "<red>You can't use boosts in this world.</red>"
 actionbar:
   enabled: false
   format: "<gray>Boost:</gray> <white><boost></white> <gray>(<time>s)</gray>"
+about: |
+  <green>EzBoost v<white><plugin-version></white></green>
+  <gray>Server:</gray> <white><server-type></white> (<server-version>)
+  <gray>Database:</gray> <white><database></white>
+  <gray>Plugin version:</gray> <white><plugin-version></white>
+  <gray>Boosts:</gray> <white><boosts></white>
+  <gray>Settings:</gray>
+    - Replace-active-boost: <white><replace-active-boost></white>
+    - Refund-on-fail: <white><refund-on-fail></white>
+    - Keep-boost-on-death: <white><keep-boost-on-death></white>
+    - Reapply-on-join: <white><reapply-on-join></white>
+    - Send-expired-message: <white><send-expired-message></white>
+    - Cooldown-per-boost-type: <white><cooldown-per-boost-type></white>
+  <gray>Economy:</gray> <white>enabled: <economy-enabled></white>
+  <gray>Hooks:</gray>
+    - Vault: <white><vault-hook></white>
+  <gray>Limits:</gray>
+    - Duration-min: <white><duration-min></white>
+    - Duration-max: <white><duration-max></white>
+    - Amplifier-min: <white><amplifier-min></white>
+    - Amplifier-max: <white><amplifier-max></white>

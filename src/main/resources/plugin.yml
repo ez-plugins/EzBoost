@@ -11,7 +11,7 @@ commands:
     permission: ezboost.use
   ezboost:
     description: EzBoost administration commands.
-    usage: /ezboost reload|give <player> <boostKey> [amount]
+    usage: /ezboost about|reload|give <player> <boostKey> [amount]|create [continue]
     permission: ezboost.admin
 permissions:
   ezboost.use:
