@@ -5,7 +5,7 @@
 
     <groupId>com.skyblockexp</groupId>
     <artifactId>ezboost</artifactId>
-    <version>1.5.5</version>
+    <version>1.5.6</version>
     <name>EzBoost</name>
     <description>Standalone boost plugin with configurable potion boosts, cooldowns, and GUI.</description>
     <packaging>jar</packaging>

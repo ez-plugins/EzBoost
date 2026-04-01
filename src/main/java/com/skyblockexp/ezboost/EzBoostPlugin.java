@@ -68,8 +68,28 @@ public final class EzBoostPlugin extends JavaPlugin {
         // Register PlaceholderAPI expansion if present
         try {
             if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                new com.skyblockexp.ezboost.placeholder.EzBoostPlaceholder(this, boostManager).register();
-                getLogger().info("Registered PlaceholderAPI expansion: ezboost_");
+                try {
+                    Class<?> clazz = Class.forName("com.skyblockexp.ezboost.placeholder.EzBoostPlaceholder");
+                    java.lang.reflect.Constructor<?> ctor = clazz.getConstructor(EzBoostPlugin.class, BoostManager.class);
+                    Object expansion = ctor.newInstance(this, boostManager);
+                    try {
+                        java.lang.reflect.Method m = expansion.getClass().getMethod("register");
+                        m.invoke(expansion);
+                        getLogger().info("Registered PlaceholderAPI expansion: ezboost_");
+                    } catch (NoSuchMethodException e) {
+                        try {
+                            Class<?> papi = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
+                            Class<?> expansionClass = Class.forName("me.clip.placeholderapi.expansion.PlaceholderExpansion");
+                            java.lang.reflect.Method reg = papi.getMethod("registerExpansion", expansionClass);
+                            reg.invoke(null, expansion);
+                            getLogger().info("Registered PlaceholderAPI expansion via PlaceholderAPI.registerExpansion: ezboost_");
+                        } catch (Throwable ignore) {
+                            getLogger().warning("PlaceholderAPI found but expansion could not be registered on this server.");
+                        }
+                    }
+                } catch (ClassNotFoundException cnf) {
+                    // EzBoostPlaceholder class missing - treat as optional
+                }
             }
         } catch (NoClassDefFoundError | Exception ex) {
             // Ignore when PlaceholderAPI is not available at compile/runtime
