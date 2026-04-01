@@ -6,12 +6,12 @@ softdepend: [Vault, EzEconomy, WorldGuard, EzShops]
 author: SkyblockExperience
 commands:
   boost:
-    description: Open the boosts GUI or activate a boost.
-    usage: /boost [boostKey]
+    description: Open the boosts GUI, show info, or activate a boost.
+    usage: /boost [about|boostKey]
     permission: ezboost.use
   ezboost:
     description: EzBoost administration commands.
-    usage: /ezboost about|reload|give <player> <boostKey> [amount]|create [continue]
+    usage: /ezboost <about|reload|give|create> [args]
     permission: ezboost.admin
 permissions:
   ezboost.use:

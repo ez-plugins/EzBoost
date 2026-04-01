@@ -189,6 +189,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
             }
             if (sender.hasPermission("ezboost.admin")) {
                 completions.add("create");
+                completions.add("about");
             }
             return completions;
         }
