@@ -6,16 +6,27 @@ This document describes the default boosts provided in `boosts.yml` for EzBoost.
 
 ## Boosts Overview
 
-| Key          | Display Name           | Icon         | Effects                        | Duration (s) | Cooldown (s) | Cost | Permission                | Enabled |
-|--------------|-----------------------|--------------|-------------------------------|--------------|--------------|------|---------------------------|---------|
-| speed        | Speed Boost           | SUGAR        | SPEED (1)                     | 300          | 600          | 0.0  | ezboost.boost.speed       | true    |
-| jump         | Jump Boost            | RABBIT_FOOT  | JUMP (2)                      | 300          | 600          | 0.0  | ezboost.boost.jump        | true    |
-| haste        | Haste Boost           | GOLDEN_PICKAXE| FAST_DIGGING (1)              | 300          | 600          | 0.0  | ezboost.boost.haste       | true    |
-| strength     | Strength Boost        | BLAZE_POWDER | INCREASE_DAMAGE (1)           | 300          | 600          | 0.0  | ezboost.boost.strength    | true    |
-| regen        | Regen Boost           | GHAST_TEAR   | REGENERATION (1)              | 300          | 600          | 0.0  | ezboost.boost.regen       | true    |
-| nightvision  | Night Vision Boost    | LANTERN      | NIGHT_VISION (0), SPEED (0)   | 300          | 600          | 0.0  | ezboost.boost.nightvision | true    |
-| resistance   | Resistance Boost      | SHIELD       | DAMAGE_RESISTANCE (0), REGENERATION (0) | 300 | 600 | 0.0 | ezboost.boost.resistance  | true    |
-| fireresist   | Fire Resist Boost     | MAGMA_CREAM  | FIRE_RESISTANCE (0), DAMAGE_RESISTANCE (0) | 300 | 600 | 0.0 | ezboost.boost.fireresist  | true    |
+| Key            | Display Name           | Icon               | Effects                                                    | Duration (s) | Cooldown (s) | Cost | Permission                   | Enabled |
+|----------------|------------------------|--------------------|------------------------------------------------------------|--------------|--------------|------|------------------------------|---------|
+| speed          | Speed Boost           | SUGAR              | SPEED (1)                                          | 300 | 600 | 0.0 | ezboost.boost.speed          | true |
+| jump           | Jump Boost            | RABBIT_FOOT        | JUMP (2)                                           | 300 | 600 | 0.0 | ezboost.boost.jump           | true |
+| haste          | Haste Boost           | GOLDEN_PICKAXE     | FAST_DIGGING (1)                                   | 300 | 600 | 0.0 | ezboost.boost.haste          | true |
+| strength       | Strength Boost        | BLAZE_POWDER       | INCREASE_DAMAGE (1)                                | 300 | 600 | 0.0 | ezboost.boost.strength       | true |
+| regen          | Regen Boost           | GHAST_TEAR         | REGENERATION (1)                                   | 300 | 600 | 0.0 | ezboost.boost.regen          | true |
+| nightvision    | Night Vision Boost    | LANTERN            | NIGHT_VISION (0), SPEED (0)                        | 300 | 600 | 0.0 | ezboost.boost.nightvision    | true |
+| resistance     | Resistance Boost      | SHIELD             | DAMAGE_RESISTANCE (0), REGENERATION (0)            | 300 | 600 | 0.0 | ezboost.boost.resistance     | true |
+| fireresist     | Fire Resist Boost     | MAGMA_CREAM        | FIRE_RESISTANCE (0), DAMAGE_RESISTANCE (0)         | 300 | 600 | 0.0 | ezboost.boost.fireresist     | true |
+| waterbreathing | Water Breathing Boost | PUFFERFISH         | WATER_BREATHING (0)                                | 300 | 600 | 0.0 | ezboost.boost.waterbreathing | true |
+| saturation     | Saturation Boost      | COOKED_BEEF        | SATURATION (0)                                     | 300 | 600 | 0.0 | ezboost.boost.saturation     | true |
+| luck           | Luck Boost            | EMERALD            | LUCK (0)                                           | 300 | 600 | 0.0 | ezboost.boost.luck           | true |
+| absorption     | Absorption Boost      | GOLDEN_APPLE       | ABSORPTION (1)                                     | 300 | 600 | 0.0 | ezboost.boost.absorption     | true |
+| slowfall       | Slow Falling Boost    | PHANTOM_MEMBRANE   | SLOW_FALLING (0)                                   | 300 | 600 | 0.0 | ezboost.boost.slowfall       | true |
+| miner          | Miner Boost           | DIAMOND_PICKAXE    | FAST_DIGGING (2), NIGHT_VISION (0)                 | 300 | 600 | 0.0 | ezboost.boost.miner          | true |
+| warrior        | Warrior Boost         | DIAMOND_SWORD      | INCREASE_DAMAGE (1), ABSORPTION (1)                | 300 | 600 | 0.0 | ezboost.boost.warrior        | true |
+| farmer         | Farmer Boost          | WHEAT              | SATURATION (0), LUCK (0)                           | 300 | 600 | 0.0 | ezboost.boost.farmer         | true |
+| explorer       | Explorer Boost        | COMPASS            | SPEED (1), JUMP (1)                                | 300 | 600 | 0.0 | ezboost.boost.explorer       | true |
+| xpboost        | XP Boost              | EXPERIENCE_BOTTLE  | xpboost (0) *(2× XP multiplier)*                  | 300 | 600 | 0.0 | ezboost.boost.xpboost        | true |
+| diver          | Diver Boost           | HEART_OF_THE_SEA   | WATER_BREATHING (0), DOLPHINS_GRACE (0), CONDUIT_POWER (0) | 300 | 600 | 0.0 | ezboost.boost.diver | true |
 
 ---
 
