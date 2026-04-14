@@ -45,3 +45,14 @@ gui:
     nightvision: 20
     fireresist: 21
     resistance: 22
+    waterbreathing: 23
+    saturation: 24
+    luck: 29
+    absorption: 30
+    slowfall: 31
+    miner: 32
+    warrior: 33
+    farmer: 38
+    explorer: 39
+    xpboost: 40
+    diver: 41
