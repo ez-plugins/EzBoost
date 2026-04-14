@@ -247,3 +247,180 @@ boosts:
     cost: 0.0
     permission: "ezboost.boost.resistance"
     enabled: true
+  waterbreathing:
+    display-name: "<aqua>Water Breathing Boost</aqua>"
+    icon: PUFFERFISH
+    effects:
+      - type: WATER_BREATHING
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.waterbreathing"
+    enabled: true
+  saturation:
+    display-name: "<green>Saturation Boost</green>"
+    icon: COOKED_BEEF
+    effects:
+      - type: SATURATION
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.saturation"
+    enabled: true
+  luck:
+    display-name: "<green>Luck Boost</green>"
+    icon: EMERALD
+    effects:
+      - type: LUCK
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.luck"
+    enabled: true
+  absorption:
+    display-name: "<gold>Absorption Boost</gold>"
+    icon: GOLDEN_APPLE
+    effects:
+      - type: ABSORPTION
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.absorption"
+    enabled: true
+  slowfall:
+    display-name: "<white>Slow Falling Boost</white>"
+    icon: PHANTOM_MEMBRANE
+    effects:
+      - type: SLOW_FALLING
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.slowfall"
+    enabled: true
+  miner:
+    display-name: "<yellow>Miner Boost</yellow>"
+    icon: DIAMOND_PICKAXE
+    effects:
+      - type: FAST_DIGGING
+        amplifier: 2
+      - type: NIGHT_VISION
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.miner"
+    enabled: true
+  warrior:
+    display-name: "<red>Warrior Boost</red>"
+    icon: DIAMOND_SWORD
+    effects:
+      - type: INCREASE_DAMAGE
+        amplifier: 1
+      - type: ABSORPTION
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.warrior"
+    enabled: true
+  farmer:
+    display-name: "<green>Farmer Boost</green>"
+    icon: WHEAT
+    effects:
+      - type: SATURATION
+        amplifier: 0
+      - type: LUCK
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.farmer"
+    enabled: true
+  explorer:
+    display-name: "<aqua>Explorer Boost</aqua>"
+    icon: COMPASS
+    effects:
+      - type: SPEED
+        amplifier: 1
+      - type: JUMP
+        amplifier: 1
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.explorer"
+    enabled: true
+  xpboost:
+    display-name: "<light_purple>XP Boost</light_purple>"
+    icon: EXPERIENCE_BOTTLE
+    effects:
+      - type: xpboost
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.xpboost"
+    enabled: true
+  diver:
+    display-name: "<dark_aqua>Diver Boost</dark_aqua>"
+    icon: HEART_OF_THE_SEA
+    effects:
+      - type: WATER_BREATHING
+        amplifier: 0
+      - type: DOLPHINS_GRACE
+        amplifier: 0
+      - type: CONDUIT_POWER
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.diver"
+    enabled: true

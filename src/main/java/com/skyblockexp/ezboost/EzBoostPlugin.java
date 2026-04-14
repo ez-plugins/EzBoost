@@ -10,11 +10,13 @@ import com.skyblockexp.ezboost.economy.EconomyService;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import com.skyblockexp.ezboost.gui.BoostGui;
 import com.skyblockexp.ezboost.gui.BoostTokenFactory;
+import com.skyblockexp.ezboost.boost.XpBoostEffect;
 import com.skyblockexp.ezboost.listener.AdminGuiChatListener;
 import com.skyblockexp.ezboost.listener.BoostGuiListener;
 import com.skyblockexp.ezboost.listener.BoostPlayerListener;
 import com.skyblockexp.ezboost.listener.BoostTokenListener;
 import com.skyblockexp.ezboost.listener.EconomyServiceListener;
+import com.skyblockexp.ezboost.listener.XpBoostListener;
 import com.skyblockexp.ezboost.storage.BoostStorage;
 import com.skyblockexp.ezboost.update.SpigotUpdateChecker;
 import java.io.File;
@@ -35,6 +37,7 @@ public final class EzBoostPlugin extends JavaPlugin {
     private BoostGui boostGui;
     private AdminBoostCreationGui adminGui;
     private BoostTokenFactory tokenFactory;
+    private XpBoostEffect xpBoostEffect;
 
     @Override
     public void onEnable() {
@@ -50,6 +53,10 @@ public final class EzBoostPlugin extends JavaPlugin {
         boostManager = new BoostManager(this, null, messages, economyService, storage);
         // Initialize API so custom effects can be registered
         EzBoostAPI.init(boostManager);
+
+        // Register built-in custom effects before config loads so YAML can resolve them
+        xpBoostEffect = new XpBoostEffect();
+        EzBoostAPI.registerCustomBoostEffect(xpBoostEffect);
 
         // Now load config after API is initialized
         config = new EzBoostConfig(this);
@@ -139,6 +146,7 @@ public final class EzBoostPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BoostTokenListener(boostManager, tokenFactory), this);
         getServer().getPluginManager().registerEvents(new BoostPlayerListener(boostManager), this);
         getServer().getPluginManager().registerEvents(new EconomyServiceListener(config, economyService, getLogger()), this);
+        getServer().getPluginManager().registerEvents(new XpBoostListener(xpBoostEffect), this);
     }
 
     private void ensureResource(String name) {
