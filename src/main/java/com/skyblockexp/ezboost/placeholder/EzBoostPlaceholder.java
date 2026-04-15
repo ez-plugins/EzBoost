@@ -1,8 +1,10 @@
 package com.skyblockexp.ezboost.placeholder;
 
 import com.skyblockexp.ezboost.EzBoostPlugin;
+import com.skyblockexp.ezboost.api.EzBoostAPI;
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostManager;
+import com.skyblockexp.ezboost.boost.XpBoostEffect;
 import java.util.Optional;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -169,6 +171,78 @@ public class EzBoostPlaceholder extends PlaceholderExpansion {
             return label == null ? "" : label;
         }
 
+        // has_active_boost — true/false whether the player has a running boost
+        if (identifier.equals("has_active_boost")) {
+            if (player == null) return "false";
+            return String.valueOf(boostManager.getActiveBoostKey(player) != null);
+        }
+
+        // active_boost — key of the player's current boost, or empty
+        if (identifier.equals("active_boost")) {
+            if (player == null) return "";
+            String key = boostManager.getActiveBoostKey(player);
+            return key != null ? key : "";
+        }
+
+        // active_boost_display — display name of the current boost, or empty
+        if (identifier.equals("active_boost_display")) {
+            if (player == null) return "";
+            String key = boostManager.getActiveBoostKey(player);
+            if (key == null) return "";
+            return boostManager.getBoost(key, player).map(BoostDefinition::displayName).orElse("");
+        }
+
+        // active_boost_time_remaining_formatted — MM:SS / HH:MM:SS, checked before raw
+        if (identifier.equals("active_boost_time_remaining_formatted")) {
+            if (player == null) return formatSeconds(0L);
+            return formatSeconds(boostManager.getActiveBoostTimeRemaining(player));
+        }
+
+        // active_boost_time_remaining — seconds as integer string
+        if (identifier.equals("active_boost_time_remaining")) {
+            if (player == null) return "0";
+            return String.valueOf(boostManager.getActiveBoostTimeRemaining(player));
+        }
+
+        // is_active_<boostkey> — plain boolean, no permission/cost logic
+        if (identifier.startsWith("is_active_")) {
+            if (player == null) return "false";
+            String key = identifier.substring("is_active_".length());
+            return String.valueOf(boostManager.isActive(player, key));
+        }
+
+        // cooldown_remaining_formatted_<boostkey> — checked before raw variant
+        if (identifier.startsWith("cooldown_remaining_formatted_")) {
+            if (player == null) return formatSeconds(0L);
+            String key = identifier.substring("cooldown_remaining_formatted_".length());
+            return formatSeconds(boostManager.getCooldownRemaining(player, key));
+        }
+
+        // cooldown_remaining_<boostkey> — seconds as integer string
+        if (identifier.startsWith("cooldown_remaining_")) {
+            if (player == null) return "0";
+            String key = identifier.substring("cooldown_remaining_".length());
+            return String.valueOf(boostManager.getCooldownRemaining(player, key));
+        }
+
+        // xp_multiplier — active XP multiplier for the player (1 if no xpboost active)
+        if (identifier.equals("xp_multiplier")) {
+            if (player == null) return "1";
+            Object effect = EzBoostAPI.getCustomBoostEffects().get("xpboost");
+            if (effect instanceof XpBoostEffect xpEffect) {
+                return String.valueOf(xpEffect.getMultiplier(player));
+            }
+            return "1";
+        }
+
         return "";
+    }
+
+    private static String formatSeconds(long seconds) {
+        if (seconds >= 3600) {
+            return String.format("%02d:%02d:%02d",
+                    seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+        }
+        return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }
 }
