@@ -6,8 +6,6 @@ import com.skyblockexp.ezboost.boost.CustomBoostEffect;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.EzBoostConfig.GuiSettings;
 import com.skyblockexp.ezboost.config.EzBoostConfig.FillerItem;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +14,6 @@ import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -34,10 +31,6 @@ public final class BoostGui {
     private final BoostManager boostManager;
     private GuiSettings settings;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()
-            .hexColors()
-            .useUnusualXRepeatedCharacterHexFormat()
-            .build();
     private final NamespacedKey boostKey;
 
     public BoostGui(JavaPlugin plugin, BoostManager boostManager, GuiSettings settings) {
@@ -131,7 +124,7 @@ public final class BoostGui {
             for (BoostEffect effect : boost.effects()) {
                 String effectLine;
                 if (effect.type() != null) {
-                    effectLine = "Effect: " + effect.type().getName() + " (" + effect.amplifier() + ")";
+                    effectLine = "Effect: " + effect.type().key().value() + " (" + effect.amplifier() + ")";  
                 } else {
                     CustomBoostEffect custom = boostManager.getCustomEffect(effect.customName());
                     String name = custom != null ? custom.getName() : effect.customName();
@@ -195,14 +188,6 @@ public final class BoostGui {
     }
 
     private Inventory createInventory(BoostGuiHolder holder, Component title) {
-        try {
-            Method method = Bukkit.class.getMethod("createInventory", InventoryHolder.class, int.class, Component.class);
-            return (Inventory) method.invoke(null, holder, settings.size(), title);
-        } catch (NoSuchMethodException e) {
-            String legacyTitle = legacySerializer.serialize(title);
-            return Bukkit.createInventory(holder, settings.size(), legacyTitle);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("Unable to create boost inventory", e);
-        }
+        return Bukkit.createInventory(holder, settings.size(), title);
     }
 }

@@ -5,7 +5,7 @@
 
     <groupId>com.skyblockexp</groupId>
     <artifactId>ezboost</artifactId>
-    <version>1.6.0</version>
+    <version>2.0.0</version>
     <name>EzBoost</name>
     <description>Standalone boost plugin with configurable potion boosts, cooldowns, and GUI.</description>
     <packaging>jar</packaging>
@@ -22,6 +22,10 @@
             <id>ez-plugins</id>
             <name>EzPlugins</name>
         </developer>
+        <developer>
+            <id>shadow48402</id>
+            <name>Shadow48402</name>
+        </developer>
     </developers>
     <scm>
         <url>https://github.com/ez-plugins/ezboost</url>
@@ -32,12 +36,13 @@
     <properties>
         <github.owner>ez-plugins</github.owner>
         <github.repository>ezboost</github.repository>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <paper.version>1.21.11-R0.1-SNAPSHOT</paper.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
+        <paper.version>[26.1.2.build,)</paper.version>
         <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
         <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
-        <mockbukkit.version>4.101.0</mockbukkit.version>
+        <mockbukkit.version>4.108.0</mockbukkit.version>
     </properties>
 
 
@@ -87,7 +92,7 @@
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.16.0</version>
+            <version>4.26.1</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
@@ -102,30 +107,30 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
+            <version>3.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-base</artifactId>
-            <version>3.0.2</version>
+            <version>3.2.1</version>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.0</version>
+            <version>6.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.0</version>
+            <version>6.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.6.0</version>
+            <version>5.23.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -138,6 +143,16 @@
     </dependencies>
 
     <repositories>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-snapshots/</url>
+        </repository>
         <repository>
             <id>enginehub</id>
             <url>https://maven.enginehub.org/repo/</url>
@@ -179,16 +194,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.15.0</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M7</version>
+                    <version>3.5.5</version>
                     <configuration>
                         <useModulePath>false</useModulePath>
                     </configuration>
@@ -196,7 +210,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>copy-plugin-descriptor</id>
@@ -213,7 +227,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <configuration>
                     <excludes>
                         <exclude>org/bukkit/**</exclude>
@@ -223,7 +237,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>

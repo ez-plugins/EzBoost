@@ -17,11 +17,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import com.skyblockexp.ezboost.config.MultiFileConfigLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public final class EzBoostConfig {
@@ -140,7 +143,7 @@ public final class EzBoostConfig {
         for (BoostEffect effect : boost.effects()) {
             Map<String, Object> effectMap = new HashMap<>();
             if (effect.type() != null) {
-                effectMap.put("type", effect.type().getName());
+                effectMap.put("type", effect.type().key().value());
             } else {
                 // For custom effects, we need to store the name somehow, but since BoostEffect doesn't have it, assume it's handled elsewhere
                 // For now, skip or handle later
@@ -242,7 +245,8 @@ public final class EzBoostConfig {
             for (Map<?, ?> entry : effectsConfig) {
                 if (entry == null) continue;
                 String typeName = Objects.toString(entry.get("type"), "");
-                PotionEffectType type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
+                  PotionEffectType type = Registry.EFFECT.get(NamespacedKey.minecraft(typeName.toLowerCase(Locale.ROOT)));
+                  if (type == null) type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
                 if (type == null) continue;
                 int amplifier = readInt(entry.get("amplifier"), 0);
                 amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());
@@ -438,7 +442,8 @@ public final class EzBoostConfig {
                     continue;
                 }
                 String typeName = Objects.toString(entry.get("type"), "");
-                PotionEffectType type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
+                  PotionEffectType type = Registry.EFFECT.get(NamespacedKey.minecraft(typeName.toLowerCase(Locale.ROOT)));
+                  if (type == null) type = PotionEffectType.getByName(typeName.toUpperCase(Locale.ROOT));
                 if (type != null) {
                     int amplifier = readInt(entry.get("amplifier"), 0);
                     amplifier = clamp(amplifier, limits.amplifierMin(), limits.amplifierMax());

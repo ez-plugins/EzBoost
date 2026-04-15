@@ -5,6 +5,7 @@ import com.skyblockexp.ezboost.gui.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,7 +48,6 @@ public class AdminGuiInputHandler {
      * Handles number input from the NumberInputGui.
      */
     public void handleNumberInput(Player player, String action, BoostCreationState state) {
-        String title = player.getOpenInventory().getTitle();
         NumberInputGui.NumberInputHolder holder = (NumberInputGui.NumberInputHolder) player.getOpenInventory().getTopInventory().getHolder();
         int currentValue = holder.getCurrentValue();
         String fieldName = holder.getFieldName();
@@ -222,7 +222,7 @@ public class AdminGuiInputHandler {
             );
 
             if (effectName != null) {
-                PotionEffectType effectType = PotionEffectType.getByName(effectName);
+                PotionEffectType effectType = Registry.EFFECT.get(NamespacedKey.minecraft(effectName.toLowerCase()));
                 if (effectType != null) {
                     BoostEffect effect = new BoostEffect(effectType, amplifier, null);
                     state.addEffect(effect);

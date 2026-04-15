@@ -36,7 +36,7 @@ public class AdminGuiRenderer {
      */
     public Inventory createInventory() {
         AdminBoostCreationHolder holder = new AdminBoostCreationHolder();
-        Inventory inventory = Bukkit.createInventory(holder, 27, "Create Boost");
+        Inventory inventory = Bukkit.createInventory(holder, 27, Component.text("Create Boost"));
         holder.setInventory(inventory);
         return inventory;
     }
@@ -104,7 +104,7 @@ public class AdminGuiRenderer {
             if (!state.getEffects().isEmpty()) {
                 lore.add(Component.text("§7Current effects:"));
                 for (BoostEffect effect : state.getEffects()) {
-                    String effectName = effect.type() != null ? formatEffectName(effect.type().getName()) : "Custom";
+                    String effectName = effect.type() != null ? formatEffectName(effect.type().key().value()) : "Custom";
                     lore.add(Component.text("§8• §f" + effectName + " §6" + effect.amplifier()));
                 }
             } else {

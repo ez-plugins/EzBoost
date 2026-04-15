@@ -1,12 +1,13 @@
 package com.skyblockexp.ezboost.listener;
 
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,8 +21,9 @@ public class AdminGuiChatListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
+    public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
+        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
 
         // Check for custom permission input
         if (player.getPersistentDataContainer().has(
@@ -29,7 +31,7 @@ public class AdminGuiChatListener implements Listener {
             PersistentDataType.STRING
         )) {
             event.setCancelled(true);
-            adminGui.handleCustomPermissionInput(player, event.getMessage());
+            adminGui.handleCustomPermissionInput(player, message);
             return;
         }
 
@@ -40,14 +42,14 @@ public class AdminGuiChatListener implements Listener {
         if (selectedEffect != null) {
             // Player is entering amplifier for effect selection
             event.setCancelled(true);
-            adminGui.handleEffectAmplifierInput(player, event.getMessage());
+            adminGui.handleEffectAmplifierInput(player, message);
             return;
         }
 
         // Check if player is in input mode for regular boost creation
         if (adminGui.isPlayerInInputMode(player.getUniqueId())) {
             event.setCancelled(true);
-            adminGui.handleChatInput(player, event.getMessage());
+            adminGui.handleChatInput(player, message);
         }
     }
 

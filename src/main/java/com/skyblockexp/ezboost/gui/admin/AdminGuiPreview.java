@@ -41,7 +41,7 @@ public class AdminGuiPreview {
         );
 
         // Open a preview inventory showing how the boost would appear
-        Inventory previewInventory = Bukkit.createInventory(null, 27, "§b§lBoost Preview");
+        Inventory previewInventory = Bukkit.createInventory(null, 27, Component.text("§b§lBoost Preview"));
 
         // Create the boost item as it would appear in the player GUI
         ItemStack boostItem = new ItemStack(previewBoost.icon());
@@ -61,7 +61,7 @@ public class AdminGuiPreview {
             if (!previewBoost.effects().isEmpty()) {
                 lore.add(Component.text("§7Effects:"));
                 for (BoostEffect effect : previewBoost.effects()) {
-                    String effectName = effect.type() != null ? formatEffectName(effect.type().getName()) : "Custom";
+                    String effectName = effect.type() != null ? formatEffectName(effect.type().key().value()) : "Custom";
                     lore.add(Component.text("§8• §f" + effectName + " §6" + effect.amplifier()));
                 }
             }

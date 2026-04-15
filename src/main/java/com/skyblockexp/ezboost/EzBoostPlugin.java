@@ -29,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class EzBoostPlugin extends JavaPlugin {
     private static final int BSTATS_PLUGIN_ID = 28496;
     private static final int SPIGOT_RESOURCE_ID = 131030;
+    private boolean papiHooked = false;
     private EzBoostConfig config;
     private Messages messages;
     private EconomyService economyService;
@@ -82,16 +83,16 @@ public final class EzBoostPlugin extends JavaPlugin {
                     try {
                         java.lang.reflect.Method m = expansion.getClass().getMethod("register");
                         m.invoke(expansion);
-                        getLogger().info("Registered PlaceholderAPI expansion: ezboost_");
+                        papiHooked = true;
                     } catch (NoSuchMethodException e) {
                         try {
                             Class<?> papi = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
                             Class<?> expansionClass = Class.forName("me.clip.placeholderapi.expansion.PlaceholderExpansion");
                             java.lang.reflect.Method reg = papi.getMethod("registerExpansion", expansionClass);
                             reg.invoke(null, expansion);
-                            getLogger().info("Registered PlaceholderAPI expansion via PlaceholderAPI.registerExpansion: ezboost_");
+                            papiHooked = true;
                         } catch (Throwable ignore) {
-                            getLogger().warning("PlaceholderAPI found but expansion could not be registered on this server.");
+                            getLogger().warning("PlaceholderAPI found but expansion could not be registered.");
                         }
                     }
                 } catch (ClassNotFoundException cnf) {
@@ -105,7 +106,13 @@ public final class EzBoostPlugin extends JavaPlugin {
         initializeMetrics();
         new SpigotUpdateChecker(this, SPIGOT_RESOURCE_ID).checkForUpdates();
 
-        getLogger().info("EzBoost plugin has been enabled.");
+        StartupLogger.logEnable(
+            getLogger(),
+            getPluginMeta().getVersion(),
+            boostManager.totalBoostCount(),
+            boostManager.vaultHookAvailable(),
+            papiHooked
+        );
     }
 
     @Override
@@ -114,7 +121,7 @@ public final class EzBoostPlugin extends JavaPlugin {
             boostManager.saveStates();
         }
         HandlerList.unregisterAll(this);
-        getLogger().info("EzBoost plugin has been disabled.");
+        StartupLogger.logDisable(getLogger());
     }
 
     public void reloadPlugin() {

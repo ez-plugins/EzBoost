@@ -6,8 +6,6 @@ import com.skyblockexp.ezboost.economy.EconomyService;
 import com.skyblockexp.ezboost.event.BoostEndEvent;
 import com.skyblockexp.ezboost.event.BoostStartEvent;
 import com.skyblockexp.ezboost.storage.BoostStorage;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -302,7 +301,7 @@ public final class BoostManager {
                         // Determine a human-friendly effect name
                         String effectName;
                         if (effect.type() != null) {
-                            effectName = effect.type().getName();
+                            effectName = effect.type().key().value();
                         } else {
                             CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
                             effectName = custom != null ? custom.getName() : effect.customName();
@@ -482,7 +481,7 @@ public final class BoostManager {
         for (BoostEffect effect : boost.effects()) {
             if (effect.type() != null) {
                 PotionEffect potionEffect = new PotionEffect(effect.type(), durationSeconds * 20, effect.amplifier(), false, true, true);
-                player.addPotionEffect(potionEffect, true);
+                player.addPotionEffect(potionEffect);
             } else {
                 // Custom effect: look up by name
                 CustomBoostEffect custom = customEffects.get(effect.customName().toLowerCase(Locale.ROOT));
@@ -614,7 +613,7 @@ public final class BoostManager {
     private String effectCooldownKey(BoostEffect effect) {
         if (effect == null) return GLOBAL_COOLDOWN_KEY;
         if (effect.type() != null) {
-            String name = effect.type().getName();
+            String name = effect.type().key().value();
             return ("effect:potion:" + name).toLowerCase(Locale.ROOT);
         } else {
             String cname = effect.customName() != null ? effect.customName() : "";
@@ -626,28 +625,7 @@ public final class BoostManager {
         if (message == null || message.isBlank()) {
             return;
         }
-        try {
-            Method method = player.getClass().getMethod("sendActionBar", String.class);
-            method.invoke(player, message);
-            return;
-        } catch (NoSuchMethodException ignored) {
-        } catch (ReflectiveOperationException ex) {
-            logger.fine("Failed to use sendActionBar(String): " + ex.getMessage());
-        }
-        try {
-            Class<?> chatMessageType = Class.forName("net.md_5.bungee.api.ChatMessageType");
-            Class<?> baseComponent = Class.forName("net.md_5.bungee.api.chat.BaseComponent");
-            Class<?> textComponent = Class.forName("net.md_5.bungee.api.chat.TextComponent");
-            Object actionBar = Enum.valueOf((Class<Enum>) chatMessageType, "ACTION_BAR");
-            Object component = textComponent.getConstructor(String.class).newInstance(message);
-            Object spigot = player.getClass().getMethod("spigot").invoke(player);
-            Method sendMessage = spigot.getClass().getMethod("sendMessage", chatMessageType, Array.newInstance(baseComponent, 0).getClass());
-            Object array = Array.newInstance(baseComponent, 1);
-            Array.set(array, 0, component);
-            sendMessage.invoke(spigot, actionBar, array);
-        } catch (ReflectiveOperationException ex) {
-            player.sendMessage(message);
-        }
+        player.sendActionBar(Component.text(message));
     }
 
     private void runEnableCommands(Player player, BoostDefinition boost) {
@@ -670,7 +648,7 @@ public final class BoostManager {
             }
             String parsed = command
                     .replace("{player}", player.getName())
-                    .replace("{displayname}", player.getDisplayName())
+                      .replace("{displayname}", player.getName())
                     .replace("{boost}", boost.key());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), parsed);
         }
