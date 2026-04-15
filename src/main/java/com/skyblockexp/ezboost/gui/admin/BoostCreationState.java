@@ -2,6 +2,8 @@ package com.skyblockexp.ezboost.gui.admin;
 
 import com.skyblockexp.ezboost.boost.BoostEffect;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
@@ -143,7 +145,7 @@ public class BoostCreationState {
         // Save effects
         List<String> effectStrings = new ArrayList<>();
         for (BoostEffect effect : effects) {
-            effectStrings.add(effect.type().getName() + ":" + effect.amplifier());
+            effectStrings.add(effect.type().key().value() + ":" + effect.amplifier());
         }
         section.set("effects", effectStrings);
     }
@@ -178,7 +180,11 @@ public class BoostCreationState {
             String[] parts = effectString.split(":");
             if (parts.length == 2) {
                 try {
-                    org.bukkit.potion.PotionEffectType type = org.bukkit.potion.PotionEffectType.getByName(parts[0]);
+                    org.bukkit.potion.PotionEffectType type = Registry.EFFECT.get(NamespacedKey.minecraft(parts[0].toLowerCase()));
+                    if (type == null) {
+                        //noinspection deprecation
+                        type = org.bukkit.potion.PotionEffectType.getByName(parts[0]);
+                    }
                     if (type != null) {
                         int amplifier = Integer.parseInt(parts[1]);
                         effects.add(new BoostEffect(type, amplifier, null));

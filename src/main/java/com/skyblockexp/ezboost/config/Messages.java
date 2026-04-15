@@ -7,7 +7,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -61,7 +60,6 @@ public final class Messages {
 
     private String legacySerialize(String input, TagResolver... resolvers) {
         Component component = miniMessage.deserialize(input, resolvers);
-        String legacy = legacySerializer.serialize(component);
-        return ChatColor.translateAlternateColorCodes('&', legacy);
+        return legacySerializer.serialize(component);
     }
 }

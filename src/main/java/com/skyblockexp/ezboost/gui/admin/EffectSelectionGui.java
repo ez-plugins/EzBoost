@@ -7,6 +7,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +43,11 @@ public class EffectSelectionGui {
         };
         for (String n : names) {
             try {
-                PotionEffectType t = PotionEffectType.getByName(n);
+                PotionEffectType t = Registry.EFFECT.get(NamespacedKey.minecraft(n.toLowerCase()));
+                if (t == null) {
+                    //noinspection deprecation
+                    t = PotionEffectType.getByName(n);
+                }
                 if (t != null) COMMON_EFFECTS.add(t);
             } catch (Throwable ignored) {
             }
@@ -69,7 +74,7 @@ public class EffectSelectionGui {
     }
 
     private Inventory createInventory(EffectSelectionHolder holder, int page) {
-        Inventory inventory = Bukkit.createInventory(holder, 54, "Select Effect - Page " + (page + 1));
+        Inventory inventory = Bukkit.createInventory(holder, 54, Component.text("Select Effect - Page " + (page + 1)));
         holder.setPage(page);
         return inventory;
     }
@@ -125,12 +130,12 @@ public class EffectSelectionGui {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            ItemMetaCompat.setDisplayName(meta, Component.text(formatEffectName(effect.getName())));
+            ItemMetaCompat.setDisplayName(meta, Component.text(formatEffectName(effect.key().value())));
             List<Component> lore = new ArrayList<>();
             lore.add(Component.text("Click to select this effect"));
             lore.add(Component.text("You will be prompted for the amplifier"));
             ItemMetaCompat.setLore(meta, lore);
-            meta.getPersistentDataContainer().set(effectKey, PersistentDataType.STRING, effect.getName());
+            meta.getPersistentDataContainer().set(effectKey, PersistentDataType.STRING, effect.key().value());
             item.setItemMeta(meta);
         }
         return item;
@@ -148,7 +153,7 @@ public class EffectSelectionGui {
     }
 
     private Material getEffectMaterial(PotionEffectType effect) {
-        return switch (effect.getName().toLowerCase()) {
+        return switch (effect.key().value().toLowerCase()) {
             case "speed" -> Material.SUGAR;
             case "slow" -> Material.SOUL_SAND;
             case "fast_digging" -> Material.GOLDEN_PICKAXE;
@@ -207,7 +212,11 @@ public class EffectSelectionGui {
         if (action != null) {
             // Effect selected
             try {
-                PotionEffectType effectType = PotionEffectType.getByName(action.toUpperCase());
+                PotionEffectType effectType = Registry.EFFECT.get(NamespacedKey.minecraft(action.toLowerCase()));
+                if (effectType == null) {
+                    //noinspection deprecation
+                    effectType = PotionEffectType.getByName(action.toUpperCase());
+                }
                 if (effectType != null) {
                     // Prompt for amplifier
                     promptForAmplifier(player, effectType);
@@ -222,14 +231,14 @@ public class EffectSelectionGui {
 
     private void promptForAmplifier(Player player, PotionEffectType effectType) {
         player.closeInventory();
-        player.sendMessage(legacySerializer.serialize(Component.text("Selected effect: " + formatEffectName(effectType.getName()))));
-        player.sendMessage(legacySerializer.serialize(Component.text("Enter amplifier level (0-255, 0 = level 1):")));
-
+        player.sendMessage(legacySerializer.serialize(Component.text("Selected effect: " + formatEffectName(effectType.key().value()))));
+        player.sendMessage(legacySerializer.serialize(Component.text("Enter amplifier level (0-255, 0 = level 1):")))
+;
         // Store the effect type for later use
         player.getPersistentDataContainer().set(
             new NamespacedKey(plugin, "selected-effect"),
             PersistentDataType.STRING,
-            effectType.getName()
+            effectType.key().value()
         );
     }
 
@@ -247,7 +256,11 @@ public class EffectSelectionGui {
             );
 
             if (effectName != null) {
-                PotionEffectType effectType = PotionEffectType.getByName(effectName);
+                PotionEffectType effectType = Registry.EFFECT.get(NamespacedKey.minecraft(effectName.toLowerCase()));
+                if (effectType == null) {
+                    //noinspection deprecation
+                    effectType = PotionEffectType.getByName(effectName);
+                }
                 if (effectType != null) {
                     BoostEffect effect = new BoostEffect(effectType, amplifier, null);
                     onEffectSelected.accept(effect);

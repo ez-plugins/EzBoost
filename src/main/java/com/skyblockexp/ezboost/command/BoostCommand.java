@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public final class BoostCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             org.bukkit.plugin.Plugin plugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
-            String pluginVersion = plugin != null && plugin.getDescription() != null ? plugin.getDescription().getVersion() : "unknown";
+            String pluginVersion = plugin != null ? plugin.getPluginMeta().getVersion() : "unknown";
             String serverVersion = org.bukkit.Bukkit.getBukkitVersion();
             String serverType = org.bukkit.Bukkit.getVersion();
             String database = "data.yml (file)";
@@ -72,7 +73,7 @@ public final class BoostCommand implements CommandExecutor, TabCompleter {
             if (boostGui.isEnabled()) {
                 boostGui.open(player);
             } else {
-                player.sendMessage(ChatColor.YELLOW + "Usage: /boost <boostKey>");
+                player.sendMessage(Component.text("Usage: /boost <boostKey>", NamedTextColor.YELLOW));
             }
             return true;
         }
