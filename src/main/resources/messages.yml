@@ -4,13 +4,25 @@
 # Customize all plugin messages and prefixes here.
 # Supports MiniMessage formatting (see https://docs.advntr.dev/minimessage/ for syntax).
 #
-# Placeholders:
-#   <boost>   - Name of the boost
-#   <time>    - Time remaining (seconds)
-#   <cost>    - Cost of the boost (full formatted)
-#   <cost_compact> - Compact cost (e.g. 50K, 1.2M)
-#   <amount>  - Amount of tokens
-#   <player>  - Player name
+# Common placeholders (available in all messages where noted):
+#   <boost>            - Boost display name  (boost-activated, boost-expired, boost-cooldown,
+#                        boost-effect-cooldown, cost-charged, token-used, insufficient-funds)
+#   <boost_display>    - Boost display name (same as <boost>)
+#   <boost_key>        - Internal boost key (config section name)
+#   <boost_cost>       - Fully formatted cost (e.g. 50,000)
+#   <boost_cost_compact> - Compact cost (e.g. 50K, 1.2M)
+#   <boost_cost_raw>   - Raw numeric cost without formatting
+#   <boost_duration>   - Duration in seconds
+#   <boost_cooldown>   - Cooldown in seconds
+#   <cost>             - Alias for <boost_cost> (backward compat)
+#   <cost_compact>     - Alias for <boost_cost_compact> (backward compat)
+#   <time>             - Time remaining in seconds (boost-cooldown, boost-effect-cooldown)
+#   <effect>           - Effect name (boost-effect-cooldown only)
+#   <amount>           - Amount of tokens (token-given)
+#   <player>           - Player name (token-given)
+#
+# Boost-context tags (<boost>, <boost_*>, <cost>, <cost_compact>) are injected automatically
+# for messages that are sent in the context of a specific boost — no PlaceholderAPI needed.
 #
 # Section:
 #   actionbar:
