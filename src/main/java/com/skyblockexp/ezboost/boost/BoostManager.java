@@ -206,6 +206,24 @@ public final class BoostManager {
         return state != null && boostKey.equalsIgnoreCase(state.activeBoostKey()) && state.endTimestamp() > System.currentTimeMillis();
     }
 
+    /**
+     * Returns the active boost key for the player, or {@code null} if no boost is currently active.
+     */
+    public String getActiveBoostKey(Player player) {
+        BoostState state = states.get(player.getUniqueId());
+        if (state == null || state.activeBoostKey() == null) return null;
+        return state.endTimestamp() > System.currentTimeMillis() ? state.activeBoostKey() : null;
+    }
+
+    /**
+     * Returns the remaining duration of the player's active boost in seconds, or {@code 0} if none.
+     */
+    public long getActiveBoostTimeRemaining(Player player) {
+        BoostState state = states.get(player.getUniqueId());
+        if (state == null || state.activeBoostKey() == null) return 0L;
+        return Math.max(0L, (state.endTimestamp() - System.currentTimeMillis()) / 1000L);
+    }
+
     public long getCooldownRemaining(Player player, String boostKey) {
         BoostState state = states.get(player.getUniqueId());
         if (state == null) {
@@ -308,11 +326,14 @@ public final class BoostManager {
                         }
                         try {
                             player.sendMessage(messages.message("boost-effect-cooldown",
+                                    BoostTagResolvers.forBoost(effective, currencyFormatter),
                                     Placeholder.parsed("time", String.valueOf(remaining)),
                                     Placeholder.parsed("effect", effectName)));
                         } catch (Exception ex) {
                             // Fallback to generic message if key missing
-                            player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                            player.sendMessage(messages.message("boost-cooldown",
+                                    BoostTagResolvers.forBoost(effective, currencyFormatter),
+                                    Placeholder.parsed("time", String.valueOf(remaining))));
                         }
                         return false;
                     }
@@ -321,14 +342,18 @@ public final class BoostManager {
                 long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
                 if (cooldownEnd > now) {
                     long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
-                    player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                    player.sendMessage(messages.message("boost-cooldown",
+                            BoostTagResolvers.forBoost(effective, currencyFormatter),
+                            Placeholder.parsed("time", String.valueOf(remaining))));
                     return false;
                 }
             } else {
                 long cooldownEnd = state.cooldownEnd(cooldownKey(effective.key()));
                 if (cooldownEnd > now) {
                     long remaining = Math.max(0L, (cooldownEnd - now) / 1000L);
-                    player.sendMessage(messages.message("boost-cooldown", Placeholder.parsed("time", String.valueOf(remaining))));
+                    player.sendMessage(messages.message("boost-cooldown",
+                            BoostTagResolvers.forBoost(effective, currencyFormatter),
+                            Placeholder.parsed("time", String.valueOf(remaining))));
                     return false;
                 }
             }
@@ -345,8 +370,7 @@ public final class BoostManager {
             EconomyResponse response = economyService.withdraw(player, cost);
             if (!response.transactionSuccess()) {
                 player.sendMessage(messages.message("insufficient-funds",
-                    Placeholder.parsed("cost", currencyFormatter.format(cost)),
-                    Placeholder.parsed("cost_compact", currencyFormatter.formatCompact(cost))));
+                    BoostTagResolvers.forBoost(effective, currencyFormatter)));
                 return false;
             }
             charged = true;
@@ -393,14 +417,12 @@ public final class BoostManager {
         scheduleExpiry(player, effective, endTimestamp);
         scheduleActionbar(player, effective);
         runEnableCommands(player, effective);
-        player.sendMessage(messages.message("boost-activated", Placeholder.parsed("boost", effective.displayName())));
-    if (charged) {
-        player.sendMessage(messages.message("cost-charged", Placeholder.parsed("boost", effective.key()),
-            Placeholder.parsed("cost", currencyFormatter.format(cost)),
-            Placeholder.parsed("cost_compact", currencyFormatter.formatCompact(cost))));
-    }
+        player.sendMessage(messages.message("boost-activated", BoostTagResolvers.forBoost(effective, currencyFormatter)));
+        if (charged) {
+            player.sendMessage(messages.message("cost-charged", BoostTagResolvers.forBoost(effective, currencyFormatter)));
+        }
         if (source == ActivationSource.TOKEN) {
-            player.sendMessage(messages.message("token-used", Placeholder.parsed("boost", effective.key())));
+            player.sendMessage(messages.message("token-used", BoostTagResolvers.forBoost(effective, currencyFormatter)));
         }
         saveStates();
         return true;
@@ -515,7 +537,7 @@ public final class BoostManager {
                 }
                 runDisableCommands(player, boost);
                 if (!silent && config.settings().sendExpiredMessage()) {
-                    player.sendMessage(messages.message("boost-expired", Placeholder.parsed("boost", activeKey)));
+                    player.sendMessage(messages.message("boost-expired", BoostTagResolvers.forBoost(boost, currencyFormatter)));
                 }
             }
         }
