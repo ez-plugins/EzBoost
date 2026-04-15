@@ -26,6 +26,8 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 - **Boost token items**: Give, trade, or reward boost tokens. Players redeem tokens by right-clicking them to activate the corresponding boost.
 - **Live reload**: Reload all configuration and messages at runtime.
 - **MiniMessage support**: Rich formatting for all messages and GUI text.
+- **Internal message tags**: Boost-specific tags (`<boost_display>`, `<boost_cost>`, `<boost_duration>`, etc.) are available in `messages.yml` without PlaceholderAPI.
+- **PlaceholderAPI expansion**: Exposes 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting for use in other plugins.
 
 ---
 

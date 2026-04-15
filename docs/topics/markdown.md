@@ -41,6 +41,8 @@ For issues, feature requests, and the latest releases, always check GitHub first
 - **Boost token items**: Give, trade, or reward boost tokens with `/ezboost give`. Players redeem tokens by right-clicking them to activate the boost.
 - **Live reload**: Reload all configuration and messages at runtime with `/ezboost reload`.
 - **MiniMessage support**: Rich formatting for all messages and GUI text.
+- **Internal message tags**: Boost-specific tags (`<boost_display>`, `<boost_cost>`, `<boost_duration>`, etc.) are available directly in `messages.yml` — no PlaceholderAPI required.
+- **PlaceholderAPI expansion**: 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting, usable in scoreboards, GUI plugins, and any PAPI-compatible plugin. See the [PlaceholderAPI integration guide](https://github.com/ez-plugins/EzBoost/blob/main/docs/integration/PlaceholderAPI.md).
 - **Command hooks**: Run console commands on enable/disable/toggle per boost.
 - **Player-friendly behavior**: Reapply boosts on join, keep on death, and refund on failed activation.
 

@@ -96,9 +96,10 @@ boost-replaced: "<yellow>Your active boost was replaced.</yellow>"
 boost-activated: "<green>Boost activated: <white><boost></white>.</green>"
 boost-expired: "<gray>Your boost <white><boost></white> has expired.</gray>"
 boost-cooldown: "<red>That boost is on cooldown for <white><time></white> seconds.</red>"
-insufficient-funds: "<red>You need <white><cost></white> to activate this boost.</red>"
+boost-effect-cooldown: "<red>The effect <white><effect></white> is on cooldown for <white><time></white> seconds.</red>"
+insufficient-funds: "<red>You need <white><cost_compact></white> to activate this boost.</red>"
 economy-unavailable: "<red>Economy is unavailable. Please contact an admin.</red>"
-cost-charged: "<gray>Charged <white><cost></white> for <white><boost></white>.</gray>"
+cost-charged: "<gray>Charged <white><cost_compact></white> for <white><boost></white>.</gray>"
 reload: "<green>EzBoost reloaded.</green>"
 only-players: "<red>Only players can use this command.</red>"
 invalid-target: "<red>Player not found.</red>"
@@ -110,7 +111,38 @@ actionbar:
   format: "<gray>Boost:</gray> <white><boost></white> <gray>(<time>s)</gray>"
 ```
 
-**Placeholders:** `<boost>`, `<time>`, `<cost>`, `<amount>`, `<player>`
+### Boost-context tags
+
+The following tags are automatically injected for messages that are sent in the context of a specific boost. No PlaceholderAPI is required for these.
+
+| Tag | Value | Available in |
+|-----|-------|-------------|
+| `<boost>` | Display name | All boost-context messages |
+| `<boost_display>` | Display name (explicit alias) | All boost-context messages |
+| `<boost_key>` | Internal config key | All boost-context messages |
+| `<boost_cost>` | Fully formatted cost (e.g. `50,000`) | All boost-context messages |
+| `<boost_cost_compact>` | Compact cost (e.g. `50K`) | All boost-context messages |
+| `<boost_cost_raw>` | Raw numeric cost (e.g. `50000`) | All boost-context messages |
+| `<boost_duration>` | Duration in seconds | All boost-context messages |
+| `<boost_cooldown>` | Cooldown in seconds | All boost-context messages |
+| `<cost>` | Alias for `<boost_cost>` (backward compat) | All boost-context messages |
+| `<cost_compact>` | Alias for `<boost_cost_compact>` (backward compat) | All boost-context messages |
+| `<time>` | Remaining cooldown in seconds | `boost-cooldown`, `boost-effect-cooldown` |
+| `<effect>` | Effect name | `boost-effect-cooldown` |
+
+**Boost-context messages** (those that receive boost tags automatically):
+`boost-activated`, `boost-expired`, `boost-cooldown`, `boost-effect-cooldown`, `insufficient-funds`, `cost-charged`, `token-used`
+
+Messages without boost context (`no-permission`, `boost-active`, `boost-replaced`, `boost-not-found`, etc.) do not have a single boost in scope and only support the generic tags listed in their own comments.
+
+**Other placeholders:**
+
+| Tag | Available in |
+|-----|-------------|
+| `<amount>` | `token-given` |
+| `<player>` | `token-given` |
+| `<boost>` (display name) | `actionbar.format` |
+| `<time>` (seconds remaining) | `actionbar.format` |
 
 ---
 
