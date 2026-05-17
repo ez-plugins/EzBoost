@@ -1,5 +1,19 @@
+---
+title: PlaceholderAPI
+nav_order: 10
+description: "PlaceholderAPI expansion for EzBoost — available placeholders and examples"
+---
 
 # PlaceholderAPI integration
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document describes the PlaceholderAPI expansion bundled with EzBoost and the placeholders it exposes.
 

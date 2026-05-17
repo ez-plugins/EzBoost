@@ -1,4 +1,20 @@
+---
+title: CustomBoostEffect
+parent: API
+nav_order: 2
+description: "CustomBoostEffect interface — implementing custom plugin-driven boost effects"
+---
+
 # CustomBoostEffect Interface Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `CustomBoostEffect` is an interface for defining custom boost effects that can be registered with EzBoost. Implement this interface in your plugin to add new effect types that will be executed when a boost is activated or deactivated.

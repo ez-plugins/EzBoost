@@ -1,4 +1,19 @@
+---
+title: Commands
+nav_order: 2
+description: "All /boost and /ezboost commands with syntax, arguments, and permissions"
+---
+
 # EzBoost Commands
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document details all commands provided by EzBoost, including syntax, arguments, permissions, and usage examples.
 

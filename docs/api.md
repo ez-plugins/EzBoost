@@ -1,4 +1,20 @@
+---
+title: API
+nav_order: 9
+has_children: true
+description: "EzBoost developer API — integrating boost management into your own plugins"
+---
+
 # EzBoost API Overview
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 EzBoost exposes a professional, extensible API for plugin developers and advanced users. The API allows you to register custom boost effects, manage player boosts, and integrate deeply with the boost system.
 

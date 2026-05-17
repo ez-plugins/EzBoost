@@ -1,4 +1,20 @@
+---
+title: EzBoostAPI
+parent: API
+nav_order: 1
+description: "EzBoostAPI class reference — full public method tables"
+---
+
 # EzBoostAPI Class Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `EzBoostAPI` is the main static API class for interacting with the EzBoost plugin. It provides methods for registering custom boost effects, querying and managing player boosts, and integrating with the boost system from other plugins.
