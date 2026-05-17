@@ -23,6 +23,7 @@ description: "Event fired when a boost expires or is cancelled — fields and us
 `com.skyblockexp.ezboost.event`
 
 ## Class Declaration
+
 ```java
 public class BoostEndEvent extends Event implements Cancellable {
     public BoostEndEvent(Player player, String boostKey, BoostDefinition boostDefinition);
@@ -31,6 +32,7 @@ public class BoostEndEvent extends Event implements Cancellable {
 ```
 
 ## Key Methods & Fields
+
 - `Player getPlayer()` — The player whose boost is ending.
 - `String getBoostKey()` — The unique key of the boost.
 - `BoostDefinition getBoostDefinition()` — The full boost definition.
@@ -38,6 +40,7 @@ public class BoostEndEvent extends Event implements Cancellable {
 - `void setCancelled(boolean cancel)` — Cancel or allow the boost end.
 
 ## Usage Example
+
 ```java
 @EventHandler
 public void onBoostEnd(BoostEndEvent event) {
@@ -48,5 +51,6 @@ public void onBoostEnd(BoostEndEvent event) {
 ```
 
 ## Notes
+
 - Fired in all scenarios where a boost may end (expiry, death, region/world change, forced removal, etc.).
 - Always provides the full `BoostDefinition` for advanced integrations.

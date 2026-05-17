@@ -20,6 +20,7 @@ This document provides a complete reference for all configuration files and opti
 ---
 
 ## Table of Contents
+
 - [settings.yml](#settingsyml)
 - [limits.yml](#limitsyml)
 - [worlds.yml](#worldsyml)
@@ -52,6 +53,7 @@ settings:
 ```
 
 Behavior:
+
 - `cooldown-per-boost-type: true` (legacy) keeps the existing per-boost-type cooldown behavior.
 - `cooldown-per-effect: true` enables per-effect cooldown checks. Lookups will fall back to the boost-level/global cooldown if no effect-specific cooldown is present.
 
@@ -80,6 +82,7 @@ worlds:
   allow-list: []   # List of world names where boosts are allowed (empty = all worlds allowed)
   deny-list: []    # List of world names where boosts are denied (empty = no worlds denied)
 ```
+
 - If both lists are empty, boosts are allowed in all worlds.
 - If a world appears in both lists, deny-list takes priority.
 

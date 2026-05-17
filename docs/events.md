@@ -26,6 +26,7 @@ EzBoost provides a robust event system to allow other plugins and advanced users
 ## Event Firing Scenarios
 
 Events are fired in all scenarios where a boost may start or end, including:
+
 - Manual activation
 - Expiry (time runs out)
 - Player join (re-application)
@@ -48,5 +49,6 @@ public void onBoostStart(BoostStartEvent event) {
 ```
 
 See the advanced class reference for each event:
+
 - [BoostStartEvent](events/BoostStartEvent.md)
 - [BoostEndEvent](events/BoostEndEvent.md)

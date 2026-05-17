@@ -19,7 +19,7 @@ This document describes the PlaceholderAPI expansion bundled with EzBoost and th
 
 ## Installation
 
-- Ensure PlaceholderAPI is installed on the server (https://www.spigotmc.org/resources/placeholderapi.6245/).
+- Ensure PlaceholderAPI is installed on the server (<https://www.spigotmc.org/resources/placeholderapi.6245/>).
 - The EzBoost expansion is registered automatically when both EzBoost and PlaceholderAPI are present — no extra files required.
 
 ## Expansion identifier
@@ -78,6 +78,7 @@ All placeholders use the `ezboost` expansion identifier. Wrap the identifier in 
 ## Formatting behaviour
 
 Number formatting honours `economy.format.*` settings from `economy.yml`:
+
 - `grouping` — `true`/`false`, enable thousands grouping
 - `grouping-separator` — single character, default `,`
 - `decimal-separator` — single character, default `.`
@@ -90,27 +91,32 @@ Compact formatting (`price_compact`) uses K / M suffixes and ignores the decimal
 ## Examples
 
 **Scoreboard line showing active boost and time:**
-```
+
+```text
 Boost: %ezboost_active_boost_display% (%ezboost_active_boost_time_remaining_formatted%)
 ```
 
 **Conditional button (e.g. in a GUI plugin) — only visible when no boost is active:**
-```
+
+```text
 condition: %ezboost_has_active_boost% == false
 ```
 
 **Shop sign showing cost:**
-```
+
+```text
 Cost: %ezboost_price_formatted_speed%
 ```
 
 **XP rate display:**
-```
+
+```text
 XP rate: %ezboost_xp_multiplier%x
 ```
 
 **Cooldown display for a specific boost:**
-```
+
+```text
 Cooldown: %ezboost_cooldown_remaining_formatted_speed%
 ```
 
@@ -121,4 +127,3 @@ Cooldown: %ezboost_cooldown_remaining_formatted_speed%
 - All boost key lookups use the requesting player's world/region context, so results may differ depending on active overrides.
 - If a boost key cannot be resolved or an argument is invalid, the placeholder returns an empty string (`""`), `false`, or `0` depending on the placeholder type.
 - The expansion registers at plugin startup when PlaceholderAPI is present; no manual registration is required.
-

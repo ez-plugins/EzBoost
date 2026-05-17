@@ -23,6 +23,7 @@ description: "Event fired when a boost is activated — fields, cancellation, an
 `com.skyblockexp.ezboost.event`
 
 ## Class Declaration
+
 ```java
 public class BoostStartEvent extends Event implements Cancellable {
     public BoostStartEvent(Player player, String boostKey, BoostDefinition boostDefinition);
@@ -31,6 +32,7 @@ public class BoostStartEvent extends Event implements Cancellable {
 ```
 
 ## Key Methods & Fields
+
 - `Player getPlayer()` — The player receiving the boost.
 - `String getBoostKey()` — The unique key of the boost.
 - `BoostDefinition getBoostDefinition()` — The full boost definition.
@@ -38,6 +40,7 @@ public class BoostStartEvent extends Event implements Cancellable {
 - `void setCancelled(boolean cancel)` — Cancel or allow the boost start.
 
 ## Usage Example
+
 ```java
 @EventHandler
 public void onBoostStart(BoostStartEvent event) {
@@ -48,5 +51,6 @@ public void onBoostStart(BoostStartEvent event) {
 ```
 
 ## Notes
+
 - Fired in all scenarios where a boost may start (activation, join, replacement, etc.).
 - Always provides the full `BoostDefinition` for advanced integrations.

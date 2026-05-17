@@ -10,10 +10,13 @@ EzBoost exposes a professional, extensible API for plugin developers and advance
 ## Getting Started
 
 1. Register your custom effect:
+
    ```java
    EzBoostAPI.registerCustomEffect(new MyCustomEffect());
    ```
+
 2. Query or manage player boosts:
+
    ```java
    if (EzBoostAPI.isBoostActive(player)) {
        BoostDefinition boost = EzBoostAPI.getActiveBoost(player);
