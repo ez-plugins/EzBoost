@@ -1,8 +1,24 @@
+---
+title: Overrides
+nav_order: 7
+description: "Server-wide boost multiplier overrides by world, world group, and WorldGuard region"
+---
+
 # Boost Overrides: Worlds, Groups, and Regions
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 EzBoost supports advanced configuration overrides for boosts based on world, world group, and WorldGuard region. This allows you to customize boost behavior for specific worlds or protected regions on your server.
 
 ## Table of Contents
+
 - [Boost Overrides: Worlds, Groups, and Regions](#boost-overrides-worlds-groups-and-regions)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
@@ -60,6 +76,7 @@ When a player is in a region/world/group with overrides, the plugin uses the fol
 
 ## Examples
 ### Per-World Override
+
 ```yaml
 overrides:
   worlds:
@@ -70,6 +87,7 @@ overrides:
 ```
 
 ### Per-WorldGroup Override
+
 ```yaml
 overrides:
   worldgroups:
@@ -79,6 +97,7 @@ overrides:
 ```
 
 ### Per-Region Override
+
 ```yaml
 overrides:
   regions:
@@ -88,11 +107,13 @@ overrides:
 ```
 
 ## WorldGuard Region Support
+
 - Region overrides require WorldGuard to be installed.
 - The plugin uses the highest-priority region the player is in.
 - If WorldGuard is not present, region overrides are ignored.
 
 ## Best Practices
+
 - Only specify override fields you want to change; all other settings inherit from the global boost definition.
 - Use region overrides for spawn, PvP arenas, or special protected areas.
 - Use worldgroups to manage multiple worlds with the same rules.

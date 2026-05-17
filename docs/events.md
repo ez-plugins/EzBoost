@@ -1,4 +1,20 @@
+---
+title: Events
+nav_order: 8
+has_children: true
+description: "Plugin events emitted by EzBoost — overview and usage guide"
+---
+
 # EzBoost Events Overview
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 EzBoost provides a robust event system to allow other plugins and advanced users to hook into boost lifecycle changes. This enables custom logic, integrations, and advanced control over boost activation and deactivation.
 
@@ -10,6 +26,7 @@ EzBoost provides a robust event system to allow other plugins and advanced users
 ## Event Firing Scenarios
 
 Events are fired in all scenarios where a boost may start or end, including:
+
 - Manual activation
 - Expiry (time runs out)
 - Player join (re-application)
@@ -32,5 +49,6 @@ public void onBoostStart(BoostStartEvent event) {
 ```
 
 See the advanced class reference for each event:
+
 - [BoostStartEvent](events/BoostStartEvent.md)
 - [BoostEndEvent](events/BoostEndEvent.md)

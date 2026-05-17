@@ -1,4 +1,20 @@
+---
+title: API
+nav_order: 9
+has_children: true
+description: "EzBoost developer API — integrating boost management into your own plugins"
+---
+
 # EzBoost API Overview
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 EzBoost exposes a professional, extensible API for plugin developers and advanced users. The API allows you to register custom boost effects, manage player boosts, and integrate deeply with the boost system.
 
@@ -6,7 +22,6 @@ EzBoost exposes a professional, extensible API for plugin developers and advance
 
 - [`EzBoostAPI`](api/EzBoostAPI.md): Main static API class for registering effects, querying and managing boosts.
 - [`CustomBoostEffect`](api/CustomBoostEffect.md): Interface for defining custom boost effects.
-
 
 ## Configuring Custom Effects in YAML
 
@@ -44,12 +59,14 @@ You can use JitPack to include the latest version directly from GitHub:
 </dependency>
 ```
 
-### 2. Register your custom effect:
+### 2. Register your custom effect
+
 ```java
 EzBoostAPI.registerCustomEffect(new MyCustomEffect());
 ```
 
-### 3. Query or manage player boosts:
+### 3. Query or manage player boosts
+
 ```java
 if (EzBoostAPI.isBoostActive(player)) {
    BoostDefinition boost = EzBoostAPI.getActiveBoost(player);

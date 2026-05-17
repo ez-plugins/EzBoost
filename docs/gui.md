@@ -1,4 +1,19 @@
+---
+title: GUI
+nav_order: 6
+description: "gui.yml schema — configuring the interactive chest-based boost menu"
+---
+
 # EzBoost – GUI Configuration Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document explains all options available in `gui.yml` for EzBoost. Use this as a guide to customize the in-game boost selection menu.
 

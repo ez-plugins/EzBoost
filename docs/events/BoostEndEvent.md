@@ -1,4 +1,20 @@
+---
+title: BoostEndEvent
+parent: Events
+nav_order: 2
+description: "Event fired when a boost expires or is cancelled — fields and usage"
+---
+
 # BoostEndEvent Class Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `BoostEndEvent` is fired when a boost is about to end for a player. This event is cancellable, allowing plugins to prevent the boost from ending. It provides full context, including the player and the `BoostDefinition`.
@@ -7,6 +23,7 @@
 `com.skyblockexp.ezboost.event`
 
 ## Class Declaration
+
 ```java
 public class BoostEndEvent extends Event implements Cancellable {
     public BoostEndEvent(Player player, String boostKey, BoostDefinition boostDefinition);
@@ -15,6 +32,7 @@ public class BoostEndEvent extends Event implements Cancellable {
 ```
 
 ## Key Methods & Fields
+
 - `Player getPlayer()` — The player whose boost is ending.
 - `String getBoostKey()` — The unique key of the boost.
 - `BoostDefinition getBoostDefinition()` — The full boost definition.
@@ -22,6 +40,7 @@ public class BoostEndEvent extends Event implements Cancellable {
 - `void setCancelled(boolean cancel)` — Cancel or allow the boost end.
 
 ## Usage Example
+
 ```java
 @EventHandler
 public void onBoostEnd(BoostEndEvent event) {
@@ -32,5 +51,6 @@ public void onBoostEnd(BoostEndEvent event) {
 ```
 
 ## Notes
+
 - Fired in all scenarios where a boost may end (expiry, death, region/world change, forced removal, etc.).
 - Always provides the full `BoostDefinition` for advanced integrations.
