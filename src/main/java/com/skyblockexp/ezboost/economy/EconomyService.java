@@ -17,6 +17,14 @@ public final class EconomyService {
         if (!enabled || settings == null || !settings.vaultEnabled()) {
             return;
         }
+        try {
+            lookupVaultEconomy();
+        } catch (NoClassDefFoundError ignored) {
+            // Vault is not installed; economy features will be unavailable
+        }
+    }
+
+    private void lookupVaultEconomy() {
         RegisteredServiceProvider<Economy> provider = Bukkit.getServicesManager().getRegistration(Economy.class);
         if (provider != null) {
             economy = provider.getProvider();

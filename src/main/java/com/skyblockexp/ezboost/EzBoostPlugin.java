@@ -152,7 +152,9 @@ public final class EzBoostPlugin extends JavaPlugin {
         Objects.requireNonNull(getServer().getPluginManager()).registerEvents(new AdminGuiChatListener(adminGui, this), this);
         getServer().getPluginManager().registerEvents(new BoostTokenListener(boostManager, tokenFactory), this);
         getServer().getPluginManager().registerEvents(new BoostPlayerListener(boostManager), this);
-        getServer().getPluginManager().registerEvents(new EconomyServiceListener(config, economyService, getLogger()), this);
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            getServer().getPluginManager().registerEvents(new EconomyServiceListener(config, economyService, getLogger()), this);
+        }
         getServer().getPluginManager().registerEvents(new XpBoostListener(xpBoostEffect), this);
     }
 
