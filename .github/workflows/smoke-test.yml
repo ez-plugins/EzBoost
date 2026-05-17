@@ -1,7 +1,7 @@
 name: Smoke Test
 
 # Verify EzBoost starts cleanly on Paper 26.1.2, Spigot 1.21.4, and
-# CraftBukkit 1.21.4 for every PR targeting main.
+# CraftBukkit 1.21.11 for every PR targeting main.
 # The plugin is compiled with Java 25; all servers are run on Java 25.
 
 on:
@@ -11,8 +11,8 @@ on:
 
 env:
   PAPER_261_VERSION: "26.1.2"  # New MC versioning scheme; uses fill.papermc.io API
-  SPIGOT_VERSION: "1.21.4"
-  BUKKIT_VERSION: "1.21.4"
+  SPIGOT_VERSION: "1.21.11"
+  BUKKIT_VERSION: "1.21.11"
 
 jobs:
   # ── 1. Build the shaded plugin JAR once with JDK 25 ────────────────────────
