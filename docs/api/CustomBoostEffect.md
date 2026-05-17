@@ -1,4 +1,20 @@
+---
+title: CustomBoostEffect
+parent: API
+nav_order: 2
+description: "CustomBoostEffect interface — implementing custom plugin-driven boost effects"
+---
+
 # CustomBoostEffect Interface Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `CustomBoostEffect` is an interface for defining custom boost effects that can be registered with EzBoost. Implement this interface in your plugin to add new effect types that will be executed when a boost is activated or deactivated.
@@ -7,6 +23,7 @@
 `com.skyblockexp.ezboost.boost`
 
 ## Interface Declaration
+
 ```java
 public interface CustomBoostEffect {
     /**
@@ -40,10 +57,12 @@ public interface CustomBoostEffect {
 
 ### `void apply(Player player, int amplifier)`
 Called when the boost's custom effect should be applied to a player.
+
 - **player**: The player receiving the effect.
 - **amplifier**: The configured amplifier for this effect in the boost.
 
 **Usage Example:**
+
 ```java
 @Override
 public void apply(Player player, int amplifier) {
@@ -55,9 +74,11 @@ public void apply(Player player, int amplifier) {
 
 ### `void remove(Player player)`
 Called when the boost's custom effect should be removed from a player.
+
 - **player**: The player losing the effect.
 
 **Usage Example:**
+
 ```java
 @Override
 public void remove(Player player) {
@@ -69,12 +90,14 @@ public void remove(Player player) {
 
 ### `String getName()`
 Returns the unique effect name used in boost configuration to identify the custom effect.
+
 - **Returns**: The effect name (e.g., "mycustom").
 
 ### `int getCooldownSeconds()`
 Returns the cooldown duration (in seconds) associated with this custom effect. When `settings.cooldown-per-effect` is enabled, this value is used to set per-effect cooldown timestamps after activation. Returning `0` means no cooldown.
 
 **Usage Example:**
+
 ```java
 @Override
 public String getName() {
@@ -119,6 +142,7 @@ public void onEnable() {
 ```
 
 ## Notes
+
 - Register your implementation with `EzBoostAPI.registerCustomEffect()` (see example above).
 - The effect type returned by `getType()` must be unique across all registered effects.
 - See also: [EzBoostAPI](../EzBoostAPI.md)

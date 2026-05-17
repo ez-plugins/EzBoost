@@ -1,4 +1,19 @@
+---
+title: Overrides
+nav_order: 7
+description: "Server-wide boost multiplier overrides by world, world group, and WorldGuard region"
+---
+
 # Boost Overrides: Worlds, Groups, and Regions
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 EzBoost supports advanced configuration overrides for boosts based on world, world group, and WorldGuard region. This allows you to customize boost behavior for specific worlds or protected regions on your server.
 

@@ -1,4 +1,20 @@
+---
+title: BoostStartEvent
+parent: Events
+nav_order: 1
+description: "Event fired when a boost is activated — fields, cancellation, and usage"
+---
+
 # BoostStartEvent Class Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `BoostStartEvent` is fired when a boost is about to start for a player. This event is cancellable, allowing plugins to prevent the boost from activating. It provides full context, including the player and the `BoostDefinition`.

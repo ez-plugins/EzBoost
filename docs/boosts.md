@@ -1,4 +1,19 @@
+---
+title: Boosts
+nav_order: 5
+description: "boosts.yml schema — defining effects, durations, cooldowns, costs, and particles"
+---
+
 # EzBoost – Default Boosts Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document describes the default boosts provided in `boosts.yml` for EzBoost. Each boost can be customized or extended in your configuration.
 

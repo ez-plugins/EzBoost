@@ -1,7 +1,11 @@
-[![Platform: Spigot | Paper | Bukkit](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit-blue?style=flat-square)](#)
-[![Minecraft 1.7-1.21.*](https://img.shields.io/badge/Minecraft-1.7--1.21.*-brightgreen?style=flat-square)](#)
-[![MIT License](https://img.shields.io/github/license/ez-plugins/ezboost?style=flat-square)](#)
-[![Latest Release](https://img.shields.io/github/v/release/ez-plugins/ezboost?style=flat-square)](#)
+[![CI](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml)
+[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.0.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
+[![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
+[![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/ezboost)
+[![Platform](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit-blue)](#)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.7--1.21.*-brightgreen)](#)
+[![License](https://img.shields.io/github/license/ez-plugins/ezboost)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/ez-plugins/ezboost)](https://github.com/ez-plugins/ezboost/releases)
 
 # EzBoost
 
@@ -34,18 +38,19 @@ EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bu
 
 ## Documentation
 
-- [Commands Reference](docs/commands.md)
-- [Permissions Reference](docs/permissions.md)
-- [Overrides Guide](docs/overrides.md)
-- [GUI Guide](docs/gui.md)
-- [Configuration Guide](docs/config.md)
-- [Boosts Guide](docs/boosts.md)
-- [API Overview](docs/api.md)
-  - [EzBoostAPI Reference](docs/api/EzBoostAPI.md)
-  - [CustomBoostEffect Reference](docs/api/CustomBoostEffect.md)
-  - [Events Overview](docs/events.md)
-    - [BoostStartEvent Reference](docs/events/BoostStartEvent.md)
-    - [BoostEndEvent Reference](docs/events/BoostEndEvent.md)
+Full documentation is available at **<https://ez-plugins.github.io/ezboost>**.
+
+| Page | What it covers |
+|------|----------------|
+| [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
+| [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
+| [Configuration](https://ez-plugins.github.io/ezboost/config) | `settings.yml`, `limits.yml`, `worlds.yml`, `economy.yml` |
+| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema — effects, durations, costs |
+| [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` — chest-based boost menu |
+| [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World, group, and region multiplier overrides |
+| [Events](https://ez-plugins.github.io/ezboost/events) | Plugin lifecycle events |
+| [API](https://ez-plugins.github.io/ezboost/api) | Developer API reference |
+| [PlaceholderAPI](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI) | Available placeholders |
 
 ---
 

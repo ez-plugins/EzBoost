@@ -1,4 +1,19 @@
+---
+title: Configuration
+nav_order: 4
+description: "settings.yml, limits.yml, worlds.yml, and economy.yml configuration reference"
+---
+
 # EzBoost – Configuration Options Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This document provides a complete reference for all configuration files and options available in EzBoost. Use this guide to understand and customize every aspect of the plugin.
 

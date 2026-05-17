@@ -1,4 +1,19 @@
+---
+title: Permissions
+nav_order: 3
+description: "Full permissions reference and default values for EzBoost"
+---
+
 # Permissions
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 This page documents all permissions used by EzBoost, including their purposes, default assignments, and examples.
 

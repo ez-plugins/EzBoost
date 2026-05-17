@@ -1,4 +1,20 @@
+---
+title: BoostEndEvent
+parent: Events
+nav_order: 2
+description: "Event fired when a boost expires or is cancelled — fields and usage"
+---
+
 # BoostEndEvent Class Reference
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Overview
 `BoostEndEvent` is fired when a boost is about to end for a player. This event is cancellable, allowing plugins to prevent the boost from ending. It provides full context, including the player and the `BoostDefinition`.
