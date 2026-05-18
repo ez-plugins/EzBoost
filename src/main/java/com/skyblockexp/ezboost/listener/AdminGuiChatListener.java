@@ -29,12 +29,9 @@ public class AdminGuiChatListener implements Listener {
         }
         event.setCancelled(true);
         final String message = event.getMessage();
-        if (FoliaScheduler.FOLIA) {
-            // On Folia, PDC must be accessed on the entity's region thread
-            player.getScheduler().run(plugin, t -> processInput(player, message), null);
-        } else {
-            processInput(player, message);
-        }
+        // Dispatch to the main thread (Paper) or entity region thread (Folia).
+        // Also fixes an async-thread PDC access issue on standard Paper.
+        FoliaScheduler.runEntityTask(plugin, player, () -> processInput(player, message));
     }
 
     /**
