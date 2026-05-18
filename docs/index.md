@@ -13,22 +13,22 @@ permalink: /
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 
 **EzBoost** is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (1.7–1.21.*).
-It gives server owners full control over configurable, time-limited potion boosts — complete with GUI,
+It gives server owners full control over configurable, time-limited potion boosts – complete with GUI,
 cooldowns, economy integration, WorldGuard region support, and a developer API.
 
 ---
 
 ## Features
 
-- **Flexible boost definitions** — configure any potion effect with duration, amplifier, cooldowns, limits, and particle effects via `boosts.yml`
-- **Interactive GUI** — fully-customisable chest-based boost menu driven by `gui.yml`; fully disableable
-- **Economy integration** — optional Vault economy support with per-boost pricing; gracefully skipped when Vault is absent
-- **WorldGuard support** — restrict boost activation to specific WorldGuard regions
-- **Per-player and global limits** — cap how many active boosts a player or the server can run simultaneously
-- **Overrides** — server-wide event-driven multipliers layered on top of individual boosts
-- **PlaceholderAPI** — exposes boost state and duration as placeholders for scoreboards, holograms, and more
-- **MiniMessage formatting** — all messages use the Adventure MiniMessage format for rich, hex-colour text
-- **Developer API** — clean Java API to start/stop boosts and listen to lifecycle events from other plugins
+- **Flexible boost definitions** – configure any potion effect with duration, amplifier, cooldowns, limits, and particle effects via `boosts.yml`
+- **Interactive GUI** – fully-customisable chest-based boost menu driven by `gui.yml`; fully disableable
+- **Economy integration** – optional Vault economy support with per-boost pricing; gracefully skipped when Vault is absent
+- **WorldGuard support** – restrict boost activation to specific WorldGuard regions
+- **Per-player and global limits** – cap how many active boosts a player or the server can run simultaneously
+- **Overrides** – server-wide event-driven multipliers layered on top of individual boosts
+- **PlaceholderAPI** – exposes boost state and duration as placeholders for scoreboards, holograms, and more
+- **MiniMessage formatting** – all messages use the Adventure MiniMessage format for rich, hex-colour text
+- **Developer API** – clean Java API to start/stop boosts and listen to lifecycle events from other plugins
 
 ---
 
@@ -54,8 +54,8 @@ and drop it into your server's `plugins/` directory.
 | [Commands](commands) | All `/boost` and `/ezboost` commands with syntax and permissions |
 | [Permissions](permissions) | Full permissions reference and default values |
 | [Configuration](config) | `settings.yml`, `limits.yml`, `worlds.yml`, `economy.yml` |
-| [Boosts](boosts) | `boosts.yml` schema — effects, duration, cooldowns, costs |
-| [GUI](gui) | `gui.yml` schema — slots, items, actions |
+| [Boosts](boosts) | `boosts.yml` schema – effects, duration, cooldowns, costs |
+| [GUI](gui) | `gui.yml` schema – slots, items, actions |
 | [Overrides](overrides) | Server-wide boost multiplier overrides |
 | [Events](events) | Plugin events overview |
 | &nbsp;&nbsp;[BoostStartEvent](events/BoostStartEvent) | Fired when a boost activates |

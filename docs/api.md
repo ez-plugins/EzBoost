@@ -2,7 +2,7 @@
 title: API
 nav_order: 9
 has_children: true
-description: "EzBoost developer API — integrating boost management into your own plugins"
+description: "EzBoost developer API – integrating boost management into your own plugins"
 ---
 
 # EzBoost API Overview

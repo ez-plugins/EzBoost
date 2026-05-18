@@ -33,7 +33,7 @@
 [*][B]Vault economy support[/B] – Optionally charge players for activating boosts.
 [*][B]Live reload[/B] – Reload all configuration and messages at runtime with [icode]/ezboost reload[/icode].
 [*][B]Friendly messaging[/B] – Customizable MiniMessage strings for actionbar/status feedback.
-[*][B]Internal message tags[/B] – Use [icode]<boost_display>[/icode], [icode]<boost_cost>[/icode], [icode]<boost_duration>[/icode] and more directly in [icode]messages.yml[/icode] — no PlaceholderAPI needed.
+[*][B]Internal message tags[/B] – Use [icode]<boost_display>[/icode], [icode]<boost_cost>[/icode], [icode]<boost_duration>[/icode] and more directly in [icode]messages.yml[/icode] – no PlaceholderAPI needed.
 [*][B]PlaceholderAPI expansion[/B] – 18+ placeholders for boost status, active boost, cooldowns, time remaining, XP multiplier and economy formatting. Usable in scoreboards, GUI plugins and any PAPI-compatible plugin.
 [*][B]Command hooks[/B] – Run console commands on enable/disable/toggle per boost.
 [*][B]Player-friendly behavior[/B] – Reapply boosts on join, keep on death, and refund on failed activation.

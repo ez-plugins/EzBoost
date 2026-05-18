@@ -2,7 +2,7 @@
 title: BoostStartEvent
 parent: Events
 nav_order: 1
-description: "Event fired when a boost is activated — fields, cancellation, and usage"
+description: "Event fired when a boost is activated – fields, cancellation, and usage"
 ---
 
 # BoostStartEvent Class Reference
@@ -33,11 +33,11 @@ public class BoostStartEvent extends Event implements Cancellable {
 
 ## Key Methods & Fields
 
-- `Player getPlayer()` — The player receiving the boost.
-- `String getBoostKey()` — The unique key of the boost.
-- `BoostDefinition getBoostDefinition()` — The full boost definition.
-- `boolean isCancelled()` — Whether the event is cancelled.
-- `void setCancelled(boolean cancel)` — Cancel or allow the boost start.
+- `Player getPlayer()` – The player receiving the boost.
+- `String getBoostKey()` – The unique key of the boost.
+- `BoostDefinition getBoostDefinition()` – The full boost definition.
+- `boolean isCancelled()` – Whether the event is cancelled.
+- `void setCancelled(boolean cancel)` – Cancel or allow the boost start.
 
 ## Usage Example
 

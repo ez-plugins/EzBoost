@@ -1,7 +1,7 @@
 ---
 title: GUI
 nav_order: 6
-description: "gui.yml schema — configuring the interactive chest-based boost menu"
+description: "gui.yml schema – configuring the interactive chest-based boost menu"
 ---
 
 # EzBoost – GUI Configuration Reference
@@ -56,19 +56,19 @@ gui:
 
 ## Option Reference
 
-- **enabled**: `true`/`false` — Enable or disable the GUI entirely.
-- **title**: String — The GUI title (MiniMessage formatting supported).
-- **size**: Integer — Number of slots (must be a multiple of 9, max 54).
-- **close-on-click**: `true`/`false` — Whether the GUI closes after a boost is selected.
+- **enabled**: `true`/`false` – Enable or disable the GUI entirely.
+- **title**: String – The GUI title (MiniMessage formatting supported).
+- **size**: Integer – Number of slots (must be a multiple of 9, max 54).
+- **close-on-click**: `true`/`false` – Whether the GUI closes after a boost is selected.
 - **filler**: Section for the background/filler item.
   - **material**: Item material (e.g., `BLACK_STAINED_GLASS_PANE`).
   - **name**: Display name for the filler item.
   - **lore**: List of lore lines for the filler item.
-- **lore**: List — Template for each boost's lore. Supports placeholders:
+- **lore**: List – Template for each boost's lore. Supports placeholders:
   - `<duration>`, `<cooldown>`, `<cost>`, `<status>`
-- **status**: Section — Custom text for each status type:
+- **status**: Section – Custom text for each status type:
   - **available**, **locked**, **cooldown**, **active**
-- **slots**: Section — Maps each boost key to a slot index (0-based).
+- **slots**: Section – Maps each boost key to a slot index (0-based).
 
 ---
 

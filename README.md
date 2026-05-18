@@ -9,12 +9,12 @@
 
 # EzBoost
 
-> Configurable potion boosts for Spigot / Paper / Bukkit 1.7–1.21.* — GUI activation, cooldowns, economy costs, boost tokens, and WorldGuard region overrides.
+> Configurable potion boosts for Spigot / Paper / Bukkit 1.7–1.21.* – GUI activation, cooldowns, economy costs, boost tokens, and WorldGuard region overrides.
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
 EzBoost lets server owners offer time-limited potion boosts through a fully customisable chest GUI or
-direct commands. Every boost is independently configurable — potion effects, amplifier, duration, cooldown,
+direct commands. Every boost is independently configurable – potion effects, amplifier, duration, cooldown,
 permission, economy cost, and behaviour on death or reconnect. Boosts can be scoped to specific worlds or
 WorldGuard regions, and players can receive tradeable **boost tokens** as crate prizes or vote rewards.
 
@@ -23,23 +23,23 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 ## Features
 
 ### Player experience
-- **Chest GUI** — browse boosts with live cooldown timers, cost display, and active-boost indicator
-- **Direct activation** — `/boost <key>` for players who prefer commands over the GUI
-- **Boost tokens** — physical inventory items redeemed by right-click; tradeable and giftable
-- **Rich feedback** — MiniMessage-formatted actionbar and chat messages, fully customisable
+- **Chest GUI** – browse boosts with live cooldown timers, cost display, and active-boost indicator
+- **Direct activation** – `/boost <key>` for players who prefer commands over the GUI
+- **Boost tokens** – physical inventory items redeemed by right-click; tradeable and giftable
+- **Rich feedback** – MiniMessage-formatted actionbar and chat messages, fully customisable
 
 ### Server management
-- **Fully configurable boosts** — any potion effect, any amplifier, per-boost cooldown, permission, and cost
-- **In-game admin GUI** — create and edit boosts with `/ezboost create`, no YAML editing required
-- **World allow / deny lists** — restrict boosts to specific worlds for gameplay balance
-- **Region overrides** — change any boost property (effect, cost, enabled state) per WorldGuard region; no hard dependency
-- **Live reload** — `/ezboost reload` applies all config changes without a server restart
-- **Persistent storage** — boost states and cooldowns survive restarts; choice of YAML, SQLite, MySQL, MariaDB, or PostgreSQL backend
+- **Fully configurable boosts** – any potion effect, any amplifier, per-boost cooldown, permission, and cost
+- **In-game admin GUI** – create and edit boosts with `/ezboost create`, no YAML editing required
+- **World allow / deny lists** – restrict boosts to specific worlds for gameplay balance
+- **Region overrides** – change any boost property (effect, cost, enabled state) per WorldGuard region; no hard dependency
+- **Live reload** – `/ezboost reload` applies all config changes without a server restart
+- **Persistent storage** – boost states and cooldowns survive restarts; choice of YAML, SQLite, MySQL, MariaDB, or PostgreSQL backend
 
 ### Integrations
-- **Vault** — optional economy cost per boost; gracefully disabled if Vault is absent
-- **PlaceholderAPI** — 18+ placeholders for scoreboards, holograms, and GUI plugins
-- **Internal message tags** — `<boost_display>`, `<boost_cost>`, `<boost_duration>`, and more available directly in `messages.yml`
+- **Vault** – optional economy cost per boost; gracefully disabled if Vault is absent
+- **PlaceholderAPI** – 18+ placeholders for scoreboards, holograms, and GUI plugins
+- **Internal message tags** – `<boost_display>`, `<boost_cost>`, `<boost_duration>`, and more available directly in `messages.yml`
 
 ---
 
@@ -47,7 +47,7 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 
 1. Download `EzBoost-<version>.jar` from the [releases page](https://github.com/ez-plugins/ezboost/releases).
 2. Drop the JAR into your server's `plugins/` folder.
-3. Start (or restart) your server — EzBoost generates all config files in `plugins/EzBoost/`.
+3. Start (or restart) your server – EzBoost generates all config files in `plugins/EzBoost/`.
 4. Edit `boosts.yml` to define your boosts, then run `/ezboost reload` to apply.
 
 **Optional extras:**
@@ -89,7 +89,7 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 
 | File | Purpose |
 |------|---------|
-| `boosts.yml` | Define boosts — effects, duration, cooldown, cost, permissions, command hooks |
+| `boosts.yml` | Define boosts – effects, duration, cooldown, cost, permissions, command hooks |
 | `settings.yml` | General toggles: replace-active-boost, keep-on-death, reapply-on-join |
 | `limits.yml` | Clamp amplifier and duration ranges across all boosts |
 | `worlds.yml` | World allow / deny lists |
@@ -122,7 +122,7 @@ Configure the backend in `plugins/EzBoost/storage.yml`:
 Boost tokens are inventory items that activate a specific boost when right-clicked in the main hand.
 
 - **Give tokens:** `/ezboost give <player> <key> [amount]`
-- **Redeem:** The player right-clicks the token — it is consumed and the boost activates immediately.
+- **Redeem:** The player right-clicks the token – it is consumed and the boost activates immediately.
 - Tokens work as crate prizes, vote rewards, auction house listings, or shop items.
 
 ---
@@ -130,7 +130,7 @@ Boost tokens are inventory items that activate a specific boost when right-click
 ## WorldGuard Integration
 
 EzBoost detects WorldGuard automatically. Use region IDs in `boosts.yml` to change any boost property
-on a per-region basis — useful for PvP arenas, spawn zones, or event worlds.
+on a per-region basis – useful for PvP arenas, spawn zones, or event worlds.
 If WorldGuard is not installed, region overrides are silently ignored.
 
 → Full reference: [Overrides](https://ez-plugins.github.io/ezboost/overrides)
@@ -146,7 +146,7 @@ Full documentation is at **<https://ez-plugins.github.io/ezboost>**.
 | [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
 | [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
 | [Configuration](https://ez-plugins.github.io/ezboost/config) | All config files explained |
-| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema — effects, duration, costs |
+| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema – effects, duration, costs |
 | [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` layout and slot configuration |
 | [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World and region override syntax |
 | [Events](https://ez-plugins.github.io/ezboost/events) | Plugin lifecycle events |
