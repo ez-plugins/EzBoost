@@ -201,7 +201,8 @@ public final class EzBoostPlugin extends JavaPlugin {
                 cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".username",
                         backend.equals("postgresql") ? "postgres" : "root"),
                 cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".password", ""),
-                cfg.getInt("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".pool-size", 10)
+                cfg.getInt("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".pool-size", 10),
+                cfg.getBoolean("storage.debug-logging", false)
         );
     }
 

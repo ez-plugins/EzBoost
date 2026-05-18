@@ -17,7 +17,10 @@ public record StorageSettings(
         String database,
         String username,
         String password,
-        int    poolSize
+        int    poolSize,
+
+        /** When {@code true}, Jaloquent will emit query/save debug logs to the console. */
+        boolean debugLogging
 ) {
     /** Default settings (YAML backend, no connection details needed). */
     public static StorageSettings defaults() {
@@ -29,7 +32,8 @@ public record StorageSettings(
                 "ezboost",
                 "root",
                 "",
-                10
+                10,
+                false
         );
     }
 }

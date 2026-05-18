@@ -22,7 +22,7 @@ public class StorageSettingsTest {
     @Test
     public void constructor_storesAllFields() {
         StorageSettings s = new StorageSettings(
-                "sqlite", "my.db", "db.host", 5432, "mydb", "admin", "pass", 5);
+                "sqlite", "my.db", "db.host", 5432, "mydb", "admin", "pass", 5, false);
         assertEquals("sqlite", s.backend());
         assertEquals("my.db", s.dbFile());
         assertEquals("db.host", s.host());

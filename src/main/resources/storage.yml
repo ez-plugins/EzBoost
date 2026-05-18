@@ -15,6 +15,10 @@
 storage:
   backend: yaml
 
+  # Set to true to enable verbose Jaloquent query/save logs in the console.
+  # Useful for debugging storage issues; keep false in production.
+  debug-logging: false
+
   # ── SQLite ──────────────────────────────────────────────────────────────────
   # File path relative to the EzBoost plugin data folder.
   sqlite:

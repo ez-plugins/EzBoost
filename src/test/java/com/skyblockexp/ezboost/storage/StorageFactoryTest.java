@@ -67,7 +67,7 @@ public class StorageFactoryTest {
     public void build_unknownBackend_throwsIllegalArgumentException(@TempDir Path tempDir) {
         // "oracle" is not a valid backend — the switch default case must throw
         StorageSettings settings = new StorageSettings(
-                "oracle", "x.db", "localhost", 1521, "db", "user", "", 5);
+                "oracle", "x.db", "localhost", 1521, "db", "user", "", 5, false);
         assertThrows(IllegalArgumentException.class,
                 () -> StorageFactory.build(settings, tempDir.toFile(), LOGGER));
     }
@@ -77,7 +77,7 @@ public class StorageFactoryTest {
     @Test
     public void build_sqliteBackend_returnsBundleWithNonNullRepos(@TempDir Path tempDir) {
         StorageSettings settings = new StorageSettings(
-                "sqlite", "test.db", "localhost", 3306, "ezboost", "", "", 5);
+                "sqlite", "test.db", "localhost", 3306, "ezboost", "", "", 5, false);
         StorageFactory.StorageBundle bundle =
                 StorageFactory.build(settings, tempDir.toFile(), LOGGER);
 

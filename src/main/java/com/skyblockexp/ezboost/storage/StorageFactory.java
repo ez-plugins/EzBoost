@@ -1,6 +1,7 @@
 package com.skyblockexp.ezboost.storage;
 
 import com.github.ezframework.jaloquent.config.DatabaseSettings;
+import com.github.ezframework.jaloquent.config.JaloquentConfig;
 import com.github.ezframework.jaloquent.config.JdbcScheme;
 import com.github.ezframework.jaloquent.exception.MigrationException;
 import com.github.ezframework.jaloquent.migration.MigrationBlueprint;
@@ -72,6 +73,8 @@ public final class StorageFactory {
             Logger logger) {
 
         String backend = settings.backend().toLowerCase(Locale.ROOT);
+
+        JaloquentConfig.enableLogging(settings.debugLogging());
 
         if ("yaml".equals(backend)) {
             return buildYaml(dataFolder, logger);
