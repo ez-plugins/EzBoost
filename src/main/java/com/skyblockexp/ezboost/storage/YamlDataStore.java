@@ -20,12 +20,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * Jaloquent {@link DataStore} backed by a single YAML file.
- * Each record is stored as a YAML section keyed by its path (e.g. "leaderboard.uuid").
+ * Each record is stored as a YAML section keyed by its storage path (e.g. {@code "boost_states/uuid"}).
+ * Jaloquent's {@link com.github.ezframework.jaloquent.model.BaseModel#getStoragePath} produces
+ * paths in the form {@code prefix + "/" + id}, so the YAML file has a flat top-level structure
+ * where each key is the full storage path of a record.
  *
  * <p>Implements {@link QueryableStorage} so that {@link com.github.ezframework.jaloquent.model.ModelRepository#query}
- * works without a SQL backend. The {@link #query(Query)} method scans all sections in the YAML
+ * works without a SQL backend. The {@link #query(Query)} method scans all flat keys in the YAML
  * file, evaluates the query's conditions in Java, applies ordering and limit, and returns
- * matching full paths (e.g. {@code "boost_states.abc-uuid"}).
+ * the matching record IDs (the portion of the key after the last {@code /}).
  */
 public final class YamlDataStore implements DataStore, QueryableStorage {
 
@@ -82,34 +85,30 @@ public final class YamlDataStore implements DataStore, QueryableStorage {
     // ── QueryableStorage ──────────────────────────────────────────────────────
 
     /**
-     * Scan every two-level key (prefix → id) in the YAML file, apply the query's
-     * conditions in Java, sort and limit, then return the matching full paths
-     * (e.g. {@code "boost_states.abc-uuid"}).
+     * Scan every record in the YAML file (top-level keys have the form {@code prefix/id}),
+     * apply the query's conditions in Java, sort and limit, then return the matching
+     * record IDs (the portion of the key after the last {@code /}).
      *
-     * <p>The returned paths are handed back to {@link com.github.ezframework.jaloquent.model.ModelRepository}
-     * which then loads each record by path and instantiates the model.
+     * <p>The returned IDs are handed to {@link com.github.ezframework.jaloquent.model.ModelRepository}
+     * which calls {@code find(id)} for each, reconstructing the model from storage.
      */
     @Override
     public List<String> query(Query query) {
-        List<String> conditions = new ArrayList<>(); // not used — see below
-
-        // Collect all candidate {path, dataMap} pairs
-        record Entry(String path, Map<String, Object> data) {}
+        // Each top-level key is a storage path of the form "prefix/id".
+        record Entry(String id, Map<String, Object> data) {}
         List<Entry> candidates = new ArrayList<>();
 
-        for (String topKey : yaml.getKeys(false)) {
-            ConfigurationSection prefixSection = yaml.getConfigurationSection(topKey);
-            if (prefixSection == null) continue;
-            for (String id : prefixSection.getKeys(false)) {
-                String fullPath = topKey + "." + id;
-                ConfigurationSection section = yaml.getConfigurationSection(fullPath);
-                if (section == null) continue;
-                Map<String, Object> data = new LinkedHashMap<>();
-                for (String k : section.getKeys(false)) {
-                    data.put(k, section.get(k));
-                }
-                candidates.add(new Entry(fullPath, data));
+        for (String storageKey : yaml.getKeys(false)) {
+            ConfigurationSection section = yaml.getConfigurationSection(storageKey);
+            if (section == null) continue;
+            // Extract the record ID (everything after the last '/')
+            int slashIdx = storageKey.lastIndexOf('/');
+            String id = slashIdx >= 0 ? storageKey.substring(slashIdx + 1) : storageKey;
+            Map<String, Object> data = new LinkedHashMap<>();
+            for (String k : section.getKeys(false)) {
+                data.put(k, section.get(k));
             }
+            candidates.add(new Entry(id, data));
         }
 
         // Apply WHERE conditions using Jaloquent's Condition.matches()
@@ -152,9 +151,9 @@ public final class YamlDataStore implements DataStore, QueryableStorage {
                 ? filtered.subList(0, limit)
                 : filtered;
 
-        // Return only the paths
+        // Return record IDs (not full storage paths)
         List<String> result = new ArrayList<>(limited.size());
-        for (Entry e : limited) result.add(e.path());
+        for (Entry e : limited) result.add(e.id());
         return result;
     }
 
