@@ -30,6 +30,7 @@ public class EffectSelectionGui {
     private final NamespacedKey effectKey;
     private final NamespacedKey pageKey;
     private final Consumer<BoostEffect> onEffectSelected;
+    private final Consumer<UUID> onChatInputStart;
 
     // Common potion effects (lookup by name for version compatibility)
     private static final List<PotionEffectType> COMMON_EFFECTS = new ArrayList<>();
@@ -55,8 +56,13 @@ public class EffectSelectionGui {
     }
 
     public EffectSelectionGui(JavaPlugin plugin, Consumer<BoostEffect> onEffectSelected) {
+        this(plugin, onEffectSelected, uuid -> {});
+    }
+
+    public EffectSelectionGui(JavaPlugin plugin, Consumer<BoostEffect> onEffectSelected, Consumer<UUID> onChatInputStart) {
         this.plugin = plugin;
         this.onEffectSelected = onEffectSelected;
+        this.onChatInputStart = onChatInputStart;
         this.effectKey = new NamespacedKey(plugin, "effect-type");
         this.pageKey = new NamespacedKey(plugin, "page");
     }
@@ -230,10 +236,10 @@ public class EffectSelectionGui {
     }
 
     private void promptForAmplifier(Player player, PotionEffectType effectType) {
+        onChatInputStart.accept(player.getUniqueId());
         player.closeInventory();
         player.sendMessage(legacySerializer.serialize(Component.text("Selected effect: " + formatEffectName(effectType.key().value()))));
-        player.sendMessage(legacySerializer.serialize(Component.text("Enter amplifier level (0-255, 0 = level 1):")))
-;
+        player.sendMessage(legacySerializer.serialize(Component.text("Enter amplifier level (0-255, 0 = level 1):")));
         // Store the effect type for later use
         player.getPersistentDataContainer().set(
             new NamespacedKey(plugin, "selected-effect"),

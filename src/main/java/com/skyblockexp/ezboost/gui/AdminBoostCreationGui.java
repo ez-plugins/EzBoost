@@ -1,5 +1,6 @@
 package com.skyblockexp.ezboost.gui;
 
+import com.skyblockexp.ezboost.FoliaScheduler;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.gui.admin.*;
@@ -13,7 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Main controller for the admin boost creation GUI.
@@ -33,8 +36,9 @@ public class AdminBoostCreationGui {
             .build();
     private final NamespacedKey actionKey;
     private final Map<UUID, BoostCreationState> states = new HashMap<>();
-    private final Map<UUID, String> inputModes = new HashMap<>(); // player -> field
-    private final Map<UUID, java.util.function.Consumer<String>> inputCallbacks = new HashMap<>();
+    private final Map<UUID, String> inputModes = new ConcurrentHashMap<>();
+    private final Map<UUID, java.util.function.Consumer<String>> inputCallbacks = new ConcurrentHashMap<>();
+    private final Set<UUID> chatInputWaiters = ConcurrentHashMap.newKeySet();
     private final File adminStatesFile;
 
     // Component classes
@@ -60,9 +64,11 @@ public class AdminBoostCreationGui {
                                                        UUID uuid = player.getUniqueId();
                                                        inputModes.put(uuid, "input");
                                                        inputCallbacks.put(uuid, callback);
-                                                   });
+                                                   },
+                                                   chatInputWaiters::add);
         this.clickHandler = new AdminGuiClickHandler(plugin, boostManager, messages, legacySerializer,
-                                                   renderer, inputHandler, validator, this::clearSavedState);
+                                                   renderer, inputHandler, validator, this::clearSavedState,
+                                                   chatInputWaiters::add);
     }
 
     /**
@@ -136,14 +142,14 @@ public class AdminBoostCreationGui {
             if ("cancel".equalsIgnoreCase(message)) {
                 player.sendMessage(legacySerializer.serialize(Component.text("§aInput cancelled.")));
                 // Reopen GUI after cancel
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                FoliaScheduler.runEntityTask(plugin, player, () -> {
                     player.closeInventory();
                     open(player);
                 });
             } else {
                 callback.accept(message);
                 // Reopen GUI after successful input
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                FoliaScheduler.runEntityTask(plugin, player, () -> {
                     player.closeInventory();
                     open(player);
                 });
@@ -156,6 +162,24 @@ public class AdminBoostCreationGui {
      */
     public boolean isPlayerInInputMode(UUID uuid) {
         return inputModes.containsKey(uuid);
+    }
+
+    /**
+     * Returns true if the player is awaiting any type of chat input (standard input mode
+     * or a PDC-based state such as amplifier or custom permission). Thread-safe.
+     */
+    public boolean isPlayerPendingAnyInput(UUID uuid) {
+        return inputModes.containsKey(uuid) || chatInputWaiters.contains(uuid);
+    }
+
+    /** Marks a player as waiting for a PDC-based chat input (thread-safe). */
+    public void markChatWaiter(UUID uuid) {
+        chatInputWaiters.add(uuid);
+    }
+
+    /** Removes the PDC-based chat input mark for a player (thread-safe). */
+    public void unmarkChatWaiter(UUID uuid) {
+        chatInputWaiters.remove(uuid);
     }
 
     /**
@@ -184,6 +208,7 @@ public class AdminBoostCreationGui {
 
     public void handleEffectAmplifierInput(Player player, String input) {
         UUID uuid = player.getUniqueId();
+        unmarkChatWaiter(uuid);
         BoostCreationState state = states.get(uuid);
         if (state != null) {
             inputHandler.handleEffectAmplifierInput(player, input, state);
@@ -216,6 +241,7 @@ public class AdminBoostCreationGui {
 
     public void handleCustomPermissionInput(Player player, String permission) {
         UUID uuid = player.getUniqueId();
+        unmarkChatWaiter(uuid);
         BoostCreationState state = states.get(uuid);
         if (state != null) {
             inputHandler.handleCustomPermissionInput(player, permission, state);

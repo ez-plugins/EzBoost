@@ -22,7 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitTask;
+import com.skyblockexp.ezboost.FoliaScheduler;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.Collections;
@@ -38,8 +38,8 @@ public final class BoostManager {
     private final BoostStorage storage;
     private final Logger logger;
     private final Map<UUID, BoostState> states = new ConcurrentHashMap<>();
-    private final Map<UUID, BukkitTask> expiryTasks = new HashMap<>();
-    private final Map<UUID, BukkitTask> actionbarTasks = new HashMap<>();
+    private final Map<UUID, FoliaScheduler.TaskHandle> expiryTasks = new HashMap<>();
+    private final Map<UUID, FoliaScheduler.TaskHandle> actionbarTasks = new HashMap<>();
     private CurrencyFormatter currencyFormatter;
 
     // Custom effect registry
@@ -549,7 +549,7 @@ public final class BoostManager {
     private void scheduleExpiry(Player player, BoostDefinition boost, long endTimestamp) {
         cancelExpiryTask(player.getUniqueId());
         long delayTicks = Math.max(1L, (endTimestamp - System.currentTimeMillis()) / 50L);
-        BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        FoliaScheduler.TaskHandle task = FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
             BoostState state = states.get(player.getUniqueId());
             if (state == null || state.activeBoostKey() == null) {
                 return;
@@ -568,7 +568,7 @@ public final class BoostManager {
             return;
         }
         cancelActionbarTask(player.getUniqueId());
-        BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+        FoliaScheduler.TaskHandle task = FoliaScheduler.runEntityTaskTimer(plugin, player, () -> {
             BoostState state = states.get(player.getUniqueId());
             if (state == null || state.activeBoostKey() == null) {
                 cancelActionbarTask(player.getUniqueId());
@@ -585,14 +585,14 @@ public final class BoostManager {
     }
 
     private void cancelExpiryTask(UUID uuid) {
-        BukkitTask task = expiryTasks.remove(uuid);
+        FoliaScheduler.TaskHandle task = expiryTasks.remove(uuid);
         if (task != null) {
             task.cancel();
         }
     }
 
     private void cancelActionbarTask(UUID uuid) {
-        BukkitTask task = actionbarTasks.remove(uuid);
+        FoliaScheduler.TaskHandle task = actionbarTasks.remove(uuid);
         if (task != null) {
             task.cancel();
         }
@@ -672,7 +672,11 @@ public final class BoostManager {
                     .replace("{player}", player.getName())
                       .replace("{displayname}", player.getName())
                     .replace("{boost}", boost.key());
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), parsed);
+            if (FoliaScheduler.FOLIA) {
+                FoliaScheduler.runGlobal(plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), parsed));
+            } else {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), parsed);
+            }
         }
     }
 

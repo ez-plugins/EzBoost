@@ -1,5 +1,6 @@
 package com.skyblockexp.ezboost.gui.admin;
 
+import com.skyblockexp.ezboost.FoliaScheduler;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.gui.*;
@@ -23,11 +24,13 @@ public class AdminGuiClickHandler {
     private final AdminGuiInputHandler inputHandler;
     private final AdminGuiValidator validator;
     private final java.util.function.Consumer<Player> clearSavedStateCallback;
+    private final java.util.function.Consumer<UUID> markChatWaiter;
 
     public AdminGuiClickHandler(JavaPlugin plugin, BoostManager boostManager, Messages messages,
                               LegacyComponentSerializer legacySerializer, AdminGuiRenderer renderer,
                               AdminGuiInputHandler inputHandler, AdminGuiValidator validator,
-                              java.util.function.Consumer<Player> clearSavedStateCallback) {
+                              java.util.function.Consumer<Player> clearSavedStateCallback,
+                              java.util.function.Consumer<UUID> markChatWaiter) {
         this.plugin = plugin;
         this.boostManager = boostManager;
         this.messages = messages;
@@ -36,6 +39,7 @@ public class AdminGuiClickHandler {
         this.inputHandler = inputHandler;
         this.validator = validator;
         this.clearSavedStateCallback = clearSavedStateCallback;
+        this.markChatWaiter = markChatWaiter;
     }
 
     /**
@@ -87,7 +91,7 @@ public class AdminGuiClickHandler {
     private void openEffectSelectionGui(Player player) {
         EffectSelectionGui effectGui = new EffectSelectionGui(plugin, effect -> {
             // Effect addition is now handled in handleEffectAmplifierInput
-        });
+        }, markChatWaiter);
         effectGui.open(player);
     }
 
@@ -126,7 +130,7 @@ public class AdminGuiClickHandler {
             state.setPermission(permission);
             // Close permission GUI and reopen main GUI
             player.closeInventory();
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
+            FoliaScheduler.runEntityTask(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
@@ -134,12 +138,12 @@ public class AdminGuiClickHandler {
         }, () -> {
             // Reopen main GUI on back button
             player.closeInventory();
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
             }, 1L);
-        });
+        }, markChatWaiter);
         permissionGui.open(player, currentPermission);
     }
 

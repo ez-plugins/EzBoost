@@ -11,6 +11,7 @@ on:
 
 env:
   PAPER_261_VERSION: "26.1.2"  # New MC versioning scheme; uses fill.papermc.io API
+  FOLIA_VERSION: "26.1.2"      # Folia tracks the same MC version as Paper
   SPIGOT_VERSION: "1.21.11"
   BUKKIT_VERSION: "1.21.11"
 
@@ -51,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server: [paper, spigot, bukkit]
+        server: [paper, folia, spigot, bukkit]
 
     steps:
       - name: Set up Java 25
@@ -82,6 +83,16 @@ jobs:
             | jq -r 'map(select(.channel == "STABLE")) | first | .downloads["server:default"].url')
           curl -sfLo server.jar "$URL"
           echo "Paper 26.1.2 URL: $URL"
+
+      # ── Folia 26.1.2 (same fill.papermc.io API, project=folia) ───────────
+      - name: Download Folia ${{ env.FOLIA_VERSION }}
+        if: matrix.server == 'folia'
+        run: |
+          URL=$(curl -sf \
+            "https://fill.papermc.io/v3/projects/folia/versions/${FOLIA_VERSION}/builds" \
+            | jq -r 'map(select(.channel == "STABLE")) | first | .downloads["server:default"].url')
+          curl -sfLo server.jar "$URL"
+          echo "Folia 26.1.2 URL: $URL"
 
       # ── Spigot (built via BuildTools; result cached by Spigot version) ─────
       # BuildTools is strict about its build JVM; use Java 21 to compile
