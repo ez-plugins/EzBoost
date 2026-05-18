@@ -1,5 +1,6 @@
 package com.skyblockexp.ezboost.listener;
 
+import com.skyblockexp.ezboost.FoliaScheduler;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -23,14 +24,30 @@ public class AdminGuiChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
-        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        // Use thread-safe check before touching any entity state
+        if (!adminGui.isPlayerPendingAnyInput(player.getUniqueId())) {
+            return;
+        }
+        event.setCancelled(true);
+        final String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        if (FoliaScheduler.FOLIA) {
+            // On Folia, PDC must be accessed on the entity's region thread
+            player.getScheduler().run(plugin, t -> processInput(player, message), null);
+        } else {
+            processInput(player, message);
+        }
+    }
 
-        // Check for custom permission input
+    /**
+     * Processes the chat input for admin GUI interaction.
+     * Must be called from the entity region thread on Folia (main thread on Paper).
+     */
+    private void processInput(Player player, String message) {
+        // Check for custom permission input (PDC access safe here)
         if (player.getPersistentDataContainer().has(
             new NamespacedKey(plugin, "custom-permission-input"),
             PersistentDataType.STRING
         )) {
-            event.setCancelled(true);
             adminGui.handleCustomPermissionInput(player, message);
             return;
         }
@@ -38,17 +55,13 @@ public class AdminGuiChatListener implements Listener {
         // Check if player has a selected effect (waiting for amplifier input)
         NamespacedKey selectedEffectKey = new NamespacedKey(plugin, "selected-effect");
         String selectedEffect = player.getPersistentDataContainer().get(selectedEffectKey, PersistentDataType.STRING);
-
         if (selectedEffect != null) {
-            // Player is entering amplifier for effect selection
-            event.setCancelled(true);
             adminGui.handleEffectAmplifierInput(player, message);
             return;
         }
 
-        // Check if player is in input mode for regular boost creation
+        // Check regular text input mode
         if (adminGui.isPlayerInInputMode(player.getUniqueId())) {
-            event.setCancelled(true);
             adminGui.handleChatInput(player, message);
         }
     }

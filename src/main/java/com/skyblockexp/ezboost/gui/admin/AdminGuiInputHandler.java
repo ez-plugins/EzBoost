@@ -1,5 +1,6 @@
 package com.skyblockexp.ezboost.gui.admin;
 
+import com.skyblockexp.ezboost.FoliaScheduler;
 import com.skyblockexp.ezboost.boost.BoostEffect;
 import com.skyblockexp.ezboost.gui.*;
 import net.kyori.adventure.text.Component;
@@ -23,14 +24,17 @@ public class AdminGuiInputHandler {
     private final LegacyComponentSerializer legacySerializer;
     private final AdminGuiRenderer renderer;
     private final java.util.function.BiConsumer<Player, java.util.function.Consumer<String>> inputCallbackRegistrar;
+    private final Consumer<UUID> markChatWaiter;
 
     public AdminGuiInputHandler(JavaPlugin plugin, LegacyComponentSerializer legacySerializer,
                               AdminGuiRenderer renderer,
-                              java.util.function.BiConsumer<Player, java.util.function.Consumer<String>> inputCallbackRegistrar) {
+                              java.util.function.BiConsumer<Player, java.util.function.Consumer<String>> inputCallbackRegistrar,
+                              Consumer<UUID> markChatWaiter) {
         this.plugin = plugin;
         this.legacySerializer = legacySerializer;
         this.renderer = renderer;
         this.inputCallbackRegistrar = inputCallbackRegistrar;
+        this.markChatWaiter = markChatWaiter;
     }
 
     /**
@@ -76,7 +80,7 @@ public class AdminGuiInputHandler {
                 player.sendMessage(legacySerializer.serialize(Component.text("§aGUI Slot set to: §6" + slotDisplay)));
             }
             player.closeInventory();
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
@@ -113,7 +117,7 @@ public class AdminGuiInputHandler {
             state.setPermission(permission);
             // Close permission GUI and reopen main GUI
             player.closeInventory();
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
+            FoliaScheduler.runEntityTask(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
@@ -121,12 +125,12 @@ public class AdminGuiInputHandler {
         }, () -> {
             // Reopen main GUI on back button
             player.closeInventory();
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
             }, 1L);
-        });
+        }, markChatWaiter);
         permissionGui.handleClick(player, action);
     }
 
@@ -138,21 +142,19 @@ public class AdminGuiInputHandler {
             state.setPermission(perm);
             // Close permission GUI and reopen main GUI
             player.closeInventory();
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
+            FoliaScheduler.runEntityTask(plugin, player, () -> {
                 Inventory newInventory = renderer.createInventory();
                 renderer.fillInventory(newInventory, state);
                 player.openInventory(newInventory);
             });
         }, () -> {
             // Reopen main GUI on back button
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.closeInventory();
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    Inventory newInventory = renderer.createInventory();
-                    renderer.fillInventory(newInventory, state);
-                    player.openInventory(newInventory);
-                }, 1L);
-            });
+            player.closeInventory();
+            FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
+                Inventory newInventory = renderer.createInventory();
+                renderer.fillInventory(newInventory, state);
+                player.openInventory(newInventory);
+            }, 1L);
         });
         permissionGui.handleCustomPermissionInput(player, permission);
     }
@@ -174,15 +176,13 @@ public class AdminGuiInputHandler {
             EffectSelectionGui effectGui = new EffectSelectionGui(plugin, effect -> {
                 state.addEffect(effect);
                 player.sendMessage(legacySerializer.serialize(Component.text("§aEffect added successfully!")));
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.closeInventory();
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        Inventory newInventory = renderer.createInventory();
-                        renderer.fillInventory(newInventory, state);
-                        player.openInventory(newInventory);
-                    }, 1L);
-                });
-            });
+                player.closeInventory();
+                FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
+                    Inventory newInventory = renderer.createInventory();
+                    renderer.fillInventory(newInventory, state);
+                    player.openInventory(newInventory);
+                }, 1L);
+            }, markChatWaiter);
             effectGui.open(player, page);
             return;
         }
@@ -192,15 +192,13 @@ public class AdminGuiInputHandler {
             EffectSelectionGui effectGui = new EffectSelectionGui(plugin, effect -> {
                 state.addEffect(effect);
                 player.sendMessage(legacySerializer.serialize(Component.text("§aEffect added successfully!")));
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.closeInventory();
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        Inventory newInventory = renderer.createInventory();
-                        renderer.fillInventory(newInventory, state);
-                        player.openInventory(newInventory);
-                    }, 1L);
-                });
-            });
+                player.closeInventory();
+                FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
+                    Inventory newInventory = renderer.createInventory();
+                    renderer.fillInventory(newInventory, state);
+                    player.openInventory(newInventory);
+                }, 1L);
+            }, markChatWaiter);
             effectGui.handleClick(player, action, null);
         }
     }
@@ -238,7 +236,7 @@ public class AdminGuiInputHandler {
             player.getPersistentDataContainer().remove(new NamespacedKey(plugin, "selected-effect"));
 
             // Reopen the main GUI
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
+            FoliaScheduler.runEntityTask(plugin, player, () -> {
                 player.closeInventory(); // Close any currently open GUI first
                 // Create and open a new inventory instead of trying to fill the closed one
                 Inventory newInventory = renderer.createInventory();
@@ -265,14 +263,12 @@ public class AdminGuiInputHandler {
             MaterialSelectionGui materialGui = new MaterialSelectionGui(plugin, material -> {
                 state.setIcon(material);
                 player.sendMessage(legacySerializer.serialize(Component.text("§aIcon material selected!")));
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.closeInventory();
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        Inventory newInventory = renderer.createInventory();
-                        renderer.fillInventory(newInventory, state);
-                        player.openInventory(newInventory);
-                    }, 1L);
-                });
+                player.closeInventory();
+                FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
+                    Inventory newInventory = renderer.createInventory();
+                    renderer.fillInventory(newInventory, state);
+                    player.openInventory(newInventory);
+                }, 1L);
             });
             materialGui.open(player, page);
             return;
@@ -282,14 +278,12 @@ public class AdminGuiInputHandler {
             MaterialSelectionGui materialGui = new MaterialSelectionGui(plugin, material -> {
                 state.setIcon(material);
                 player.sendMessage(legacySerializer.serialize(Component.text("§aIcon material selected!")));
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.closeInventory();
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        Inventory newInventory = renderer.createInventory();
-                        renderer.fillInventory(newInventory, state);
-                        player.openInventory(newInventory);
-                    }, 1L);
-                });
+                player.closeInventory();
+                FoliaScheduler.runEntityTaskLater(plugin, player, () -> {
+                    Inventory newInventory = renderer.createInventory();
+                    renderer.fillInventory(newInventory, state);
+                    player.openInventory(newInventory);
+                }, 1L);
             });
             materialGui.handleClick(player, action, page);
         }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class PermissionInputGui {
@@ -24,6 +25,7 @@ public class PermissionInputGui {
     private final NamespacedKey actionKey;
     private final Consumer<String> onPermissionSelected;
     private final Runnable onBackPressed;
+    private final Consumer<UUID> onChatInputStart;
 
     // GUI Constants
     private static final int INVENTORY_SIZE = 27;
@@ -52,9 +54,14 @@ public class PermissionInputGui {
     };
 
     public PermissionInputGui(JavaPlugin plugin, Consumer<String> onPermissionSelected, Runnable onBackPressed) {
+        this(plugin, onPermissionSelected, onBackPressed, uuid -> {});
+    }
+
+    public PermissionInputGui(JavaPlugin plugin, Consumer<String> onPermissionSelected, Runnable onBackPressed, Consumer<UUID> onChatInputStart) {
         this.plugin = plugin;
         this.onPermissionSelected = onPermissionSelected;
         this.onBackPressed = onBackPressed;
+        this.onChatInputStart = onChatInputStart;
         this.actionKey = new NamespacedKey(plugin, "permission-action");
     }
 
@@ -208,6 +215,7 @@ public class PermissionInputGui {
             open(player, null);
         } else if (ACTION_CUSTOM.equals(action)) {
             // Prompt for custom permission via chat
+            onChatInputStart.accept(player.getUniqueId());
             player.closeInventory();
             player.sendMessage(legacySerializer.serialize(Component.text("§eEnter custom permission in chat:")));
             player.getPersistentDataContainer().set(

@@ -2,6 +2,7 @@ name: EzBoost
 version: ${project.version}
 main: com.skyblockexp.ezboost.EzBoostPlugin
 api-version: '26.1.2'
+folia-supported: true
 softdepend: [Vault, EzEconomy, WorldGuard, EzShops]
 author: SkyblockExperience
 commands:
