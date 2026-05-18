@@ -1,5 +1,6 @@
 # EzBoost Storage Configuration
 # Controls which database backend is used to persist player boost state and cooldowns.
+# Storage is powered by Jaloquent: https://github.com/EzFramework/Jaloquent
 #
 # Available backends:
 #   yaml        - Flat YAML files in the plugin data folder (default, no setup required)

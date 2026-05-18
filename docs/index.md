@@ -64,3 +64,19 @@ and drop it into your server's `plugins/` directory.
 | &nbsp;&nbsp;[EzBoostAPI](api/EzBoostAPI) | Full public-method reference |
 | &nbsp;&nbsp;[CustomBoostEffect](api/CustomBoostEffect) | Implementing custom boost effects |
 | [PlaceholderAPI](integration/PlaceholderAPI) | Available placeholders and usage |
+
+---
+
+## Developer API
+
+EzBoost exposes a Java API for starting/stopping boosts, querying active state, registering custom
+effect types, and listening to lifecycle events. See the [API reference](api) for setup instructions,
+method tables, and code examples.
+
+```xml
+<dependency>
+  <groupId>com.github.ez-plugins</groupId>
+  <artifactId>EzBoost</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```

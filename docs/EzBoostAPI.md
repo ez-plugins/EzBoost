@@ -1,3 +1,8 @@
+---
+title: EzBoost API
+nav_exclude: true
+---
+
 # EzBoost API Overview
 
 EzBoost exposes a professional, extensible API for plugin developers and advanced users. The API allows you to register custom boost effects, manage player boosts, and integrate deeply with the boost system.

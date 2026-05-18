@@ -32,6 +32,8 @@ import java.util.logging.Logger;
  *
  * <p>Use {@link #build(StorageSettings, File, Logger)} and consume the returned
  * {@link StorageBundle}.
+ *
+ * @see <a href="https://github.com/EzFramework/Jaloquent">Jaloquent on GitHub</a>
  */
 public final class StorageFactory {
 

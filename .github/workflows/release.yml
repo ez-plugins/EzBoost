@@ -127,7 +127,7 @@ jobs:
       - name: Release to Modrinth (stable)
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: YOUR_MODRINTH_PROJECT_ID  # TODO: replace with your Modrinth project ID/slug
+          modrinth-id: hxlosrDv
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           modrinth-featured: true
           name: "EzBoost ${{ steps.meta.outputs.version }}"

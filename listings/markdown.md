@@ -5,7 +5,6 @@
 
 ![EzBoost Admin GUI](https://i.ibb.co/cXTcS3LT/image.png)
 
-**EzBoost** is a modern, production-ready boosts plugin for Spigot / Paper / Bukkit 1.7–1.21.*. It delivers configurable potion effects with GUI activation, cooldown management, optional Vault costs, world-based restrictions, boost tokens, and advanced region-based overrides with WorldGuard support. It is a renewed take on [RedBull](https://dev.bukkit.org/projects/redbull).
 **EzBoost** is a modern, production-ready boosts plugin for Spigot / Paper / Bukkit 1.7–1.21.*. It delivers configurable potion effects with GUI activation, cooldown management, optional Vault costs, world-based restrictions, boost tokens, and advanced region-based overrides with WorldGuard support. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
 
 ---
@@ -94,6 +93,7 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 - **GUI layout**: Customize title, size, filler, lore templates, and per-boost slot positions in `gui.yml`.
 - **Limits**: Clamp amplifier and duration ranges for balance in `limits.yml`.
 - **World rules**: Use `worlds.allow-list` / `worlds.deny-list` to control where boosts apply in `worlds.yml`.
+- **Storage backend**: Choose YAML (default), SQLite, MySQL, MariaDB, or PostgreSQL in `storage.yml`.
 - **Region & World Overrides**: Use `boosts.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
 - **Behavior toggles**: Replace active boosts, reapply on join, keep on death, or refund failed activations in `settings.yml`.
 - **Economy**: Enable Vault costs with `economy.enabled` and `economy.vault` in `economy.yml`.
@@ -116,16 +116,4 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 - **Economy sinks**: Add costs to balance late-game progression.
 - **World/region gating**: Enable or disable boosts only in specific worlds or WorldGuard regions.
 
----
-
-
-- [EzBoost GitHub Repository](https://github.com/ez-plugins/EzBoost) — Source code, issues, and latest updates.
-- [Configuration Guide](https://github.com/ez-plugins/EzBoost/blob/main/docs/config.md) — Full details on all config options.
-- [Boosts Reference](https://github.com/ez-plugins/EzBoost/blob/main/docs/boosts.md) — YAML format and boost customization.
-- [GUI Customization](https://github.com/ez-plugins/EzBoost/blob/main/docs/gui.md) — How to configure the boost GUI.
-- [Overrides Documentation](https://github.com/ez-plugins/EzBoost/blob/main/docs/overrides.md) — Region/world override syntax and examples.
-
 [![Try the other Minecraft plugins in the EzPlugins series](https://i.ibb.co/PzfjNjh0/ezplugins-try-other-plugins.png)](https://modrinth.com/collection/Q98Ov6dA)
----
-For the latest documentation, advanced configuration, and troubleshooting, visit:
-[https://github.com/ez-plugins/EzBoost](https://github.com/ez-plugins/EzBoost)
