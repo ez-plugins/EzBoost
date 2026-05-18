@@ -1,7 +1,7 @@
 [CENTER][SIZE=6][B]EzBoost[/B][/SIZE]
 [SIZE=3]Configurable potion boosts with GUI activation, cooldowns, Vault costs, boost tokens, and region-based overrides (WorldGuard support)[/SIZE]
 [SIZE=2]Renewed take on [URL='https://dev.bukkit.org/projects/redbull']RedBull[/URL][/SIZE]
-[SIZE=2]Spigot / Paper / Bukkit / Folia 1.7–1.21.* • Optional Vault economy • Fully configurable boosts • GUI + command activation • Boost tokens • Region overrides[/SIZE][/CENTER]
+[SIZE=2]Spigot / Paper / Bukkit / Folia 1.21+ • Optional Vault economy • Fully configurable boosts • GUI + command activation • Boost tokens • Region overrides[/SIZE][/CENTER]
 
 [SIZE=4][B]Why EzBoost?[/B][/SIZE]
 [LIST]
@@ -43,7 +43,7 @@
 
 [SIZE=4][B]Quick Start[/B][/SIZE]
 [LIST]
-[*]Drop [icode]EzBoost.jar[/icode] into [icode]plugins/[/icode], then start your Spigot, Paper, Bukkit, or Folia server (1.7–1.21.*).
+[*]Drop [icode]EzBoost.jar[/icode] into [icode]plugins/[/icode], then start your Spigot, Paper, Bukkit, or Folia server (1.21+).
 [*]Use [icode]/ezboost create[/icode] to open the admin GUI and create boosts.
 [*]Edit [icode]plugins/EzBoost/boosts.yml[/icode], [icode]gui.yml[/icode], and related config files to configure boosts, cooldowns, costs, and GUI slots.
 [*]Use [icode]/boost[/icode] to open the GUI, or [icode]/boost <boostKey>[/icode] for direct activation.
@@ -69,8 +69,8 @@ For detailed command and permission documentation, see [URL='https://ez-plugins.
 [B]Requirements[/B]
 [table]
 [tr][th]Requirement[/th][th]Notes[/th][/tr]
-[tr][td]Java 17+[/td][td]Required for Minecraft 1.17+ servers; earlier versions may use Java 11 or 8.[/td][/tr]
-[tr][td]Spigot / Paper / Bukkit / Folia 1.7–1.21.*[/td][td]Broad server compatibility. WorldGuard and Vault are optional.[/td][/tr]
+[tr][td]Java 17+[/td][td]Required by the plugin.[/td][/tr]
+[tr][td]Spigot / Paper / Bukkit / Folia 1.21+[/td][td]Broad server compatibility. WorldGuard and Vault are optional.[/td][/tr]
 [tr][td]Vault (optional)[/td][td]Required only if you enable economy costs in [icode]economy.enabled[/icode].[/td][/tr]
 [/table]
 

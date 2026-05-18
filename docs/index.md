@@ -12,7 +12,7 @@ permalink: /
 [![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.1.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 
-**EzBoost** is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (1.7–1.21.*).
+**EzBoost** is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (1.21+).
 It gives server owners full control over configurable, time-limited potion boosts – complete with GUI,
 cooldowns, economy integration, WorldGuard region support, and a developer API.
 

@@ -1,5 +1,5 @@
 
-**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, Bukkit, and **Folia** (Minecraft 1.7–1.21.*). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL), and a leaderboard for top boost buyers. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
+**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, Bukkit, and **Folia** (Minecraft 1.21+). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL), and a leaderboard for top boost buyers. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 

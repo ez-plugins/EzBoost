@@ -3,13 +3,13 @@
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 [![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/ezboost)
 [![Platform](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit%20%7C%20Folia-blue)](#)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.7--1.21.*-brightgreen)](#)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.21%2B-brightgreen)](#)
 [![License](https://img.shields.io/github/license/ez-plugins/ezboost)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/ez-plugins/ezboost)](https://github.com/ez-plugins/ezboost/releases)
 
 # EzBoost
 
-> Configurable potion boosts for Spigot / Paper / Bukkit / Folia 1.7–1.21.* – GUI activation, cooldowns, economy costs, boost tokens, and WorldGuard region overrides.
+> Configurable potion boosts for Spigot / Paper / Bukkit / Folia 1.21+ – GUI activation, cooldowns, economy costs, boost tokens, and WorldGuard region overrides.
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
