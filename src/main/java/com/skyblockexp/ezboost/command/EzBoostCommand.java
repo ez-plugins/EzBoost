@@ -2,6 +2,7 @@ package com.skyblockexp.ezboost.command;
 
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostManager;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import com.skyblockexp.ezboost.gui.BoostTokenFactory;
@@ -57,7 +58,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create [continue]");
+            sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create [continue]|stats");
             return true;
         }
         String sub = args[0].toLowerCase(Locale.ROOT);
@@ -165,7 +166,38 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
             }
             return true;
         }
-        sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create");
+        if (sub.equals("stats")) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(messages.message("only-players"));
+                return true;
+            }
+            if (!sender.hasPermission("ezboost.stats")) {
+                sender.sendMessage(messages.message("no-permission"));
+                return true;
+            }
+            int purchases = 0;
+            BoostLeaderboard lb = boostManager.getLeaderboard();
+            if (lb != null) {
+                purchases = lb.getPurchases(player.getUniqueId());
+            }
+            player.sendMessage(messages.message("stats-header"));
+            player.sendMessage(messages.message("stats-purchases",
+                    Placeholder.parsed("amount", String.valueOf(purchases))));
+            String activeKey = boostManager.getActiveBoostKey(player);
+            if (activeKey != null) {
+                long remaining = boostManager.getActiveBoostTimeRemaining(player);
+                String displayName = boostManager.getBoost(activeKey, player)
+                        .map(BoostDefinition::displayName)
+                        .orElse(activeKey);
+                player.sendMessage(messages.message("stats-active-boost",
+                        Placeholder.parsed("boost", displayName),
+                        Placeholder.parsed("time", String.valueOf(remaining))));
+            } else {
+                player.sendMessage(messages.message("stats-no-active-boost"));
+            }
+            return true;
+        }
+        sender.sendMessage("Usage: /ezboost reload|give <player> <boostKey> [amount]|create|stats");
         return true;
     }
 
@@ -190,6 +222,9 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
             if (sender.hasPermission("ezboost.admin")) {
                 completions.add("create");
                 completions.add("about");
+            }
+            if (sender instanceof Player && sender.hasPermission("ezboost.stats")) {
+                completions.add("stats");
             }
             return completions;
         }

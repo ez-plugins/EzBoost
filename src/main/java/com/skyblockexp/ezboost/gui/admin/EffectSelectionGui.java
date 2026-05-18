@@ -80,7 +80,7 @@ public class EffectSelectionGui {
     }
 
     private Inventory createInventory(EffectSelectionHolder holder, int page) {
-        Inventory inventory = Bukkit.createInventory(holder, 54, Component.text("Select Effect - Page " + (page + 1)));
+        Inventory inventory = Bukkit.createInventory(holder, 54, "Select Effect - Page " + (page + 1));
         holder.setPage(page);
         return inventory;
     }

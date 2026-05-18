@@ -17,7 +17,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -658,11 +657,12 @@ public final class BoostManager {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private void sendActionBar(Player player, String message) {
         if (message == null || message.isBlank()) {
             return;
         }
-        player.sendActionBar(Component.text(message));
+        player.sendActionBar(message);
     }
 
     private void runEnableCommands(Player player, BoostDefinition boost) {

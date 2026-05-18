@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -188,6 +189,7 @@ public final class BoostGui {
     }
 
     private Inventory createInventory(BoostGuiHolder holder, Component title) {
-        return Bukkit.createInventory(holder, settings.size(), title);
+        String legacyTitle = LegacyComponentSerializer.legacySection().serialize(title);
+        return Bukkit.createInventory(holder, settings.size(), legacyTitle);
     }
 }

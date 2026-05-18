@@ -56,6 +56,10 @@ top-footer: "<gray>------------------------------</gray>"
 top-no-data: "<gray>No boost purchases have been recorded yet.</gray>"
 top-your-rank: "<gray>Your rank: <white>#<rank></white></gray>"
 top-unavailable: "<red>Leaderboard is not available.</red>"
+stats-header: "<gray>--- <aqua>Your Boost Stats</aqua> ---</gray>"
+stats-purchases: "<gray>Boosts bought: </gray><white><amount></white>"
+stats-active-boost: "<gray>Active boost: </gray><white><boost></white> <dark_gray>(<time>s remaining)</dark_gray>"
+stats-no-active-boost: "<gray>Active boost: </gray><white>None</white>"
 actionbar:
   enabled: false
   format: "<gray>Boost:</gray> <white><boost></white> <gray>(<time>s)</gray>"

@@ -77,7 +77,7 @@ public class MaterialSelectionGui {
     }
 
     private Inventory createInventory(MaterialSelectionHolder holder, int page) {
-        Inventory inventory = Bukkit.createInventory(holder, 54, Component.text("Select Icon Material - Page " + (page + 1)));
+        Inventory inventory = Bukkit.createInventory(holder, 54, "Select Icon Material - Page " + (page + 1));
         holder.setPage(page);
         return inventory;
     }
