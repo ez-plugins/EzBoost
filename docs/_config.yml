@@ -6,7 +6,7 @@ description: >-
   Configurable potion boosts, cooldowns, GUI, economy integration, and WorldGuard support.
 
 url: "https://ez-plugins.github.io"
-baseurl: "/ezboost"
+baseurl: "/EzBoost"
 
 # ── Appearance ────────────────────────────────────────────────────────────────
 heading_anchors: true

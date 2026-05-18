@@ -24,7 +24,7 @@
 - **Live reload**: Reload all configuration and messages at runtime with `/ezboost reload`.
 - **MiniMessage support**: Rich formatting for all messages and GUI text.
 - **Internal message tags**: Boost-specific tags (`<boost_display>`, `<boost_cost>`, `<boost_duration>`, etc.) are available directly in `messages.yml` – no PlaceholderAPI required.
-- **PlaceholderAPI expansion**: 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting, usable in scoreboards, GUI plugins, and any PAPI-compatible plugin. See the [PlaceholderAPI integration guide](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI).
+- **PlaceholderAPI expansion**: 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting, usable in scoreboards, GUI plugins, and any PAPI-compatible plugin. See the [PlaceholderAPI integration guide](https://ez-plugins.github.io/EzBoost/integration/PlaceholderAPI).
 - **Command hooks**: Run console commands on enable/disable/toggle per boost.
 - **Player-friendly behavior**: Reapply boosts on join, keep on death, and refund on failed activation.
 
@@ -43,7 +43,7 @@
 | `/ezboost reload` | Reload configuration and messages. | `ezboost.reload` |
 | `/ezboost give <player> <boostKey> [amount]` | Give boost token items. Players redeem by right-clicking. | `ezboost.give` |
 
-For detailed command and permission documentation, see the [Commands](https://ez-plugins.github.io/ezboost/commands) and [Permissions](https://ez-plugins.github.io/ezboost/permissions) pages.
+For detailed command and permission documentation, see the [Commands](https://ez-plugins.github.io/EzBoost/commands) and [Permissions](https://ez-plugins.github.io/EzBoost/permissions) pages.
 
 ---
 
@@ -73,7 +73,7 @@ For detailed command and permission documentation, see the [Commands](https://ez
 
 ## ⚙️ Configuration Highlights
 
-- **Boost definitions**: Add or edit boosts in `boosts.yml` with effects, duration, cooldown, cost, and permissions. See the [Boosts reference](https://ez-plugins.github.io/ezboost/boosts) for a full reference.
+- **Boost definitions**: Add or edit boosts in `boosts.yml` with effects, duration, cooldown, cost, and permissions. See the [Boosts reference](https://ez-plugins.github.io/EzBoost/boosts) for a full reference.
 - **Command hooks**: Add `commands.enable`, `commands.disable`, or `commands.toggle` per boost to run console commands when boosts turn on/off (supports `{player}`, `{displayname}`, and `{boost}` placeholders).
 - **GUI layout**: Customize title, size, filler, lore templates, and per-boost slot positions in `gui.yml`.
 - **Limits**: Clamp amplifier and duration ranges for balance in `limits.yml`.
@@ -90,7 +90,7 @@ For detailed command and permission documentation, see the [Commands](https://ez
 - EzBoost automatically detects WorldGuard if present and applies region-based overrides for boosts.
 - No hard dependency: If WorldGuard is not installed, region overrides are ignored.
 - Use region IDs from WorldGuard in your `boosts.yml` to customize boost behavior per region.
-- See the [Overrides documentation](https://ez-plugins.github.io/ezboost/overrides) for syntax and examples.
+- See the [Overrides documentation](https://ez-plugins.github.io/EzBoost/overrides) for syntax and examples.
 
 ---
 
@@ -105,17 +105,17 @@ For detailed command and permission documentation, see the [Commands](https://ez
 
 ## 📚 Documentation & Support
 
-Full documentation is available at **[ez-plugins.github.io/ezboost](https://ez-plugins.github.io/ezboost)**.
+Full documentation is available at **[ez-plugins.github.io/EzBoost](https://ez-plugins.github.io/EzBoost)**.
 
 | Page | What it covers |
 |------|----------------|
-| [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
-| [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
-| [Configuration](https://ez-plugins.github.io/ezboost/config) | All config files explained |
-| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema – effects, duration, costs |
-| [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` layout and slot configuration |
-| [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World and region override syntax |
-| [PlaceholderAPI](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI) | 18+ available placeholders |
+| [Commands](https://ez-plugins.github.io/EzBoost/commands) | All `/boost` and `/ezboost` commands |
+| [Permissions](https://ez-plugins.github.io/EzBoost/permissions) | Permissions reference and defaults |
+| [Configuration](https://ez-plugins.github.io/EzBoost/config) | All config files explained |
+| [Boosts](https://ez-plugins.github.io/EzBoost/boosts) | `boosts.yml` schema – effects, duration, costs |
+| [GUI](https://ez-plugins.github.io/EzBoost/gui) | `gui.yml` layout and slot configuration |
+| [Overrides](https://ez-plugins.github.io/EzBoost/overrides) | World and region override syntax |
+| [PlaceholderAPI](https://ez-plugins.github.io/EzBoost/integration/PlaceholderAPI) | 18+ available placeholders |
 
 **Need help or want to chat? Join our Discord:**
 [https://discord.gg/yWP95XfmBS](https://discord.gg/yWP95XfmBS)
