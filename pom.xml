@@ -36,9 +36,9 @@
     <properties>
         <github.owner>ez-plugins</github.owner>
         <github.repository>ezboost</github.repository>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <paper.version>[26.1.2.build,)</paper.version>
         <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
         <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
