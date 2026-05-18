@@ -58,6 +58,10 @@ This document details all commands provided by EzBoost, including syntax, argume
 
   Shows the all-time top boost buyers.
 
+## Admin Commands
+
+### `/ezboost create`
+
 - **Description**: Opens the admin GUI for creating and managing boosts. Allows administrators to define new boosts with effects, durations, cooldowns, and more.
 - **Permission**: `ezboost.admin`
 - **Usage**: `/ezboost create`

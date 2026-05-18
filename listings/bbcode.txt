@@ -27,7 +27,7 @@
 [*][B]Storage backends[/B] – Persist boost states to YAML (default), SQLite, MySQL, MariaDB, or PostgreSQL. Configured in [icode]storage.yml[/icode].
 [*][B]Boost top leaderboard[/B] – [icode]/boosttop[/icode] tracks and displays the all-time top boost buyers.
 [*][B]Folia support[/B] – Fully compatible with Folia servers; task scheduling routes through Folia's region schedulers automatically.
-[*][B]Region & World Overrides[/B] – Use [icode]overrides.yml[/icode] to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
+[*][B]Region & World Overrides[/B] – Use [icode]boosts.yml[/icode] (top level) to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
 [*][B]Boost tokens[/B] – Grant boost token items with [icode]/ezboost give[/icode] for rewards, crates, or shops. Players redeem tokens by right-clicking them to instantly activate the boost.
 [*][B]Flexible limits[/B] – Clamp duration/amplifier ranges to keep boosts balanced.
 [*][B]Per-boost cooldowns[/B] – Prevents abuse and enables balanced gameplay.
@@ -43,7 +43,7 @@
 
 [SIZE=4][B]Quick Start[/B][/SIZE]
 [LIST]
-[*]Drop [icode]EzBoost.jar[/icode] into [icode]plugins/[/icode], then start your Spigot, Paper, or Bukkit server (1.7–1.21.*).
+[*]Drop [icode]EzBoost.jar[/icode] into [icode]plugins/[/icode], then start your Spigot, Paper, Bukkit, or Folia server (1.7–1.21.*).
 [*]Use [icode]/ezboost create[/icode] to open the admin GUI and create boosts.
 [*]Edit [icode]plugins/EzBoost/boosts.yml[/icode], [icode]gui.yml[/icode], and related config files to configure boosts, cooldowns, costs, and GUI slots.
 [*]Use [icode]/boost[/icode] to open the GUI, or [icode]/boost <boostKey>[/icode] for direct activation.
@@ -70,7 +70,7 @@ For detailed command and permission documentation, see [URL='https://ez-plugins.
 [table]
 [tr][th]Requirement[/th][th]Notes[/th][/tr]
 [tr][td]Java 17+[/td][td]Required for Minecraft 1.17+ servers; earlier versions may use Java 11 or 8.[/td][/tr]
-[tr][td]Spigot / Paper / Bukkit 1.7–1.21.*[/td][td]Broad server compatibility. WorldGuard and Vault are optional.[/td][/tr]
+[tr][td]Spigot / Paper / Bukkit / Folia 1.7–1.21.*[/td][td]Broad server compatibility. WorldGuard and Vault are optional.[/td][/tr]
 [tr][td]Vault (optional)[/td][td]Required only if you enable economy costs in [icode]economy.enabled[/icode].[/td][/tr]
 [/table]
 
