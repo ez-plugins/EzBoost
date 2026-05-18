@@ -198,6 +198,7 @@
                     <include>economy.yml</include>
                     <include>gui.yml</include>
                     <include>boosts.yml</include>
+                    <include>storage.yml</include>
                 </includes>
             </resource>
         </resources>
