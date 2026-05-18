@@ -135,7 +135,7 @@ jobs:
           version-type: release
           files: |
             target/EzBoost-${{ steps.meta.outputs.version }}.jar
-          game-versions: ">=1.13"
+          game-versions: ">=1.21"
           game-versions-filter: release
           loaders: |
             bukkit

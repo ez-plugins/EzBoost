@@ -5,6 +5,7 @@ import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.entity.PlayerMock;
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostManager;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
 import com.skyblockexp.ezboost.gui.BoostTokenFactory;
@@ -352,5 +353,94 @@ public class EzBoostCommandTest {
         var completions = ezBoostCommand.onTabComplete(sender, command, "ezboost",
                 new String[]{"give", "Alice", ""});
         assertTrue(completions.contains("speed"));
+    }
+
+    // ── /ezboost stats ───────────────────────────────────────────────────────────
+
+    @Test
+    void onCommand_stats_consoleSender_sendsOnlyPlayersMessage() {
+        CommandSender console = server.getConsoleSender();
+        boolean result = ezBoostCommand.onCommand(console, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(messages).message("only-players");
+    }
+
+    @Test
+    void onCommand_stats_noPermission_deniesAccess() {
+        PlayerMock player = server.addPlayer();
+        boolean result = ezBoostCommand.onCommand(player, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(messages).message("no-permission");
+    }
+
+    @Test
+    void onCommand_stats_withPermission_nullLeaderboard_noActiveBoost() {
+        PlayerMock player = server.addPlayer();
+        player.addAttachment(mockPlugin, "ezboost.stats", true);
+        when(boostManager.getLeaderboard()).thenReturn(null);
+        when(boostManager.getActiveBoostKey(player)).thenReturn(null);
+        boolean result = ezBoostCommand.onCommand(player, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(messages).message("stats-header");
+        verify(messages).message(eq("stats-purchases"), any(TagResolver[].class));
+        verify(messages).message("stats-no-active-boost");
+    }
+
+    @Test
+    void onCommand_stats_withPermission_leaderboardReturnsCount() {
+        PlayerMock player = server.addPlayer();
+        player.addAttachment(mockPlugin, "ezboost.stats", true);
+        BoostLeaderboard lb = mock(BoostLeaderboard.class);
+        when(lb.getPurchases(player.getUniqueId())).thenReturn(7);
+        when(boostManager.getLeaderboard()).thenReturn(lb);
+        when(boostManager.getActiveBoostKey(player)).thenReturn(null);
+        boolean result = ezBoostCommand.onCommand(player, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(lb).getPurchases(player.getUniqueId());
+        verify(messages).message(eq("stats-purchases"), any(TagResolver[].class));
+        verify(messages).message("stats-no-active-boost");
+    }
+
+    @Test
+    void onCommand_stats_withActiveBoost_showsBoostAndTime() {
+        PlayerMock player = server.addPlayer();
+        player.addAttachment(mockPlugin, "ezboost.stats", true);
+        when(boostManager.getLeaderboard()).thenReturn(null);
+        when(boostManager.getActiveBoostKey(player)).thenReturn("speed");
+        when(boostManager.getActiveBoostTimeRemaining(player)).thenReturn(300L);
+        BoostDefinition def = mock(BoostDefinition.class);
+        when(def.displayName()).thenReturn("Speed Boost");
+        when(boostManager.getBoost(eq("speed"), eq(player))).thenReturn(Optional.of(def));
+        boolean result = ezBoostCommand.onCommand(player, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(messages).message(eq("stats-active-boost"), any(TagResolver[].class));
+    }
+
+    @Test
+    void onCommand_stats_activeBoostDefinitionMissing_fallsBackToKey() {
+        PlayerMock player = server.addPlayer();
+        player.addAttachment(mockPlugin, "ezboost.stats", true);
+        when(boostManager.getLeaderboard()).thenReturn(null);
+        when(boostManager.getActiveBoostKey(player)).thenReturn("xp");
+        when(boostManager.getActiveBoostTimeRemaining(player)).thenReturn(60L);
+        when(boostManager.getBoost(eq("xp"), eq(player))).thenReturn(Optional.empty());
+        boolean result = ezBoostCommand.onCommand(player, command, "ezboost", new String[]{"stats"});
+        assertTrue(result);
+        verify(messages).message(eq("stats-active-boost"), any(TagResolver[].class));
+    }
+
+    @Test
+    void onTabComplete_withStatsPerm_includesStats() {
+        PlayerMock player = server.addPlayer();
+        player.addAttachment(mockPlugin, "ezboost.stats", true);
+        var completions = ezBoostCommand.onTabComplete(player, command, "ezboost", new String[]{""});
+        assertTrue(completions.contains("stats"));
+    }
+
+    @Test
+    void onTabComplete_withoutStatsPerm_doesNotIncludeStats() {
+        PlayerMock player = server.addPlayer();
+        var completions = ezBoostCommand.onTabComplete(player, command, "ezboost", new String[]{""});
+        assertFalse(completions.contains("stats"));
     }
 }

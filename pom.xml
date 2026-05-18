@@ -107,12 +107,12 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.2.1</version>
+            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-base</artifactId>
-            <version>3.2.1</version>
+            <version>2.2.1</version>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
@@ -287,14 +287,14 @@
                                 <includes>
                                     <include>org.bstats:bstats-bukkit</include>
                                     <include>org.bstats:bstats-base</include>
+                                    <include>com.github.EzFramework:jaloquent</include>
+                                    <include>com.github.EzFramework:JavaQueryBuilder</include>
+                                    <include>org.xerial:sqlite-jdbc</include>
                                     <include>net.kyori:adventure-api</include>
                                     <include>net.kyori:adventure-key</include>
                                     <include>net.kyori:adventure-text-minimessage</include>
                                     <include>net.kyori:adventure-text-serializer-legacy</include>
                                     <include>net.kyori:examination-api</include>
-                                    <include>com.github.EzFramework:jaloquent</include>
-                                    <include>com.github.EzFramework:JavaQueryBuilder</include>
-                                    <include>org.xerial:sqlite-jdbc</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -309,6 +309,14 @@
                                 <relocation>
                                     <pattern>com.github.ezframework.javaquerybuilder</pattern>
                                     <shadedPattern>com.skyblockexp.ezboost.libs.javaquerybuilder</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure</pattern>
+                                    <shadedPattern>com.skyblockexp.ezboost.libs.net.kyori.adventure</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.examination</pattern>
+                                    <shadedPattern>com.skyblockexp.ezboost.libs.net.kyori.examination</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -41,7 +41,7 @@ public class AdminGuiPreview {
         );
 
         // Open a preview inventory showing how the boost would appear
-        Inventory previewInventory = Bukkit.createInventory(null, 27, Component.text("§b§lBoost Preview"));
+        Inventory previewInventory = Bukkit.createInventory(null, 27, "§b§lBoost Preview");
 
         // Create the boost item as it would appear in the player GUI
         ItemStack boostItem = new ItemStack(previewBoost.icon());

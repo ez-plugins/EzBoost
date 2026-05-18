@@ -48,7 +48,7 @@ public class NumberInputGui {
     }
 
     private Inventory createInventory(NumberInputHolder holder, int currentValue) {
-        Inventory inventory = Bukkit.createInventory(holder, 27, Component.text("Set " + fieldName + ": " + currentValue));
+        Inventory inventory = Bukkit.createInventory(holder, 27, "Set " + fieldName + ": " + currentValue);
         holder.setCurrentValue(currentValue);
         holder.setFieldName(fieldName);
         return inventory;

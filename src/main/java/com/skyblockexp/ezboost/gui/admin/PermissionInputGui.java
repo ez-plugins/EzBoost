@@ -77,7 +77,7 @@ public class PermissionInputGui {
     private Inventory createInventory(PermissionInputHolder holder, String currentPermission) {
         String title = currentPermission != null && !currentPermission.isEmpty() ?
             "Set Permission: " + currentPermission : "Set Permission";
-        Inventory inventory = Bukkit.createInventory(holder, INVENTORY_SIZE, Component.text(title));
+        Inventory inventory = Bukkit.createInventory(holder, INVENTORY_SIZE, title);
         holder.setCurrentPermission(currentPermission);
         return inventory;
     }

@@ -36,7 +36,7 @@ public class AdminGuiRenderer {
      */
     public Inventory createInventory() {
         AdminBoostCreationHolder holder = new AdminBoostCreationHolder();
-        Inventory inventory = Bukkit.createInventory(holder, 27, Component.text("Create Boost"));
+        Inventory inventory = Bukkit.createInventory(holder, 27, "Create Boost");
         holder.setInventory(inventory);
         return inventory;
     }
