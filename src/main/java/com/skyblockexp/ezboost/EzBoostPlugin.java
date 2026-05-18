@@ -125,7 +125,7 @@ public final class EzBoostPlugin extends JavaPlugin {
 
         StartupLogger.logEnable(
             getLogger(),
-            getPluginMeta().getVersion(),
+            getDescription().getVersion(),
             boostManager.totalBoostCount(),
             boostManager.vaultHookAvailable(),
             papiHooked

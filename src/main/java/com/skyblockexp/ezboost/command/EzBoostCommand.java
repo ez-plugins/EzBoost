@@ -137,7 +137,7 @@ public final class EzBoostCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             org.bukkit.plugin.Plugin plugin = org.bukkit.Bukkit.getPluginManager().getPlugin("EzBoost");
-            String pluginVersion = plugin != null ? plugin.getPluginMeta().getVersion() : "unknown";
+            String pluginVersion = plugin != null ? plugin.getDescription().getVersion() : "unknown";
             String serverVersion = org.bukkit.Bukkit.getBukkitVersion();
             String serverType = org.bukkit.Bukkit.getVersion();
             String database = "data.yml (file)";
