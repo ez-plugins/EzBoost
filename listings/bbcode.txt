@@ -62,7 +62,7 @@
 [tr][td]/ezboost give <player> <boostKey> [amount][/td][td]Give boost token items. Players redeem by right-clicking.[/td][td]ezboost.give[/td][/tr]
 [/table]
 
-For detailed command and permission documentation, see [URL='https://ez-plugins.github.io/ezboost/commands']Commands[/URL] and [URL='https://ez-plugins.github.io/ezboost/permissions']Permissions[/URL].
+For detailed command and permission documentation, see [URL='https://ez-plugins.github.io/EzBoost/commands']Commands[/URL] and [URL='https://ez-plugins.github.io/EzBoost/permissions']Permissions[/URL].
 
 [SIZE=4][B]Setup Guide[/B][/SIZE]
 [spoiler="Installation & Configuration"]
@@ -76,7 +76,7 @@ For detailed command and permission documentation, see [URL='https://ez-plugins.
 
 [B]Configuration Overview[/B]
 [LIST]
-[*][B]Boost definitions[/B] – Add or edit boosts in [icode]boosts.yml[/icode] with effects, duration, cooldown, cost, and permissions. See [URL='https://ez-plugins.github.io/ezboost/boosts']Boosts Reference[/URL] for a full reference.
+[*][B]Boost definitions[/B] – Add or edit boosts in [icode]boosts.yml[/icode] with effects, duration, cooldown, cost, and permissions. See [URL='https://ez-plugins.github.io/EzBoost/boosts']Boosts Reference[/URL] for a full reference.
 [*][B]GUI layout[/B] – Configure size, filler, lore templates, and per-boost slot placement in [icode]gui.yml[/icode].
 [*][B]Limits[/B] – Clamp duration/amplifier ranges to keep effects balanced in [icode]limits.yml[/icode].
 [*][B]World rules[/B] – Use [icode]worlds.allow-list[/icode] or [icode]worlds.deny-list[/icode] for restrictions in [icode]worlds.yml[/icode].
@@ -90,7 +90,7 @@ For detailed command and permission documentation, see [URL='https://ez-plugins.
 [LIST]
 [*]Use region IDs from WorldGuard in [icode]boosts.yml[/icode] to customize boost behavior per region.
 [*]If WorldGuard is not installed, region overrides are ignored.
-[*]See [URL='https://ez-plugins.github.io/ezboost/overrides']Overrides Documentation[/URL] for syntax and examples.
+[*]See [URL='https://ez-plugins.github.io/EzBoost/overrides']Overrides Documentation[/URL] for syntax and examples.
 [/LIST]
 
 [CENTER][URL='https://www.spigotmc.org/resources/authors/shadow48402.25936/'][IMG]https://i.ibb.co/PzfjNjh0/ezplugins-try-other-plugins.png[/IMG][/URL][/CENTER]
@@ -99,10 +99,10 @@ For detailed command and permission documentation, see [URL='https://ez-plugins.
 [SIZE=4][B]Documentation & Support[/B][/SIZE]
 [LIST]
 [*][URL='https://github.com/ez-plugins/EzBoost'][B]EzBoost GitHub Repository[/B][/URL] – Main source for all documentation, guides, and updates.
-[*][URL='https://ez-plugins.github.io/ezboost/config']Configuration Guide[/URL] – Full details on all config options.
-[*][URL='https://ez-plugins.github.io/ezboost/boosts']Boosts Reference[/URL] – YAML format and boost customization.
-[*][URL='https://ez-plugins.github.io/ezboost/gui']GUI Customization[/URL] – How to configure the boost GUI.
-[*][URL='https://ez-plugins.github.io/ezboost/overrides']Overrides Documentation[/URL] – Region/world override syntax and examples.
+[*][URL='https://ez-plugins.github.io/EzBoost/config']Configuration Guide[/URL] – Full details on all config options.
+[*][URL='https://ez-plugins.github.io/EzBoost/boosts']Boosts Reference[/URL] – YAML format and boost customization.
+[*][URL='https://ez-plugins.github.io/EzBoost/gui']GUI Customization[/URL] – How to configure the boost GUI.
+[*][URL='https://ez-plugins.github.io/EzBoost/overrides']Overrides Documentation[/URL] – Region/world override syntax and examples.
 [*][URL='https://discord.gg/yWP95XfmBS'][B]EzBoost Discord Support[/B][/URL] – Need help or want to chat? Join our Discord!
 [/LIST]
 

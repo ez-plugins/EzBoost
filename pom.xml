@@ -41,8 +41,8 @@
         <maven.compiler.release>17</maven.compiler.release>
         <paper.version>[26.1.2.build,)</paper.version>
         <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
-        <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
-        <mockbukkit.version>4.108.0</mockbukkit.version>
+        <mockbukkit.artifactId>mockbukkit-v26.1.2</mockbukkit.artifactId>
+        <mockbukkit.version>4.113.1</mockbukkit.version>
     </properties>
 
 
@@ -115,6 +115,12 @@
             <version>3.2.1</version>
         </dependency>
         <!-- Test dependencies -->
+        <dependency>
+            <groupId>${mockbukkit.groupId}</groupId>
+            <artifactId>${mockbukkit.artifactId}</artifactId>
+            <version>${mockbukkit.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

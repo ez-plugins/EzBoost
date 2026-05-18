@@ -1,7 +1,7 @@
 [![CI](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml)
 [![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.1.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
-[![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/ezboost)
+[![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/EzBoost)
 [![Platform](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit%20%7C%20Folia-blue)](#)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21%2B-brightgreen)](#)
 [![License](https://img.shields.io/github/license/ez-plugins/ezboost)](LICENSE)
@@ -69,7 +69,7 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 | `/ezboost reload` | Reload all configuration | `ezboost.reload` |
 | `/ezboost give <player> <key> [amount]` | Give boost tokens to a player | `ezboost.give` |
 
-→ Full reference: [Commands](https://ez-plugins.github.io/ezboost/commands)
+→ Full reference: [Commands](https://ez-plugins.github.io/EzBoost/commands)
 
 ---
 
@@ -85,7 +85,7 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 | `ezboost.cooldown.bypass` | Skip cooldown checks | `op` |
 | `ezboost.boost.<key>` | Activate a specific boost | `true` |
 
-→ Full reference: [Permissions](https://ez-plugins.github.io/ezboost/permissions)
+→ Full reference: [Permissions](https://ez-plugins.github.io/EzBoost/permissions)
 
 ---
 
@@ -102,7 +102,7 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 | `messages.yml` | All MiniMessage-formatted feedback strings and actionbar text |
 | `storage.yml` | Storage backend selection and connection settings |
 
-→ Full reference: [Configuration](https://ez-plugins.github.io/ezboost/config)
+→ Full reference: [Configuration](https://ez-plugins.github.io/EzBoost/config)
 
 ---
 
@@ -137,25 +137,25 @@ EzBoost detects WorldGuard automatically. Use region IDs in `boosts.yml` to chan
 on a per-region basis – useful for PvP arenas, spawn zones, or event worlds.
 If WorldGuard is not installed, region overrides are silently ignored.
 
-→ Full reference: [Overrides](https://ez-plugins.github.io/ezboost/overrides)
+→ Full reference: [Overrides](https://ez-plugins.github.io/EzBoost/overrides)
 
 ---
 
 ## Documentation
 
-Full documentation is at **<https://ez-plugins.github.io/ezboost>**.
+Full documentation is at **<https://ez-plugins.github.io/EzBoost>**.
 
 | Page | What it covers |
 |------|----------------|
-| [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
-| [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
-| [Configuration](https://ez-plugins.github.io/ezboost/config) | All config files explained |
-| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema – effects, duration, costs |
-| [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` layout and slot configuration |
-| [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World and region override syntax |
-| [Events](https://ez-plugins.github.io/ezboost/events) | Plugin lifecycle events |
-| [Developer API](https://ez-plugins.github.io/ezboost/api) | Java API reference |
-| [PlaceholderAPI](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI) | Available placeholders |
+| [Commands](https://ez-plugins.github.io/EzBoost/commands) | All `/boost` and `/ezboost` commands |
+| [Permissions](https://ez-plugins.github.io/EzBoost/permissions) | Permissions reference and defaults |
+| [Configuration](https://ez-plugins.github.io/EzBoost/config) | All config files explained |
+| [Boosts](https://ez-plugins.github.io/EzBoost/boosts) | `boosts.yml` schema – effects, duration, costs |
+| [GUI](https://ez-plugins.github.io/EzBoost/gui) | `gui.yml` layout and slot configuration |
+| [Overrides](https://ez-plugins.github.io/EzBoost/overrides) | World and region override syntax |
+| [Events](https://ez-plugins.github.io/EzBoost/events) | Plugin lifecycle events |
+| [Developer API](https://ez-plugins.github.io/EzBoost/api) | Java API reference |
+| [PlaceholderAPI](https://ez-plugins.github.io/EzBoost/integration/PlaceholderAPI) | Available placeholders |
 
 ---
 
@@ -172,7 +172,7 @@ effect types, and listening to lifecycle events (`BoostStartEvent`, `BoostEndEve
 </dependency>
 ```
 
-→ Full reference: [Developer API](https://ez-plugins.github.io/ezboost/api)
+→ Full reference: [Developer API](https://ez-plugins.github.io/EzBoost/api)
 
 ---
 
