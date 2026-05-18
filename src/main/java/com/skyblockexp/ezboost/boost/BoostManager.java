@@ -6,7 +6,7 @@ import com.skyblockexp.ezboost.economy.EconomyService;
 import com.skyblockexp.ezboost.event.BoostEndEvent;
 import com.skyblockexp.ezboost.event.BoostStartEvent;
 import com.skyblockexp.ezboost.storage.BoostLeaderboard;
-import com.skyblockexp.ezboost.storage.BoostStorage;
+import com.skyblockexp.ezboost.storage.EzBoostRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +36,7 @@ public final class BoostManager {
     private EzBoostConfig config;
     private Messages messages;
     private EconomyService economyService;
-    private final BoostStorage storage;
+    private final EzBoostRepository storage;
     private BoostLeaderboard leaderboard;
     private final Logger logger;
     private final Map<UUID, BoostState> states = new ConcurrentHashMap<>();
@@ -89,7 +89,7 @@ public final class BoostManager {
             EzBoostConfig config,
             Messages messages,
             EconomyService economyService,
-            BoostStorage storage) {
+            EzBoostRepository storage) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.config = config; // Allow null initially
         this.messages = Objects.requireNonNull(messages, "messages");
