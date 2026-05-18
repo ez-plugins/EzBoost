@@ -2,7 +2,7 @@
 title: Events
 nav_order: 8
 has_children: true
-description: "Plugin events emitted by EzBoost — overview and usage guide"
+description: "Plugin events emitted by EzBoost – overview and usage guide"
 ---
 
 # EzBoost Events Overview

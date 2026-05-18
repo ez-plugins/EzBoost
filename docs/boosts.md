@@ -1,7 +1,7 @@
 ---
 title: Boosts
 nav_order: 5
-description: "boosts.yml schema — defining effects, durations, cooldowns, costs, and particles"
+description: "boosts.yml schema – defining effects, durations, cooldowns, costs, and particles"
 ---
 
 # EzBoost – Default Boosts Reference

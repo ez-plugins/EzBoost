@@ -2,7 +2,7 @@
 title: EzBoostAPI
 parent: API
 nav_order: 1
-description: "EzBoostAPI class reference — full public method tables"
+description: "EzBoostAPI class reference – full public method tables"
 ---
 
 # EzBoostAPI Class Reference

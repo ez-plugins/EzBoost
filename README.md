@@ -1,5 +1,5 @@
 [![CI](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml)
-[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.0.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
+[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.1.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 [![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/ezboost)
 [![Platform](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit-blue)](#)
@@ -9,127 +9,171 @@
 
 # EzBoost
 
+> Configurable potion boosts for Spigot / Paper / Bukkit 1.7–1.21.* – GUI activation, cooldowns, economy costs, boost tokens, and WorldGuard region overrides.
+
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
-![EzBoost Admin GUI](https://i.ibb.co/cXTcS3LT/image.png)
-
-EzBoost is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (Minecraft 1.7–1.21.*). It empowers server owners to offer configurable, time-limited potion boosts to players. Designed for flexibility, maintainability, and performance, EzBoost features a clean multi-file configuration system, a customizable GUI, per-boost cooldowns, world restrictions, optional Vault economy integration, boost token items, and advanced region-based overrides with WorldGuard support.
+EzBoost lets server owners offer time-limited potion boosts through a fully customisable chest GUI or
+direct commands. Every boost is independently configurable – potion effects, amplifier, duration, cooldown,
+permission, economy cost, and behaviour on death or reconnect. Boosts can be scoped to specific worlds or
+WorldGuard regions, and players can receive tradeable **boost tokens** as crate prizes or vote rewards.
 
 ---
 
 ## Features
 
-- **Admin GUI**: Create and manage boosts through an intuitive admin interface.
-- **Highly configurable**: Define custom boosts with effects, durations, cooldowns, permissions, and costs.
-- **Multi-file configuration**: Clean separation of settings, GUI, boosts, and more for easy management.
-- **Interactive GUI**: Customizable inventory interface for boost activation.
-- **Per-boost cooldowns**: Prevents abuse and enables balanced gameplay.
-- **World restrictions**: Allow or deny boosts in specific worlds.
-- **Region-based overrides (WorldGuard)**: Apply different boost settings or disable boosts in specific WorldGuard regions using the built-in override system. No hard dependency—WorldGuard is detected automatically if present.
-- **Vault economy support**: Optionally charge players for activating boosts.
-- **Boost token items**: Give, trade, or reward boost tokens. Players redeem tokens by right-clicking them to activate the corresponding boost.
-- **Live reload**: Reload all configuration and messages at runtime.
-- **MiniMessage support**: Rich formatting for all messages and GUI text.
-- **Internal message tags**: Boost-specific tags (`<boost_display>`, `<boost_cost>`, `<boost_duration>`, etc.) are available in `messages.yml` without PlaceholderAPI.
-- **PlaceholderAPI expansion**: Exposes 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting for use in other plugins.
+### Player experience
+- **Chest GUI** – browse boosts with live cooldown timers, cost display, and active-boost indicator
+- **Direct activation** – `/boost <key>` for players who prefer commands over the GUI
+- **Boost tokens** – physical inventory items redeemed by right-click; tradeable and giftable
+- **Rich feedback** – MiniMessage-formatted actionbar and chat messages, fully customisable
 
----
+### Server management
+- **Fully configurable boosts** – any potion effect, any amplifier, per-boost cooldown, permission, and cost
+- **In-game admin GUI** – create and edit boosts with `/ezboost create`, no YAML editing required
+- **World allow / deny lists** – restrict boosts to specific worlds for gameplay balance
+- **Region overrides** – change any boost property (effect, cost, enabled state) per WorldGuard region; no hard dependency
+- **Live reload** – `/ezboost reload` applies all config changes without a server restart
+- **Persistent storage** – boost states and cooldowns survive restarts; choice of YAML, SQLite, MySQL, MariaDB, or PostgreSQL backend
+- **Boost top leaderboard** – `/boosttop` shows the top boost buyers, backed by persistent storage
 
-
-## Documentation
-
-Full documentation is available at **<https://ez-plugins.github.io/ezboost>**.
-
-| Page | What it covers |
-|------|----------------|
-| [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
-| [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
-| [Configuration](https://ez-plugins.github.io/ezboost/config) | `settings.yml`, `limits.yml`, `worlds.yml`, `economy.yml` |
-| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema — effects, durations, costs |
-| [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` — chest-based boost menu |
-| [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World, group, and region multiplier overrides |
-| [Events](https://ez-plugins.github.io/ezboost/events) | Plugin lifecycle events |
-| [API](https://ez-plugins.github.io/ezboost/api) | Developer API reference |
-| [PlaceholderAPI](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI) | Available placeholders |
+### Integrations
+- **Folia** – fully compatible; task scheduling routes through Folia's region schedulers when detected
+- **Vault** – optional economy cost per boost; gracefully disabled if Vault is absent
+- **PlaceholderAPI** – 18+ placeholders for scoreboards, holograms, and GUI plugins
+- **Internal message tags** – `<boost_display>`, `<boost_cost>`, `<boost_duration>`, and more available directly in `messages.yml`
 
 ---
 
 ## Installation
 
-1. Build the plugin JAR from this repository or download a release from the [releases page](https://github.com/ez-plugins/ezboost/releases).
-2. Place `EzBoost-<version>.jar` in your server's `plugins/` directory.
-3. Start your Spigot, Paper, or Bukkit server (Minecraft 1.7–1.21.*). EzBoost will generate all required configuration files in the plugin data folder.
-4. Use `/ezboost create` to open the admin GUI and create boosts.
+1. Download `EzBoost-<version>.jar` from the [releases page](https://github.com/ez-plugins/ezboost/releases).
+2. Drop the JAR into your server's `plugins/` folder.
+3. Start (or restart) your server – EzBoost generates all config files in `plugins/EzBoost/`.
+4. Edit `boosts.yml` to define your boosts, then run `/ezboost reload` to apply.
+
+**Optional extras:**
+- Enable economy costs in `economy.yml` (requires Vault).
+- Switch the storage backend in `storage.yml` (default: YAML; supports SQLite, MySQL, MariaDB, PostgreSQL).
 
 ---
 
-## Usage
+## Commands
 
-For detailed command documentation, see [docs/commands.md](docs/commands.md).
+| Command | Description | Permission |
+|---------|-------------|------------|
+| `/boost` | Open the boost GUI | `ezboost.use` |
+| `/boost <key>` | Activate a boost directly | `ezboost.use` + boost node |
+| `/ezboost create` | Open the admin GUI | `ezboost.admin` |
+| `/ezboost reload` | Reload all configuration | `ezboost.reload` |
+| `/ezboost give <player> <key> [amount]` | Give boost tokens to a player | `ezboost.give` |
 
-### Quick Commands Reference
+→ Full reference: [Commands](https://ez-plugins.github.io/ezboost/commands)
 
-- `/boost` — Open the boosts GUI (if enabled) or display usage.
-- `/boost <boostKey>` — Activate a boost directly.
-- `/ezboost create` — Open the admin GUI to create boosts.
-- `/ezboost reload` — Reload all configuration and messages.
-- `/ezboost give <player> <boostKey> [amount]` — Give boost token items to a player. Tokens can be redeemed by right-clicking them.
+---
 
-For detailed permissions documentation, see [docs/permissions.md](docs/permissions.md).
+## Permissions
 
-### Quick Permissions Reference
+| Permission | Description | Default |
+|-----------|-------------|---------|
+| `ezboost.use` | Use `/boost` and the GUI | `true` |
+| `ezboost.admin` | Admin commands and GUI | `op` |
+| `ezboost.reload` | Reload configuration | `op` |
+| `ezboost.give` | Give boost tokens | `op` |
+| `ezboost.cooldown.bypass` | Skip cooldown checks | `op` |
+| `ezboost.boost.<key>` | Activate a specific boost | `true` |
 
-- `ezboost.use` — Use boosts (`/boost`).
-- `ezboost.admin` — Access admin commands.
-- `ezboost.reload` — Reload configuration.
-- `ezboost.give` — Give boost tokens.
-- `ezboost.cooldown.bypass` — Bypass boost cooldowns.
-- `ezboost.boost.<key>` — Per-boost permissions (example: `ezboost.boost.speed`).
+→ Full reference: [Permissions](https://ez-plugins.github.io/ezboost/permissions)
+
+---
+
+## Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `boosts.yml` | Define boosts – effects, duration, cooldown, cost, permissions, command hooks |
+| `settings.yml` | General toggles: replace-active-boost, keep-on-death, reapply-on-join |
+| `limits.yml` | Clamp amplifier and duration ranges across all boosts |
+| `worlds.yml` | World allow / deny lists |
+| `economy.yml` | Vault economy enable / disable and cost settings |
+| `gui.yml` | GUI title, size, filler items, and slot assignments |
+| `messages.yml` | All MiniMessage-formatted feedback strings and actionbar text |
+| `storage.yml` | Storage backend selection and connection settings |
+
+→ Full reference: [Configuration](https://ez-plugins.github.io/ezboost/config)
+
+---
+
+## Storage Backends
+
+Player boost states, cooldowns, and leaderboard data are persisted by [Jaloquent](https://github.com/EzFramework/Jaloquent).
+Configure the backend in `plugins/EzBoost/storage.yml`:
+
+| Backend | Notes |
+|---------|-------|
+| `yaml` | **Default.** Zero setup; data stored in flat files inside the plugin folder |
+| `sqlite` | Single-file database; good for small-to-medium servers |
+| `mysql` | Recommended for high-traffic or multi-server setups |
+| `mariadb` | Drop-in MySQL-compatible alternative |
+| `postgresql` | Full support; bring your own JDBC driver |
 
 ---
 
 ## Boost Tokens
 
-Boost tokens are special items that can be given to players as rewards, crate prizes, or shop items.  
-- **Giving tokens:** Use `/ezboost give <player> <boostKey> [amount]` to give boost tokens.
-- **Redeeming tokens:** Players right-click a boost token in their main hand to instantly activate the corresponding boost. The token is consumed on use.
+Boost tokens are inventory items that activate a specific boost when right-clicked in the main hand.
 
----
-
-## Configuration
-
-EzBoost uses a multi-file configuration system for clarity and maintainability. All configuration files are located in the plugin's data folder:
-
-- `settings.yml` — General plugin toggles (e.g., replace-active-boost, keep-boost-on-death).
-- `limits.yml` — Minimum/maximum duration and amplifier values for boosts.
-- `worlds.yml` — World allow/deny lists for boost usage.
-- `economy.yml` — Economy integration settings (Vault, enable/disable).
-- `gui.yml` — GUI layout, appearance, and slot mapping.
-- `boosts.yml` — All boost definitions (effects, duration, cooldown, cost, permissions).
-- `messages.yml` — MiniMessage-formatted strings for feedback and actionbar text.
-- `data.yml` — Persisted player boost states and cooldowns (auto-managed).
-
-### Region & World Overrides
-
-EzBoost supports advanced overrides for boosts based on world or WorldGuard region. You can:
-- Change boost effects, duration, cost, or permissions for a specific world or region.
-- Disable certain boosts in specific regions (e.g., PvP arenas, spawn zones).
-- Use `boosts.yml` to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using reflection (no hard dependency).
-
-See [docs/overrides.md](docs/overrides.md) for syntax and examples.
+- **Give tokens:** `/ezboost give <player> <key> [amount]`
+- **Redeem:** The player right-clicks the token – it is consumed and the boost activates immediately.
+- Tokens work as crate prizes, vote rewards, auction house listings, or shop items.
 
 ---
 
 ## WorldGuard Integration
 
-- EzBoost automatically detects WorldGuard if present and applies region-based overrides for boosts.
-- No hard dependency: If WorldGuard is not installed, region overrides are ignored.
-- Use region IDs from WorldGuard in your `overrides.yml` to customize boost behavior per region.
+EzBoost detects WorldGuard automatically. Use region IDs in `boosts.yml` to change any boost property
+on a per-region basis – useful for PvP arenas, spawn zones, or event worlds.
+If WorldGuard is not installed, region overrides are silently ignored.
+
+→ Full reference: [Overrides](https://ez-plugins.github.io/ezboost/overrides)
 
 ---
 
-## Support & License
+## Documentation
 
-For help, open an issue or discussion on the repository.
+Full documentation is at **<https://ez-plugins.github.io/ezboost>**.
 
-EzBoost is licensed under the MIT License. See [LICENSE](LICENSE).
+| Page | What it covers |
+|------|----------------|
+| [Commands](https://ez-plugins.github.io/ezboost/commands) | All `/boost` and `/ezboost` commands |
+| [Permissions](https://ez-plugins.github.io/ezboost/permissions) | Permissions reference and defaults |
+| [Configuration](https://ez-plugins.github.io/ezboost/config) | All config files explained |
+| [Boosts](https://ez-plugins.github.io/ezboost/boosts) | `boosts.yml` schema – effects, duration, costs |
+| [GUI](https://ez-plugins.github.io/ezboost/gui) | `gui.yml` layout and slot configuration |
+| [Overrides](https://ez-plugins.github.io/ezboost/overrides) | World and region override syntax |
+| [Events](https://ez-plugins.github.io/ezboost/events) | Plugin lifecycle events |
+| [Developer API](https://ez-plugins.github.io/ezboost/api) | Java API reference |
+| [PlaceholderAPI](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI) | Available placeholders |
+
+---
+
+## Developer API
+
+EzBoost exposes a Java API for starting/stopping boosts, querying active boost state, registering custom
+effect types, and listening to lifecycle events (`BoostStartEvent`, `BoostEndEvent`).
+
+```xml
+<dependency>
+  <groupId>com.github.ez-plugins</groupId>
+  <artifactId>EzBoost</artifactId>
+  <version>2.1.0</version>
+</dependency>
+```
+
+→ Full reference: [Developer API](https://ez-plugins.github.io/ezboost/api)
+
+---
+
+## License
+
+EzBoost is licensed under the [MIT License](LICENSE).

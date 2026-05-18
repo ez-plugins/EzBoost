@@ -5,7 +5,7 @@
 
     <groupId>com.skyblockexp</groupId>
     <artifactId>ezboost</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <name>EzBoost</name>
     <description>Standalone boost plugin with configurable potion boosts, cooldowns, and GUI.</description>
     <packaging>jar</packaging>
@@ -36,9 +36,9 @@
     <properties>
         <github.owner>ez-plugins</github.owner>
         <github.repository>ezboost</github.repository>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <paper.version>[26.1.2.build,)</paper.version>
         <mockbukkit.groupId>org.mockbukkit.mockbukkit</mockbukkit.groupId>
         <mockbukkit.artifactId>mockbukkit-v1.21</mockbukkit.artifactId>
@@ -145,6 +145,12 @@
             <artifactId>jaloquent</artifactId>
             <version>1.3.0</version>
         </dependency>
+        <!-- SQLite JDBC driver — shaded for the sqlite storage backend -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.1.3</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -192,6 +198,7 @@
                     <include>economy.yml</include>
                     <include>gui.yml</include>
                     <include>boosts.yml</include>
+                    <include>storage.yml</include>
                 </includes>
             </resource>
         </resources>
@@ -281,6 +288,7 @@
                                     <include>net.kyori:examination-api</include>
                                     <include>com.github.EzFramework:jaloquent</include>
                                     <include>com.github.EzFramework:JavaQueryBuilder</include>
+                                    <include>org.xerial:sqlite-jdbc</include>
                                 </includes>
                             </artifactSet>
                             <relocations>

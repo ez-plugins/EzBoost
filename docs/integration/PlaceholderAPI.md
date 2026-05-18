@@ -1,7 +1,7 @@
 ---
 title: PlaceholderAPI
 nav_order: 10
-description: "PlaceholderAPI expansion for EzBoost — available placeholders and examples"
+description: "PlaceholderAPI expansion for EzBoost – available placeholders and examples"
 ---
 
 # PlaceholderAPI integration
@@ -20,7 +20,7 @@ This document describes the PlaceholderAPI expansion bundled with EzBoost and th
 ## Installation
 
 - Ensure PlaceholderAPI is installed on the server (<https://www.spigotmc.org/resources/placeholderapi.6245/>).
-- The EzBoost expansion is registered automatically when both EzBoost and PlaceholderAPI are present — no extra files required.
+- The EzBoost expansion is registered automatically when both EzBoost and PlaceholderAPI are present – no extra files required.
 
 ## Expansion identifier
 
@@ -47,18 +47,18 @@ All placeholders use the `ezboost` expansion identifier. Wrap the identifier in 
 | `%ezboost_boost_cost_<boostkey>%` | Formatted cost of `<boostkey>` (same as `price_formatted`) |
 | `%ezboost_boost_duration_<boostkey>%` | Duration in seconds |
 | `%ezboost_boost_status_<boostkey>%` | Player's status: `available`, `locked`, `active`, `insufficient`, or `cooldown` |
-| `%ezboost_player_can_afford_<boostkey>%` | `true` / `false` — whether the requesting player can afford the boost |
+| `%ezboost_player_can_afford_<boostkey>%` | `true` / `false` – whether the requesting player can afford the boost |
 
 ### Active boost state
 
 | Placeholder | Returns |
 |-------------|---------|
-| `%ezboost_has_active_boost%` | `true` / `false` — whether the player has a running boost |
+| `%ezboost_has_active_boost%` | `true` / `false` – whether the player has a running boost |
 | `%ezboost_active_boost%` | Config key of the active boost, or empty |
 | `%ezboost_active_boost_display%` | Display name of the active boost, or empty |
 | `%ezboost_active_boost_time_remaining%` | Seconds remaining as a plain integer |
 | `%ezboost_active_boost_time_remaining_formatted%` | `MM:SS` (under 1 hour) or `HH:MM:SS` (1 hour or more) |
-| `%ezboost_is_active_<boostkey>%` | `true` / `false` — plain boolean, no permission or cost check |
+| `%ezboost_is_active_<boostkey>%` | `true` / `false` – plain boolean, no permission or cost check |
 
 ### Cooldowns
 
@@ -79,10 +79,10 @@ All placeholders use the `ezboost` expansion identifier. Wrap the identifier in 
 
 Number formatting honours `economy.format.*` settings from `economy.yml`:
 
-- `grouping` — `true`/`false`, enable thousands grouping
-- `grouping-separator` — single character, default `,`
-- `decimal-separator` — single character, default `.`
-- `decimal-places` — integer, default `2`
+- `grouping` – `true`/`false`, enable thousands grouping
+- `grouping-separator` – single character, default `,`
+- `decimal-separator` – single character, default `.`
+- `decimal-places` – integer, default `2`
 
 Compact formatting (`price_compact`) uses K / M suffixes and ignores the decimal-places setting.
 
@@ -96,7 +96,7 @@ Compact formatting (`price_compact`) uses K / M suffixes and ignores the decimal
 Boost: %ezboost_active_boost_display% (%ezboost_active_boost_time_remaining_formatted%)
 ```
 
-**Conditional button (e.g. in a GUI plugin) — only visible when no boost is active:**
+**Conditional button (e.g. in a GUI plugin) – only visible when no boost is active:**
 
 ```text
 condition: %ezboost_has_active_boost% == false

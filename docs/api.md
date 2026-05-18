@@ -2,7 +2,7 @@
 title: API
 nav_order: 9
 has_children: true
-description: "EzBoost developer API — integrating boost management into your own plugins"
+description: "EzBoost developer API – integrating boost management into your own plugins"
 ---
 
 # EzBoost API Overview
@@ -55,7 +55,7 @@ You can use JitPack to include the latest version directly from GitHub:
 <dependency>
    <groupId>com.github.ez-plugins</groupId>
    <artifactId>EzBoost</artifactId>
-   <version>1.4.0</version> <!-- a specific release/tag -->
+   <version>2.1.0</version> <!-- use the latest release tag -->
 </dependency>
 ```
 

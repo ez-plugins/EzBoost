@@ -12,6 +12,7 @@ on:
 env:
   PAPER_261_VERSION: "26.1.2"  # New MC versioning scheme; uses fill.papermc.io API
   FOLIA_VERSION: "26.1.2"      # Folia tracks the same MC version as Paper
+  PAPER_121_VERSION: "1.21.11" # Legacy MC versioning; uses api.papermc.io API
   SPIGOT_VERSION: "1.21.11"
   BUKKIT_VERSION: "1.21.11"
 
@@ -52,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server: [paper, folia, spigot, bukkit]
+        server: [paper, folia, paper-1.21, spigot, bukkit]
 
     steps:
       - name: Set up Java 25
@@ -83,6 +84,17 @@ jobs:
             | jq -r 'map(select(.channel == "STABLE")) | first | .downloads["server:default"].url')
           curl -sfLo server.jar "$URL"
           echo "Paper 26.1.2 URL: $URL"
+
+      # ── Paper 1.21.11 (legacy MC versioning; uses api.papermc.io) ────────
+      - name: Download Paper ${{ env.PAPER_121_VERSION }}
+        if: matrix.server == 'paper-1.21'
+        run: |
+          LATEST=$(curl -sf \
+            "https://api.papermc.io/v2/projects/paper/versions/${PAPER_121_VERSION}" \
+            | jq -r '.builds[-1]')
+          curl -sfLo server.jar \
+            "https://api.papermc.io/v2/projects/paper/versions/${PAPER_121_VERSION}/builds/${LATEST}/downloads/paper-${PAPER_121_VERSION}-${LATEST}.jar"
+          echo "Paper ${PAPER_121_VERSION} build ${LATEST} downloaded"
 
       # ── Folia 26.1.2 (same fill.papermc.io API, project=folia) ───────────
       - name: Download Folia ${{ env.FOLIA_VERSION }}
@@ -202,13 +214,15 @@ jobs:
               RESULT=fail
               break
             fi
-            # Server fully started → all plugins have been enabled without errors.
-            # "Done (" is more reliable than checking "Enabling EzBoost" because
-            # some server variants (e.g. Paper 26.1) load worlds before enabling
-            # plugins, so "Enabling" can appear late.
-            if grep -qE "Done \([0-9.]" server.log 2>/dev/null; then
+          # Server fully started — verify EzBoost was actually enabled.
+          # "Done (" is more reliable than checking "Enabling EzBoost" because
+          # some server variants (e.g. Paper 26.1) load worlds before enabling
+          # plugins, so "Enabling" can appear late.
+          if grep -qE "Done \([0-9.]" server.log 2>/dev/null; then
               if grep -qE "$FAIL_PAT" server.log 2>/dev/null; then
                 RESULT=fail
+              elif ! grep -q "Enabling EzBoost" server.log 2>/dev/null; then
+                RESULT=fail  # Server started but plugin was never enabled (e.g. incompatible api-version)
               else
                 RESULT=pass
               fi

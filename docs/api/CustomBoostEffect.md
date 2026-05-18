@@ -2,7 +2,7 @@
 title: CustomBoostEffect
 parent: API
 nav_order: 2
-description: "CustomBoostEffect interface — implementing custom plugin-driven boost effects"
+description: "CustomBoostEffect interface – implementing custom plugin-driven boost effects"
 ---
 
 # CustomBoostEffect Interface Reference

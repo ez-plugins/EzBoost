@@ -45,9 +45,18 @@ This document details all commands provided by EzBoost, including syntax, argume
 
   Activates the "speed" boost if available and permitted.
 
-## Admin Commands
+### `/boosttop`
 
-### `/ezboost create`
+- **Description**: Displays the top boost buyers leaderboard, ranked by total boosts purchased.
+- **Permission**: `ezboost.top`
+- **Usage**: `/boosttop`
+- **Example**:
+
+  ```text
+  /boosttop
+  ```
+
+  Shows the all-time top boost buyers.
 
 - **Description**: Opens the admin GUI for creating and managing boosts. Allows administrators to define new boosts with effects, durations, cooldowns, and more.
 - **Permission**: `ezboost.admin`
@@ -93,11 +102,6 @@ This document details all commands provided by EzBoost, including syntax, argume
 For detailed permissions documentation, see [docs/permissions.md](permissions.md).
 
 ## Notes
-
-- Boost keys are case-insensitive.
-- Players must have both `ezboost.use` and the specific `ezboost.boost.<key>` permission to activate a boost.
-- The admin GUI (`/ezboost create`) provides an intuitive interface for creating boosts without editing config files directly.
-- Boost tokens are consumable items that players can right-click to activate boosts instantly.
 
 - Boost keys are case-insensitive.
 - Players must have both `ezboost.use` and the specific `ezboost.boost.<key>` permission to activate a boost.

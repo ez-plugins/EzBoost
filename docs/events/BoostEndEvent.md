@@ -2,7 +2,7 @@
 title: BoostEndEvent
 parent: Events
 nav_order: 2
-description: "Event fired when a boost expires or is cancelled — fields and usage"
+description: "Event fired when a boost expires or is cancelled – fields and usage"
 ---
 
 # BoostEndEvent Class Reference
@@ -33,11 +33,11 @@ public class BoostEndEvent extends Event implements Cancellable {
 
 ## Key Methods & Fields
 
-- `Player getPlayer()` — The player whose boost is ending.
-- `String getBoostKey()` — The unique key of the boost.
-- `BoostDefinition getBoostDefinition()` — The full boost definition.
-- `boolean isCancelled()` — Whether the event is cancelled.
-- `void setCancelled(boolean cancel)` — Cancel or allow the boost end.
+- `Player getPlayer()` – The player whose boost is ending.
+- `String getBoostKey()` – The unique key of the boost.
+- `BoostDefinition getBoostDefinition()` – The full boost definition.
+- `boolean isCancelled()` – Whether the event is cancelled.
+- `void setCancelled(boolean cancel)` – Cancel or allow the boost end.
 
 ## Usage Example
 

@@ -19,14 +19,16 @@ import com.skyblockexp.ezboost.listener.EconomyServiceListener;
 import com.skyblockexp.ezboost.listener.XpBoostListener;
 import com.skyblockexp.ezboost.storage.BoostLeaderboard;
 import com.skyblockexp.ezboost.storage.BoostPurchaseRecord;
-import com.skyblockexp.ezboost.storage.BoostStorage;
-import com.skyblockexp.ezboost.storage.YamlDataStore;
+import com.skyblockexp.ezboost.storage.EzBoostRepository;
+import com.skyblockexp.ezboost.storage.StorageFactory;
+import com.skyblockexp.ezboost.storage.StorageSettings;
 import com.skyblockexp.ezboost.update.SpigotUpdateChecker;
 import com.github.ezframework.jaloquent.model.ModelRepository;
 import java.io.File;
 import java.util.Objects;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,7 +39,7 @@ public final class EzBoostPlugin extends JavaPlugin {
     private EzBoostConfig config;
     private Messages messages;
     private EconomyService economyService;
-    private BoostStorage storage;
+    private EzBoostRepository boostRepository;
     private BoostManager boostManager;
     private BoostGui boostGui;
     private AdminBoostCreationGui adminGui;
@@ -48,15 +50,21 @@ public final class EzBoostPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         ensureResource("messages.yml");
-        ensureDataFile();
+        ensureResource("storage.yml");
 
         // Initialize basic services first
         messages = new Messages(this);
         economyService = new EconomyService();
-        storage = new BoostStorage(this);
+
+        // Build storage layer from storage.yml
+        StorageSettings storageSettings = loadStorageSettings();
+        getLogger().info("Storage backend: " + storageSettings.backend());
+        StorageFactory.StorageBundle storageBundle =
+                StorageFactory.build(storageSettings, getDataFolder(), getLogger());
+        boostRepository = storageBundle.boostRepository();
 
         // Create boost manager first (without config initially)
-        boostManager = new BoostManager(this, null, messages, economyService, storage);
+        boostManager = new BoostManager(this, null, messages, economyService, boostRepository);
         // Initialize API so custom effects can be registered
         EzBoostAPI.init(boostManager);
 
@@ -72,12 +80,8 @@ public final class EzBoostPlugin extends JavaPlugin {
 
         boostManager.loadStates();
 
-        // Leaderboard (Jaloquent + YAML backing)
-        YamlDataStore leaderboardStore = new YamlDataStore(
-                new File(getDataFolder(), "leaderboard.yml"), getLogger());
-        ModelRepository<BoostPurchaseRecord> leaderboardRepo =
-                new ModelRepository<>(leaderboardStore, "leaderboard", BoostPurchaseRecord.FACTORY);
-        boostLeaderboard = new BoostLeaderboard(leaderboardRepo, getLogger());
+        // Leaderboard (Jaloquent-backed — same backend as game state)
+        boostLeaderboard = new BoostLeaderboard(storageBundle.leaderboardRepo(), getLogger());
         boostManager.setLeaderboard(boostLeaderboard);
 
         boostGui = new BoostGui(this, boostManager, config.guiSettings());
@@ -121,7 +125,7 @@ public final class EzBoostPlugin extends JavaPlugin {
 
         StartupLogger.logEnable(
             getLogger(),
-            getPluginMeta().getVersion(),
+            getDescription().getVersion(),
             boostManager.totalBoostCount(),
             boostManager.vaultHookAvailable(),
             papiHooked
@@ -183,18 +187,23 @@ public final class EzBoostPlugin extends JavaPlugin {
         }
     }
 
-    private void ensureDataFile() {
-        File file = new File(getDataFolder(), "data.yml");
-        if (!file.exists()) {
-            if (!getDataFolder().exists()) {
-                getDataFolder().mkdirs();
-            }
-            try {
-                file.createNewFile();
-            } catch (Exception ex) {
-                getLogger().warning("Failed to create data.yml: " + ex.getMessage());
-            }
-        }
+    private StorageSettings loadStorageSettings() {
+        File file = new File(getDataFolder(), "storage.yml");
+        YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        String backend = cfg.getString("storage.backend", "yaml");
+        return new StorageSettings(
+                backend,
+                cfg.getString("storage.sqlite.file", "ezboost.db"),
+                cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".host", "localhost"),
+                cfg.getInt("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".port",
+                        backend.equals("postgresql") ? 5432 : 3306),
+                cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".database", "ezboost"),
+                cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".username",
+                        backend.equals("postgresql") ? "postgres" : "root"),
+                cfg.getString("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".password", ""),
+                cfg.getInt("storage." + (backend.equals("postgresql") ? "postgresql" : "mysql") + ".pool-size", 10),
+                cfg.getBoolean("storage.debug-logging", false)
+        );
     }
 
     private void initializeMetrics() {

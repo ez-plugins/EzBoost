@@ -26,6 +26,7 @@ EzBoost uses a hierarchical permission system to control access to different fea
 | Permission | Description | Default | Examples |
 | --- | --- | --- | --- |
 | `ezboost.use` | Allows basic use of boost commands and GUI | Players | `/boost`, `/boost speed` |
+| `ezboost.top` | Allows viewing the boost top leaderboard | Players | `/boosttop` |
 | `ezboost.admin` | Grants access to admin commands | OPs | `/ezboost create` |
 | `ezboost.reload` | Allows reloading the plugin configuration | OPs | `/ezboost reload` |
 | `ezboost.give` | Allows giving boost tokens to players | OPs | `/ezboost give player speed` |
