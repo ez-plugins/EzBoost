@@ -1,7 +1,7 @@
 [CENTER][SIZE=6][B]EzBoost[/B][/SIZE]
 [SIZE=3]Configurable potion boosts with GUI activation, cooldowns, Vault costs, boost tokens, and region-based overrides (WorldGuard support)[/SIZE]
 [SIZE=2]Renewed take on [URL='https://dev.bukkit.org/projects/redbull']RedBull[/URL][/SIZE]
-[SIZE=2]Spigot / Paper / Bukkit 1.7–1.21.* • Optional Vault economy • Fully configurable boosts • GUI + command activation • Boost tokens • Region overrides[/SIZE][/CENTER]
+[SIZE=2]Spigot / Paper / Bukkit / Folia 1.7–1.21.* • Optional Vault economy • Fully configurable boosts • GUI + command activation • Boost tokens • Region overrides[/SIZE][/CENTER]
 
 [SIZE=4][B]Why EzBoost?[/B][/SIZE]
 [LIST]
@@ -25,6 +25,8 @@
 [*][B]Fully configurable boosts[/B] – Define custom potion effects, amplifiers, durations, and permissions per boost.
 [*][B]Multi-file configuration[/B] – Clean separation of settings, GUI, boosts, and more for easy management.
 [*][B]Storage backends[/B] – Persist boost states to YAML (default), SQLite, MySQL, MariaDB, or PostgreSQL. Configured in [icode]storage.yml[/icode].
+[*][B]Boost top leaderboard[/B] – [icode]/boosttop[/icode] tracks and displays the all-time top boost buyers.
+[*][B]Folia support[/B] – Fully compatible with Folia servers; task scheduling routes through Folia's region schedulers automatically.
 [*][B]Region & World Overrides[/B] – Use [icode]overrides.yml[/icode] to define per-world or per-region settings. If WorldGuard is installed, region overrides are applied automatically using region IDs.
 [*][B]Boost tokens[/B] – Grant boost token items with [icode]/ezboost give[/icode] for rewards, crates, or shops. Players redeem tokens by right-clicking them to instantly activate the boost.
 [*][B]Flexible limits[/B] – Clamp duration/amplifier ranges to keep boosts balanced.
@@ -54,6 +56,7 @@
 [tr][th]Command[/th][th]Description[/th][th]Permission[/th][/tr]
 [tr][td]/boost[/td][td]Open the boosts GUI or show usage.[/td][td]ezboost.use[/td][/tr]
 [tr][td]/boost <boostKey>[/td][td]Activate a specific boost directly.[/td][td]ezboost.use + boost permission[/td][/tr]
+[tr][td]/boosttop[/td][td]View the top boost buyers leaderboard.[/td][td]ezboost.top[/td][/tr]
 [tr][td]/ezboost create[/td][td]Open the admin GUI to create boosts.[/td][td]ezboost.admin[/td][/tr]
 [tr][td]/ezboost reload[/td][td]Reload configuration and messages.[/td][td]ezboost.reload[/td][/tr]
 [tr][td]/ezboost give <player> <boostKey> [amount][/td][td]Give boost token items. Players redeem by right-clicking.[/td][td]ezboost.give[/td][/tr]

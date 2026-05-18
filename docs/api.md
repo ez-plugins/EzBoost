@@ -55,7 +55,7 @@ You can use JitPack to include the latest version directly from GitHub:
 <dependency>
    <groupId>com.github.ez-plugins</groupId>
    <artifactId>EzBoost</artifactId>
-   <version>2.0.0</version> <!-- use the latest release tag -->
+   <version>2.1.0</version> <!-- use the latest release tag -->
 </dependency>
 ```
 

@@ -1,5 +1,5 @@
 [![CI](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml)
-[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.0.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
+[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.1.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 [![Docs](https://img.shields.io/badge/Docs-GitHub_Pages-blue?logo=github)](https://ez-plugins.github.io/ezboost)
 [![Platform](https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper%20%7C%20Bukkit-blue)](#)
@@ -35,8 +35,10 @@ WorldGuard regions, and players can receive tradeable **boost tokens** as crate 
 - **Region overrides** – change any boost property (effect, cost, enabled state) per WorldGuard region; no hard dependency
 - **Live reload** – `/ezboost reload` applies all config changes without a server restart
 - **Persistent storage** – boost states and cooldowns survive restarts; choice of YAML, SQLite, MySQL, MariaDB, or PostgreSQL backend
+- **Boost top leaderboard** – `/boosttop` shows the top boost buyers, backed by persistent storage
 
 ### Integrations
+- **Folia** – fully compatible; task scheduling routes through Folia's region schedulers when detected
 - **Vault** – optional economy cost per boost; gracefully disabled if Vault is absent
 - **PlaceholderAPI** – 18+ placeholders for scoreboards, holograms, and GUI plugins
 - **Internal message tags** – `<boost_display>`, `<boost_cost>`, `<boost_duration>`, and more available directly in `messages.yml`
@@ -164,7 +166,7 @@ effect types, and listening to lifecycle events (`BoostStartEvent`, `BoostEndEve
 <dependency>
   <groupId>com.github.ez-plugins</groupId>
   <artifactId>EzBoost</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 

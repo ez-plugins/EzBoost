@@ -1,5 +1,5 @@
 
-**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, and Bukkit (Minecraft 1.7–1.21.*). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, and persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL). Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
+**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, Bukkit, and **Folia** (Minecraft 1.7–1.21.*). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL), and a leaderboard for top boost buyers. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
@@ -11,6 +11,8 @@
 
 - **GUI-first activation**: Players can browse boosts with clear status, cooldown, and cost info.
 - **Admin GUI**: Create and manage boosts through an intuitive admin interface.
+- **Folia support**: Fully compatible with Folia servers – task scheduling routes through Folia's region schedulers automatically.
+- **Boost top leaderboard**: `/boosttop` displays the all-time top boost buyers, backed by persistent storage.
 - **Fully configurable boosts**: Define custom potion effects, amplifiers, durations, and permissions per boost.
 - **Multi-file configuration**: Clean separation of settings, GUI, boosts, and more for easy management.
 - **Interactive GUI**: Customizable inventory interface for boost activation.
@@ -36,6 +38,7 @@
 | --- | --- | --- |
 | `/boost` | Open the boosts GUI or show usage. | `ezboost.use` |
 | `/boost <boostKey>` | Activate a boost directly. | `ezboost.use` + boost permission |
+| `/boosttop` | View the top boost buyers leaderboard. | `ezboost.top` |
 | `/ezboost create` | Open the admin GUI to create boosts. | `ezboost.admin` |
 | `/ezboost reload` | Reload configuration and messages. | `ezboost.reload` |
 | `/ezboost give <player> <boostKey> [amount]` | Give boost token items. Players redeem by right-clicking. | `ezboost.give` |
@@ -47,6 +50,7 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 ## 🛡️ Permissions
 
 - `ezboost.use` – Use boosts (`/boost`).
+- `ezboost.top` – View the boost leaderboard (`/boosttop`).
 - `ezboost.admin` – Access admin commands.
 - `ezboost.reload` – Reload configuration.
 - `ezboost.give` – Give boost tokens.
