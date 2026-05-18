@@ -107,12 +107,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-base</artifactId>
-            <version>3.2.1</version>
+            <version>2.2.1</version>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
@@ -286,7 +281,6 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.bstats:bstats-bukkit</include>
-                                    <include>org.bstats:bstats-base</include>
                                     <include>net.kyori:adventure-api</include>
                                     <include>net.kyori:adventure-key</include>
                                     <include>net.kyori:adventure-text-minimessage</include>
