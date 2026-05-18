@@ -5,6 +5,7 @@ import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.economy.EconomyService;
 import com.skyblockexp.ezboost.event.BoostEndEvent;
 import com.skyblockexp.ezboost.event.BoostStartEvent;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
 import com.skyblockexp.ezboost.storage.BoostStorage;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ public final class BoostManager {
     private Messages messages;
     private EconomyService economyService;
     private final BoostStorage storage;
+    private BoostLeaderboard leaderboard;
     private final Logger logger;
     private final Map<UUID, BoostState> states = new ConcurrentHashMap<>();
     private final Map<UUID, FoliaScheduler.TaskHandle> expiryTasks = new HashMap<>();
@@ -424,8 +426,21 @@ public final class BoostManager {
         if (source == ActivationSource.TOKEN) {
             player.sendMessage(messages.message("token-used", BoostTagResolvers.forBoost(effective, currencyFormatter)));
         }
+        if (leaderboard != null) {
+            leaderboard.recordPurchase(player.getUniqueId(), player.getName());
+        }
         saveStates();
         return true;
+    }
+
+    /** Inject the leaderboard after construction (avoids circular dependency). */
+    public void setLeaderboard(BoostLeaderboard leaderboard) {
+        this.leaderboard = leaderboard;
+    }
+
+    /** Returns the leaderboard, or {@code null} if not yet initialised. */
+    public BoostLeaderboard getLeaderboard() {
+        return leaderboard;
     }
 
     public void handleJoin(Player player) {

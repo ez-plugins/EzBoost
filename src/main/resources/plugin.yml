@@ -8,8 +8,12 @@ author: SkyblockExperience
 commands:
   boost:
     description: Open the boosts GUI, show info, or activate a boost.
-    usage: /boost [about|boostKey]
+    usage: /boost [about|top|boostKey]
     permission: ezboost.use
+  boosttop:
+    description: View the top boost buyers leaderboard.
+    usage: /boosttop
+    permission: ezboost.top
   ezboost:
     description: EzBoost administration commands.
     usage: /ezboost <about|reload|give|create> [args]
@@ -30,3 +34,6 @@ permissions:
   ezboost.cooldown.bypass:
     description: Bypass boost cooldowns.
     default: op
+  ezboost.top:
+    description: View the boost top leaderboard.
+    default: true

@@ -17,8 +17,12 @@ import com.skyblockexp.ezboost.listener.BoostPlayerListener;
 import com.skyblockexp.ezboost.listener.BoostTokenListener;
 import com.skyblockexp.ezboost.listener.EconomyServiceListener;
 import com.skyblockexp.ezboost.listener.XpBoostListener;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
+import com.skyblockexp.ezboost.storage.BoostPurchaseRecord;
 import com.skyblockexp.ezboost.storage.BoostStorage;
+import com.skyblockexp.ezboost.storage.YamlDataStore;
 import com.skyblockexp.ezboost.update.SpigotUpdateChecker;
+import com.github.ezframework.jaloquent.model.ModelRepository;
 import java.io.File;
 import java.util.Objects;
 import org.bstats.bukkit.Metrics;
@@ -39,6 +43,7 @@ public final class EzBoostPlugin extends JavaPlugin {
     private AdminBoostCreationGui adminGui;
     private BoostTokenFactory tokenFactory;
     private XpBoostEffect xpBoostEffect;
+    private BoostLeaderboard boostLeaderboard;
 
     @Override
     public void onEnable() {
@@ -66,6 +71,14 @@ public final class EzBoostPlugin extends JavaPlugin {
         economyService.setup(config.economySettings());
 
         boostManager.loadStates();
+
+        // Leaderboard (Jaloquent + YAML backing)
+        YamlDataStore leaderboardStore = new YamlDataStore(
+                new File(getDataFolder(), "leaderboard.yml"), getLogger());
+        ModelRepository<BoostPurchaseRecord> leaderboardRepo =
+                new ModelRepository<>(leaderboardStore, "leaderboard", BoostPurchaseRecord.FACTORY);
+        boostLeaderboard = new BoostLeaderboard(leaderboardRepo, getLogger());
+        boostManager.setLeaderboard(boostLeaderboard);
 
         boostGui = new BoostGui(this, boostManager, config.guiSettings());
         adminGui = new AdminBoostCreationGui(this, boostManager, config, messages, boostGui);
@@ -138,6 +151,11 @@ public final class EzBoostPlugin extends JavaPlugin {
         if (boost != null) {
             boost.setExecutor(boostCommand);
             boost.setTabCompleter(boostCommand);
+        }
+        // /boosttop alias — delegates straight into /boost top logic
+        PluginCommand boosttop = getCommand("boosttop");
+        if (boosttop != null) {
+            boosttop.setExecutor((sender, cmd, label, args) -> boostCommand.onCommand(sender, cmd, label, new String[]{"top"}));
         }
         EzBoostCommand ezBoostCommand = new EzBoostCommand(boostManager, messages, tokenFactory, adminGui, this::reloadPlugin);
         PluginCommand ezboost = getCommand("ezboost");

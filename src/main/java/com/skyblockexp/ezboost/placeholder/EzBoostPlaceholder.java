@@ -5,6 +5,9 @@ import com.skyblockexp.ezboost.api.EzBoostAPI;
 import com.skyblockexp.ezboost.boost.BoostDefinition;
 import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.boost.XpBoostEffect;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
+import com.skyblockexp.ezboost.storage.BoostPurchaseRecord;
+import java.util.List;
 import java.util.Optional;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -233,6 +236,60 @@ public class EzBoostPlaceholder extends PlaceholderExpansion {
                 return String.valueOf(xpEffect.getMultiplier(player));
             }
             return "1";
+        }
+
+        // top_player_<rank>  — name of the player at given rank (1-based)
+        if (identifier.startsWith("top_player_")) {
+            String rankStr = identifier.substring("top_player_".length());
+            try {
+                int rank = Integer.parseInt(rankStr);
+                BoostLeaderboard lb = boostManager.getLeaderboard();
+                if (lb == null) return "";
+                List<BoostPurchaseRecord> top = lb.getTopBuyers(rank);
+                if (rank < 1 || rank > top.size()) return "";
+                return top.get(rank - 1).getPlayerName();
+            } catch (NumberFormatException ignored) {
+                return "";
+            }
+        }
+
+        // top_amount_<rank>  — purchase count of the player at given rank (1-based)
+        if (identifier.startsWith("top_amount_")) {
+            String rankStr = identifier.substring("top_amount_".length());
+            try {
+                int rank = Integer.parseInt(rankStr);
+                BoostLeaderboard lb = boostManager.getLeaderboard();
+                if (lb == null) return "0";
+                List<BoostPurchaseRecord> top = lb.getTopBuyers(rank);
+                if (rank < 1 || rank > top.size()) return "0";
+                return String.valueOf(top.get(rank - 1).getTotalPurchases());
+            } catch (NumberFormatException ignored) {
+                return "0";
+            }
+        }
+
+        // top_rank  — the requesting player's rank, or -1 if unranked
+        if (identifier.equals("top_rank")) {
+            if (player == null) return "-1";
+            BoostLeaderboard lb = boostManager.getLeaderboard();
+            if (lb == null) return "-1";
+            return String.valueOf(lb.getRank(player.getUniqueId()));
+        }
+
+        // top_count  — total number of distinct players who have bought a boost
+        if (identifier.equals("top_count")) {
+            BoostLeaderboard lb = boostManager.getLeaderboard();
+            if (lb == null) return "0";
+            // Return count at size 1000 to show all
+            return String.valueOf(lb.getTopBuyers(Integer.MAX_VALUE).size());
+        }
+
+        // top_purchases  — the requesting player's own boost purchase count
+        if (identifier.equals("top_purchases")) {
+            if (player == null) return "0";
+            BoostLeaderboard lb = boostManager.getLeaderboard();
+            if (lb == null) return "0";
+            return String.valueOf(lb.getPurchases(player.getUniqueId()));
         }
 
         return "";
