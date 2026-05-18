@@ -2,8 +2,7 @@ package com.skyblockexp.ezboost.listener;
 
 import com.skyblockexp.ezboost.FoliaScheduler;
 import com.skyblockexp.ezboost.gui.AdminBoostCreationGui;
-import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,14 +21,14 @@ public class AdminGuiChatListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncChatEvent event) {
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         // Use thread-safe check before touching any entity state
         if (!adminGui.isPlayerPendingAnyInput(player.getUniqueId())) {
             return;
         }
         event.setCancelled(true);
-        final String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        final String message = event.getMessage();
         if (FoliaScheduler.FOLIA) {
             // On Folia, PDC must be accessed on the entity's region thread
             player.getScheduler().run(plugin, t -> processInput(player, message), null);
