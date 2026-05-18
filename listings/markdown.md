@@ -1,5 +1,5 @@
 
-**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, Bukkit, and **Folia** (Minecraft 1.7–1.21.*). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL), and a leaderboard for top boost buyers. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
+**EzBoost** is a feature-rich potion boost plugin for Spigot, Paper, Bukkit, and **Folia** (Minecraft 1.21+). It provides an inventory GUI for boost selection, per-boost cooldowns, Vault economy integration, WorldGuard region overrides, boost token items, PlaceholderAPI support, persistent storage (YAML, SQLite, MySQL, MariaDB, PostgreSQL), and a leaderboard for top boost buyers. Inspired by [RedBull](https://dev.bukkit.org/projects/redbull).
 
 ![EzBoost GUI](https://i.ibb.co/1GgSfvWs/image.png)
 
@@ -24,7 +24,7 @@
 - **Live reload**: Reload all configuration and messages at runtime with `/ezboost reload`.
 - **MiniMessage support**: Rich formatting for all messages and GUI text.
 - **Internal message tags**: Boost-specific tags (`<boost_display>`, `<boost_cost>`, `<boost_duration>`, etc.) are available directly in `messages.yml` – no PlaceholderAPI required.
-- **PlaceholderAPI expansion**: 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting, usable in scoreboards, GUI plugins, and any PAPI-compatible plugin. See the [PlaceholderAPI integration guide](https://github.com/ez-plugins/EzBoost/blob/main/docs/integration/PlaceholderAPI.md).
+- **PlaceholderAPI expansion**: 18+ placeholders covering boost status, active boost, cooldowns, time remaining, XP multiplier, and economy formatting, usable in scoreboards, GUI plugins, and any PAPI-compatible plugin. See the [PlaceholderAPI integration guide](https://ez-plugins.github.io/ezboost/integration/PlaceholderAPI).
 - **Command hooks**: Run console commands on enable/disable/toggle per boost.
 - **Player-friendly behavior**: Reapply boosts on join, keep on death, and refund on failed activation.
 
@@ -43,7 +43,7 @@
 | `/ezboost reload` | Reload configuration and messages. | `ezboost.reload` |
 | `/ezboost give <player> <boostKey> [amount]` | Give boost token items. Players redeem by right-clicking. | `ezboost.give` |
 
-For detailed command and permission documentation, see [docs/commands.md](https://github.com/ez-plugins/ezboost/blob/main/docs/commands.md) and [docs/permissions.md](https://github.com/ez-plugins/ezboost/blob/main/docs/permissions.md).
+For detailed command and permission documentation, see the [Commands](https://ez-plugins.github.io/ezboost/commands) and [Permissions](https://ez-plugins.github.io/ezboost/permissions) pages.
 
 ---
 
@@ -62,7 +62,7 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 ## 🚀 Quick Start
 
 1. Place `EzBoost.jar` in your server’s `plugins/` folder.
-2. Start the server to generate `config.yml`, `messages.yml`, and `data.yml`.
+2. Start the server to generate all config files in `plugins/EzBoost/` (`settings.yml`, `boosts.yml`, `gui.yml`, `messages.yml`, etc.).
 3. Use `/ezboost create` to open the admin GUI and create boosts.
 4. Configure boosts, cooldowns, costs, and GUI slots in `plugins/EzBoost/boosts.yml`, `gui.yml`, and related config files.
 5. Use `/boost` to open the GUI or `/boost <boostKey>` for instant activation.
@@ -73,7 +73,7 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 
 ## ⚙️ Configuration Highlights
 
-- **Boost definitions**: Add or edit boosts in `boosts.yml` with effects, duration, cooldown, cost, and permissions. See [docs/boosts.md](https://github.com/ez-plugins/ezboost/blob/main/docs/boosts.md) for a full reference.
+- **Boost definitions**: Add or edit boosts in `boosts.yml` with effects, duration, cooldown, cost, and permissions. See the [Boosts reference](https://ez-plugins.github.io/ezboost/boosts) for a full reference.
 - **Command hooks**: Add `commands.enable`, `commands.disable`, or `commands.toggle` per boost to run console commands when boosts turn on/off (supports `{player}`, `{displayname}`, and `{boost}` placeholders).
 - **GUI layout**: Customize title, size, filler, lore templates, and per-boost slot positions in `gui.yml`.
 - **Limits**: Clamp amplifier and duration ranges for balance in `limits.yml`.
@@ -90,7 +90,7 @@ For detailed command and permission documentation, see [docs/commands.md](https:
 - EzBoost automatically detects WorldGuard if present and applies region-based overrides for boosts.
 - No hard dependency: If WorldGuard is not installed, region overrides are ignored.
 - Use region IDs from WorldGuard in your `boosts.yml` to customize boost behavior per region.
-- See [docs/overrides.md](https://github.com/ez-plugins/EzBoost/blob/main/docs/overrides.md) for syntax and examples.
+- See the [Overrides documentation](https://ez-plugins.github.io/ezboost/overrides) for syntax and examples.
 
 ---
 
