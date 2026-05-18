@@ -50,6 +50,12 @@ invalid-target: "<red>Player not found.</red>"
 token-given: "<green>Gave <white><amount>x</white> <white><boost></white> boost token(s) to <white><player></white>.</green>"
 token-used: "<green>Activated <white><boost></white> from a boost token.</green>"
 world-blocked: "<red>You can't use boosts in this world.</red>"
+top-header: "<gray>--- <aqua>Top Boost Buyers</aqua> ---</gray>"
+top-entry: "<gray>#<rank></gray> <white><player></white> <gray>-</gray> <aqua><amount></aqua> <gray>boost(s)</gray>"
+top-footer: "<gray>------------------------------</gray>"
+top-no-data: "<gray>No boost purchases have been recorded yet.</gray>"
+top-your-rank: "<gray>Your rank: <white>#<rank></white></gray>"
+top-unavailable: "<red>Leaderboard is not available.</red>"
 actionbar:
   enabled: false
   format: "<gray>Boost:</gray> <white><boost></white> <gray>(<time>s)</gray>"

@@ -4,6 +4,8 @@ import com.skyblockexp.ezboost.boost.BoostManager;
 import com.skyblockexp.ezboost.boost.BoostManager.ActivationSource;
 import com.skyblockexp.ezboost.config.Messages;
 import com.skyblockexp.ezboost.gui.BoostGui;
+import com.skyblockexp.ezboost.storage.BoostLeaderboard;
+import com.skyblockexp.ezboost.storage.BoostPurchaseRecord;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -78,6 +80,34 @@ public final class BoostCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         String boostKey = args[0].toLowerCase(Locale.ROOT);
+
+        // /boost top [page]
+        if ("top".equals(boostKey)) {
+            if (!sender.hasPermission("ezboost.top")) {
+                player.sendMessage(messages.message("no-permission"));
+                return true;
+            }
+            BoostLeaderboard lb = boostManager.getLeaderboard();
+            if (lb == null) {
+                player.sendMessage(messages.message("top-unavailable"));
+                return true;
+            }
+            List<BoostPurchaseRecord> top = lb.getTopBuyers(10);
+            if (top.isEmpty()) {
+                player.sendMessage(messages.message("top-no-data"));
+                return true;
+            }
+            player.sendMessage(messages.message("top-header"));
+            for (int i = 0; i < top.size(); i++) {
+                BoostPurchaseRecord r = top.get(i);
+                player.sendMessage(messages.message("top-entry",
+                        net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.parsed("rank",  String.valueOf(i + 1)),
+                        net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.parsed("player", r.getPlayerName()),
+                        net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.parsed("amount", String.valueOf(r.getTotalPurchases()))));
+            }
+            return true;
+        }
+
         boostManager.activate(player, boostKey, ActivationSource.COMMAND);
         return true;
     }
@@ -89,6 +119,9 @@ public final class BoostCommand implements CommandExecutor, TabCompleter {
             List<String> completions = new ArrayList<>();
             if (sender.hasPermission("ezboost.admin") && "about".startsWith(prefix)) {
                 completions.add("about");
+            }
+            if (sender.hasPermission("ezboost.top") && "top".startsWith(prefix)) {
+                completions.add("top");
             }
             if (sender instanceof Player) {
                 for (String key : boostManager.getBoosts((Player)sender).keySet()) {

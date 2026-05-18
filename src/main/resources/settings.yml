@@ -9,3 +9,7 @@ settings:
   # Effect-specific cooldowns use the effect's canonical key; lookups fall back
   # to the boost-level/global cooldown when no effect-specific cooldown exists.
   cooldown-per-effect: false
+
+top:
+  # Number of players shown in /boost top output
+  size: 10

@@ -140,6 +140,11 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.github.EzFramework</groupId>
+            <artifactId>jaloquent</artifactId>
+            <version>1.3.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -274,12 +279,22 @@
                                     <include>net.kyori:adventure-text-minimessage</include>
                                     <include>net.kyori:adventure-text-serializer-legacy</include>
                                     <include>net.kyori:examination-api</include>
+                                    <include>com.github.EzFramework:jaloquent</include>
+                                    <include>com.github.EzFramework:JavaQueryBuilder</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>com.skyblockexp.ezboost.libs.org.bstats</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.ezframework.jaloquent</pattern>
+                                    <shadedPattern>com.skyblockexp.ezboost.libs.jaloquent</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.ezframework.javaquerybuilder</pattern>
+                                    <shadedPattern>com.skyblockexp.ezboost.libs.javaquerybuilder</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
