@@ -9,7 +9,7 @@ permalink: /
 # EzBoost
 
 [![CI](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/ez-plugins/ezboost/actions/workflows/smoke-test.yml)
-[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.1.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
+[![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-2.2.0-blue?logo=github)](https://github.com/ez-plugins/ezboost/packages)
 [![Coverage](https://img.shields.io/codecov/c/github/ez-plugins/ezboost)](https://codecov.io/github/ez-plugins/ezboost)
 
 **EzBoost** is a modern, production-ready Minecraft plugin for Spigot, Paper, and Bukkit servers (1.21+).
@@ -79,6 +79,6 @@ method tables, and code examples.
 <dependency>
   <groupId>com.github.ez-plugins</groupId>
   <artifactId>EzBoost</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
 </dependency>
 ```

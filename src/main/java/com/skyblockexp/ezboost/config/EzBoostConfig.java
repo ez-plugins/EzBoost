@@ -29,6 +29,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public final class EzBoostConfig {
     private static final Material DEFAULT_ICON = Material.NETHER_STAR;
+    private static final double MIN_REVIVE_HEARTS = 0.5D;
+    private static final double MAX_REVIVE_HEARTS = 20.0D;
     private final JavaPlugin plugin;
     private final Logger logger;
     private Settings settings;
@@ -160,6 +162,8 @@ public final class EzBoostConfig {
         boostSection.set("cost", boost.cost());
         boostSection.set("permission", boost.permission());
         boostSection.set("enabled", boost.enabled());
+        boostSection.set("revive-enabled", boost.reviveEnabled());
+        boostSection.set("revive-hearts", boost.reviveHearts());
 
         try {
             boostsConfig.save(boostsFile);
@@ -263,6 +267,11 @@ public final class EzBoostConfig {
         double cost = override.contains("cost") ? override.getDouble("cost") : base.cost();
         String permission = override.contains("permission") ? override.getString("permission") : base.permission();
         boolean enabled = override.contains("enabled") ? override.getBoolean("enabled") : base.enabled();
+        boolean reviveEnabled = override.contains("revive-enabled") ? override.getBoolean("revive-enabled") : base.reviveEnabled();
+        double reviveHearts = base.reviveHearts();
+        if (override.contains("revive-hearts")) {
+            reviveHearts = clamp(override.getDouble("revive-hearts"), MIN_REVIVE_HEARTS, MAX_REVIVE_HEARTS);
+        }
         return new BoostDefinition(
                 base.key(),
                 displayName,
@@ -273,7 +282,9 @@ public final class EzBoostConfig {
                 cooldown,
                 cost,
                 permission,
-                enabled
+                enabled,
+                reviveEnabled,
+                reviveHearts
         );
     }
 
@@ -479,6 +490,8 @@ public final class EzBoostConfig {
             double cost = boostSection.getDouble("cost", 0.0);
             String permission = boostSection.getString("permission", null);
             boolean enabled = boostSection.getBoolean("enabled", true);
+            boolean reviveEnabled = boostSection.getBoolean("revive-enabled", false);
+            double reviveHearts = clamp(boostSection.getDouble("revive-hearts", BoostDefinition.DEFAULT_REVIVE_HEARTS), MIN_REVIVE_HEARTS, MAX_REVIVE_HEARTS);
             loaded.put(normalizedKey, new BoostDefinition(
                     normalizedKey,
                     displayName,
@@ -489,7 +502,9 @@ public final class EzBoostConfig {
                     cooldown,
                     cost,
                     permission,
-                    enabled
+                    enabled,
+                    reviveEnabled,
+                    reviveHearts
             ));
         }
         return loaded;
@@ -529,6 +544,10 @@ public final class EzBoostConfig {
     }
 
     private int clamp(int value, int min, int max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    private double clamp(double value, double min, double max) {
         return Math.min(Math.max(value, min), max);
     }
 

@@ -42,6 +42,7 @@ This document describes the default boosts provided in `boosts.yml` for EzBoost.
 | explorer       | Explorer Boost        | COMPASS            | SPEED (1), JUMP (1)                                | 300 | 600 | 0.0 | ezboost.boost.explorer       | true |
 | xpboost        | XP Boost              | EXPERIENCE_BOTTLE  | xpboost (0) *(2× XP multiplier)*                  | 300 | 600 | 0.0 | ezboost.boost.xpboost        | true |
 | diver          | Diver Boost           | HEART_OF_THE_SEA   | WATER_BREATHING (0), DOLPHINS_GRACE (0), CONDUIT_POWER (0) | 300 | 600 | 0.0 | ezboost.boost.diver | true |
+| guardian       | Guardian Boost        | TOTEM_OF_UNDYING   | DAMAGE_RESISTANCE (0), HEALTH_BOOST (0) *(single-use lethal revive)* | 300 | 600 | 0.0 | ezboost.boost.guardian | true |
 
 ---
 

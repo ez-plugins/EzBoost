@@ -12,6 +12,21 @@ Release tags use the `v` prefix (e.g. `v2.0.1`).
 
 ---
 
+## [2.2.0] - 2026-05-29
+
+### Added
+
+- **Guardian preset boost** (`guardian`): built-in totem-style defensive boost with default effects (`DAMAGE_RESISTANCE`, `HEALTH_BOOST`) and preconfigured GUI slot.
+- **Per-boost revive options** in `boosts.yml`:
+  - `revive-enabled` (default `false`)
+  - `revive-hearts` (default `4.0`, clamped to safe bounds)
+- **Lethal-hit interception** for revive-enabled boosts: when incoming damage would be fatal, death is prevented, configured health is restored, and the active boost is consumed immediately (single-use per activation).
+- **Guardian hover preview screenshot**: `/boost` GUI hover state for Guardian added to release/listing visuals.
+
+![Guardian Boost Hover](https://i.ibb.co/ccjW6qFZ/image.png)
+
+---
+
 ## [2.1.0] - 2026-05-18
 
 ### Added

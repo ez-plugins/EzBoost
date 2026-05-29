@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import com.skyblockexp.ezboost.FoliaScheduler;
@@ -492,6 +494,36 @@ public final class BoostManager {
         }
     }
 
+    public boolean consumeReviveIfLethal(Player player, double finalDamage) {
+        if (player == null || finalDamage <= 0D) {
+            return false;
+        }
+        if (player.getHealth() - finalDamage > 0D) {
+            return false;
+        }
+        BoostState state = states.get(player.getUniqueId());
+        if (state == null || state.activeBoostKey() == null || state.endTimestamp() <= System.currentTimeMillis()) {
+            return false;
+        }
+        String region = WorldGuardHelper.getHighestPriorityRegion(player);
+        BoostDefinition definition = config.getEffectiveBoost(state.activeBoostKey(), player.getWorld().getName(), region);
+        if (definition == null || !definition.reviveEnabled()) {
+            return false;
+        }
+
+        double maxHealth = player.getAttribute(Attribute.MAX_HEALTH) != null
+                ? player.getAttribute(Attribute.MAX_HEALTH).getValue()
+                : 20D;
+        double restoredHealth = Math.min(maxHealth, Math.max(1D, definition.reviveHearts() * 2D));
+
+        clearActiveBoost(player, state, true);
+        player.setFireTicks(0);
+        player.setHealth(restoredHealth);
+        player.setNoDamageTicks(Math.max(player.getNoDamageTicks(), 20));
+        saveStates();
+        return true;
+    }
+
     private void refreshPlayer(Player player) {
         BoostState state = states.get(player.getUniqueId());
         if (state == null || state.activeBoostKey() == null) {
@@ -537,7 +569,15 @@ public final class BoostManager {
         BoostDefinition boost = config.getEffectiveBoost(activeKey, player.getWorld().getName(), region);
         if (boost != null) {
             BoostEndEvent endEvent = new BoostEndEvent(player, activeKey, boost);
-            Bukkit.getPluginManager().callEvent(endEvent);
+            PluginManager pluginManager;
+            try {
+                pluginManager = Bukkit.getPluginManager();
+            } catch (Throwable ignored) {
+                pluginManager = null;
+            }
+            if (pluginManager != null) {
+                pluginManager.callEvent(endEvent);
+            }
             if (!endEvent.isCancelled()) {
                 for (BoostEffect effect : boost.effects()) {
                     if (effect.type() != null) {

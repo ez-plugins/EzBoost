@@ -16,6 +16,7 @@ import com.skyblockexp.ezboost.listener.BoostGuiListener;
 import com.skyblockexp.ezboost.listener.BoostPlayerListener;
 import com.skyblockexp.ezboost.listener.BoostTokenListener;
 import com.skyblockexp.ezboost.listener.EconomyServiceListener;
+import com.skyblockexp.ezboost.listener.GuardianReviveListener;
 import com.skyblockexp.ezboost.listener.XpBoostListener;
 import com.skyblockexp.ezboost.storage.BoostLeaderboard;
 import com.skyblockexp.ezboost.storage.BoostPurchaseRecord;
@@ -174,6 +175,7 @@ public final class EzBoostPlugin extends JavaPlugin {
         Objects.requireNonNull(getServer().getPluginManager()).registerEvents(new AdminGuiChatListener(adminGui, this), this);
         getServer().getPluginManager().registerEvents(new BoostTokenListener(boostManager, tokenFactory), this);
         getServer().getPluginManager().registerEvents(new BoostPlayerListener(boostManager), this);
+        getServer().getPluginManager().registerEvents(new GuardianReviveListener(boostManager), this);
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             getServer().getPluginManager().registerEvents(new EconomyServiceListener(config, economyService, getLogger()), this);
         }

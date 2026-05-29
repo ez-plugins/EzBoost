@@ -12,6 +12,8 @@
 [*][B]Fully configurable boosts[/B] – Define any potion effects, amplifiers, durations, and permissions per boost.
 [*][B]Cooldown control[/B] – Per-boost cooldowns with bypass permissions and optional per-type cooldown tracking.
 [IMG]https://i.ibb.co/nsKmgK0H/image.png[/IMG]
+[*][B]Guardian hover preview[/B] - Totem-style Guardian boost tooltip in the /boost GUI.
+[IMG]https://i.ibb.co/ccjW6qFZ/image.png[/IMG]
 [*][B]Economy-ready[/B] – Optional Vault integration to charge currency per boost activation.
 [*][B]World restrictions[/B] – Allow/deny specific worlds for tight gameplay balancing.
 [*][B]Region-based overrides (WorldGuard)[/B] – Change boost effects, cost, or disable boosts in specific WorldGuard regions. WorldGuard is detected automatically if present.
