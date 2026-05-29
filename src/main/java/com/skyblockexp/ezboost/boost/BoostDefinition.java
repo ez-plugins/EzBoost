@@ -8,6 +8,7 @@ import org.bukkit.Material;
  * Immutable and configured via config.yml.
  */
 public final class BoostDefinition {
+    public static final double DEFAULT_REVIVE_HEARTS = 4.0D;
     private final String key;
     private final String displayName;
     private final Material icon;
@@ -18,6 +19,8 @@ public final class BoostDefinition {
     private final double cost;
     private final String permission;
     private final boolean enabled;
+    private final boolean reviveEnabled;
+    private final double reviveHearts;
 
     /**
      * Constructs a new BoostDefinition.
@@ -42,6 +45,21 @@ public final class BoostDefinition {
                           double cost,
                           String permission,
                           boolean enabled) {
+        this(key, displayName, icon, effects, commands, durationSeconds, cooldownSeconds, cost, permission, enabled, false, DEFAULT_REVIVE_HEARTS);
+    }
+
+    public BoostDefinition(String key,
+                          String displayName,
+                          Material icon,
+                          List<BoostEffect> effects,
+                          BoostCommands commands,
+                          int durationSeconds,
+                          int cooldownSeconds,
+                          double cost,
+                          String permission,
+                          boolean enabled,
+                          boolean reviveEnabled,
+                          double reviveHearts) {
         this.key = key;
         this.displayName = displayName;
         this.icon = icon;
@@ -52,6 +70,8 @@ public final class BoostDefinition {
         this.cost = cost;
         this.permission = permission;
         this.enabled = enabled;
+        this.reviveEnabled = reviveEnabled;
+        this.reviveHearts = reviveHearts;
     }
 
     /**
@@ -122,5 +142,13 @@ public final class BoostDefinition {
      */
     public boolean enabled() {
         return enabled;
+    }
+
+    public boolean reviveEnabled() {
+        return reviveEnabled;
+    }
+
+    public double reviveHearts() {
+        return reviveHearts;
     }
 }

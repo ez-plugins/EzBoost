@@ -424,3 +424,22 @@ boosts:
     cost: 0.0
     permission: "ezboost.boost.diver"
     enabled: true
+  guardian:
+    display-name: "<gray>Guardian Boost</gray>"
+    icon: TOTEM_OF_UNDYING
+    effects:
+      - type: DAMAGE_RESISTANCE
+        amplifier: 0
+      - type: HEALTH_BOOST
+        amplifier: 0
+    commands:
+      enable: []
+      disable: []
+      toggle: []
+    duration: 300
+    cooldown: 600
+    cost: 0.0
+    permission: "ezboost.boost.guardian"
+    enabled: true
+    revive-enabled: true
+    revive-hearts: 4.0
