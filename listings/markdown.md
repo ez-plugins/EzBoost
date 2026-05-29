@@ -29,6 +29,7 @@
 - **Player-friendly behavior**: Reapply boosts on join, keep on death, and refund on failed activation.
 
 ![EzBoost Boost Cooldown](https://i.ibb.co/nsKmgK0H/image.png)
+![EzBoost Guardian Hover](https://i.ibb.co/ccjW6qFZ/image.png)
 
 ---
 

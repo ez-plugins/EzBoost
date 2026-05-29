@@ -21,6 +21,9 @@ Release tags use the `v` prefix (e.g. `v2.0.1`).
   - `revive-enabled` (default `false`)
   - `revive-hearts` (default `4.0`, clamped to safe bounds)
 - **Lethal-hit interception** for revive-enabled boosts: when incoming damage would be fatal, death is prevented, configured health is restored, and the active boost is consumed immediately (single-use per activation).
+- **Guardian hover preview screenshot**: `/boost` GUI hover state for Guardian added to release/listing visuals.
+
+![Guardian Boost Hover](https://i.ibb.co/ccjW6qFZ/image.png)
 
 ---
 
